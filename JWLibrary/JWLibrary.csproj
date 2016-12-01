@@ -49,6 +49,7 @@
     <Compile Include="Cryption\File\FileCrypto.cs" />
     <Compile Include="Cryption\Str\ICrypto.cs" />
     <Compile Include="Cryption\Str\CryptoFactory.cs" />
+    <Compile Include="DataStructure\BindingSort.cs" />
     <Compile Include="DataStructure\Collections\Generic\Stack.cs" />
     <Compile Include="DataStructure\Collections\Stack.cs" />
     <Compile Include="DataStructure\OList.cs" />

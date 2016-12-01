@@ -1,0 +1,74 @@
+﻿using JWLibrary.Winform.Abstract;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace JWLibrary.Winform.CommonControls
+{
+    public class JWComboBox : ComboBox, IBindingObject, INotifyPropertyChanged
+    {
+        public JWComboBox()
+        {
+            InitializeComponent();
+            this.SelectedValueChanged += JWComboBox_SelectedValueChanged;
+        }
+
+        void JWComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (((BindingsCollection)this.DataBindings).Count > 0)
+            {
+                ((BindingsCollection)this.DataBindings)[0].WriteValue();
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+                handler(this, e);
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
+
+
+        private string _bindingName;
+        public string BindingName
+        {
+            get { return _bindingName; }
+            set
+            {
+                _bindingName = value;
+                OnPropertyChanged("_bindingName");
+            }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            //
+            // StoneCircleComboBox
+            //
+            this.ResumeLayout(false);
+
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            //return base.ProcessCmdKey(ref msg, keyData);
+            if (keyData == Keys.Enter) return false;
+            if (keyData == Keys.Tab) return false;
+            if (keyData == Keys.Up || keyData == Keys.Down) return false;
+            return true;
+        }
+    }
+}

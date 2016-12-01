@@ -44,7 +44,7 @@ namespace JWLibrary.Winform.CommonControls
 
             this.TextChanged += JWTextBox_TextChanged;
             this.Leave += JWTextBox_Leave;
-}
+        }
 
         private void JWTextBox_Leave(object sender, EventArgs e)
         {
@@ -98,7 +98,7 @@ namespace JWLibrary.Winform.CommonControls
             {
                 isChk = false;
             }
-            else
+            else if (_inputMode == INPUT_MODE.CURRENCY || _inputMode == INPUT_MODE.IP)
             {
                 //숫자키
                 if ((keyData >= Keys.D0 && keyData <= Keys.D9))
@@ -148,33 +148,9 @@ namespace JWLibrary.Winform.CommonControls
                     isChk = false;
                 }
             }
-
-            //여기서 하면 안되고 FlowLayoutPanel에서 하자.
-            //if (keyData == Keys.Tab)
-            //{
-            //    Control control = this.Parent.Parent; //form
-
-            //    StoneCircleFlowLayoutPanel flowPanel = null;
-
-            //    if (this.Parent.GetType() == typeof(StoneCircleFlowLayoutPanel))
-            //        flowPanel = (StoneCircleFlowLayoutPanel)this.Parent;
-
-            //    if (flowPanel == null) return false;
-
-            //    Control nextControl = null;
-            //    if (flowPanel != null)
-            //    {
-            //        nextControl = control.GetNextControl(flowPanel.LastControl, true);
-
-            //        if (nextControl != null)
-            //            nextControl.Select();
-            //    }
-
-            //    isChk = true;
-            //}
-
-            //return base.ProcessCmdKey(ref msg, keyData);
             return isChk;
+            //return base.ProcessCmdKey(ref msg, keyData);
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -206,8 +182,7 @@ namespace JWLibrary.Winform.CommonControls
         {
             CURRENCY,
             IP,
-            GENERAL,
-            HELP_TEXT
+            GENERAL
         }
     }
 }

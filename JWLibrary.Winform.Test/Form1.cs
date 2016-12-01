@@ -38,6 +38,14 @@ namespace JWLibrary.Winform.Test
 
             MessageBox.Show(string.Format($"Id:{d.Id}, Name : {d.Name}, Phone : {d.Phone}, EDate : {d.EDate}"));
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (this.jwFlowLayoutPanel1.LockControl)
+                this.jwFlowLayoutPanel1.LockControl = false;
+            else
+                this.jwFlowLayoutPanel1.LockControl = true;
+        }
     }
 
     public class Data

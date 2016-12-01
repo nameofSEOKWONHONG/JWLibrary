@@ -97,14 +97,48 @@ namespace JWLibrary.Winform.Container
             }
         }
 
+        private bool _lockControl;
         public bool LockControl
         {
+            get { return _lockControl; }
             set
             {
                 if (value)
                 {
                     LockControlValues(this);
                 }
+                else
+                {
+                    UnLockControlValues(this);
+                }
+
+                _lockControl = value;
+            }
+        }
+
+        private  void UnLockControlValues(System.Windows.Forms.Control Container)
+        {
+            try
+            {
+                foreach (Control ctrl in _addedControls)
+                {
+                    if (ctrl is TextBox)
+                        ((TextBox)ctrl).ReadOnly = false;
+                    if (ctrl is ComboBox)
+                        ((ComboBox)ctrl).Enabled = true;
+                    if (ctrl is CheckBox)
+                        ((CheckBox)ctrl).Enabled = true;
+                    if (ctrl is DateTimePicker)
+                        ((DateTimePicker)ctrl).Enabled = true;
+
+                    if (ctrl.Controls.Count > 0)
+                        UnLockControlValues(ctrl);
+                }
+
+            }
+            catch
+            {
+                throw;
             }
         }
 
@@ -114,14 +148,13 @@ namespace JWLibrary.Winform.Container
             {
                 foreach (Control ctrl in _addedControls)
                 {
-                    if (ctrl.GetType() == typeof(TextBox))
+                    if (ctrl is TextBox)
                         ((TextBox)ctrl).ReadOnly = true;
-                    if (ctrl.GetType() == typeof(ComboBox))
+                    if (ctrl is ComboBox)
                         ((ComboBox)ctrl).Enabled = false;
-                    if (ctrl.GetType() == typeof(CheckBox))
+                    if (ctrl is CheckBox)
                         ((CheckBox)ctrl).Enabled = false;
-
-                    if (ctrl.GetType() == typeof(DateTimePicker))
+                    if (ctrl is DateTimePicker)
                         ((DateTimePicker)ctrl).Enabled = false;
 
                     if (ctrl.Controls.Count > 0)
