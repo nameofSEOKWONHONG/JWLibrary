@@ -14,7 +14,7 @@ namespace JWLibrary.Winform.DataViewControls
 {
     public class JWDataGridView : DataGridView
     {
-        #region global variable
+        #region member variable
         private int _checkCnt = 0;
         private bool _isCheckBoxHeaderVisible = false;
         private string _new_value;
