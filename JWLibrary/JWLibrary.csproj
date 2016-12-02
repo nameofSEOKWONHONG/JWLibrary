@@ -82,7 +82,7 @@
     <Compile Include="GZip\GZipFileCompress.cs" />
     <Compile Include="GZip\GZipStringCompress.cs" />
     <Compile Include="GZip\ICompress.cs" />
-    <Compile Include="Location\PathInfo.cs" />
+    <Compile Include="ExecuteLocation\PathInfo.cs" />
     <Compile Include="Log\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTP\JWSmtp.cs" />
