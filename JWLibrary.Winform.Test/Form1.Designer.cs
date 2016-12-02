@@ -36,7 +36,7 @@
             this.jwLabel1 = new JWLibrary.Winform.CommonControls.JWLabel();
             this.jwDateTimePicker1 = new JWLibrary.Winform.CommonControls.JWDateTimePicker();
             this.button3 = new System.Windows.Forms.Button();
-            this.stoneCircleDataGridView1 = new JWLibrary.Winform.DataViewControls.StoneCircleDataGridView();
+            this.stoneCircleDataGridView1 = new JWLibrary.Winform.DataViewControls.JWDataGridView();
             this.jwFlowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stoneCircleDataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -168,7 +168,7 @@
         private CommonControls.JWDateTimePicker jwDateTimePicker1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private DataViewControls.StoneCircleDataGridView stoneCircleDataGridView1;
+        private DataViewControls.JWDataGridView stoneCircleDataGridView1;
     }
 }
 

@@ -87,7 +87,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTP\JWSmtp.cs" />
     <Compile Include="StringToEnum\StringEnum.cs" />
-    <Compile Include="WIN32.Interop\Win32Apis.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
