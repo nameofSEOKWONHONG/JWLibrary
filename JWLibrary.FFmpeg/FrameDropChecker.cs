@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace JWLibrary.FFmpeg
@@ -33,6 +29,13 @@ namespace JWLibrary.FFmpeg
         {
             _timer = new Timer();
             _timer.Interval = 500;
+            _timer.Elapsed += _timer_Elapsed;
+        }
+
+        public FrameDropChecker(double chkTime)
+        {
+            _timer = new Timer();
+            _timer.Interval = chkTime;
             _timer.Elapsed += _timer_Elapsed;
         }
         #endregion
@@ -76,6 +79,7 @@ namespace JWLibrary.FFmpeg
         {
             if (_timer != null)
             {
+                _timer.Stop();
                 _timer.Dispose();
                 _timer = null;
             }

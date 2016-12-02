@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Winform.Test", "J
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.SettingLoader", "JWLibrary.SettingLoader\JWLibrary.SettingLoader.csproj", "{A36CD745-67A8-413E-B1D4-ACF1D0771013}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Firewall", "JWLibrary.Firewall\JWLibrary.Firewall.csproj", "{994A2725-0678-4AD6-83FC-6DE736D6B51B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{A36CD745-67A8-413E-B1D4-ACF1D0771013}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A36CD745-67A8-413E-B1D4-ACF1D0771013}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A36CD745-67A8-413E-B1D4-ACF1D0771013}.Release|Any CPU.Build.0 = Release|Any CPU
+		{994A2725-0678-4AD6-83FC-6DE736D6B51B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{994A2725-0678-4AD6-83FC-6DE736D6B51B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{994A2725-0678-4AD6-83FC-6DE736D6B51B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{994A2725-0678-4AD6-83FC-6DE736D6B51B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
