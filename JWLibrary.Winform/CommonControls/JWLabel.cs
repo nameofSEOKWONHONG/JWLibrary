@@ -9,22 +9,8 @@ using System.Windows.Forms;
 
 namespace JWLibrary.Winform.CommonControls
 {
-    public class JWLabel : Label, IBindingObject, INotifyPropertyChanged
+    public class JWLabel : Label, IBindingObject
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
         private string _bindingName;
         public string BindingName
         {
@@ -32,7 +18,6 @@ namespace JWLibrary.Winform.CommonControls
             set
             {
                 _bindingName = value;
-                OnPropertyChanged("_bindingName");
             }
         }
     }

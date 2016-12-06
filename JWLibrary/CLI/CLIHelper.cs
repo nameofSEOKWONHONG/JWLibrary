@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 
 namespace JWLibrary.CLI
@@ -39,7 +40,8 @@ namespace JWLibrary.CLI
 			RunProcess.StartInfo.Arguments = arguments;
 			RunProcess.StartInfo.CreateNoWindow = createNoWindow;
 			RunProcess.StartInfo.UseShellExecute = false;
-
+            RunProcess.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            RunProcess.StartInfo.StandardErrorEncoding = Encoding.UTF8;
 			RunProcess.StartInfo.RedirectStandardError = true;
 			RunProcess.StartInfo.RedirectStandardOutput = true;
 			RunProcess.StartInfo.RedirectStandardInput = true;

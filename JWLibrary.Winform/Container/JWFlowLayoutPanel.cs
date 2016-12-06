@@ -10,6 +10,13 @@ namespace JWLibrary.Winform.Container
 {
     public class JWFlowLayoutPanel : FlowLayoutPanel
     {
+        public event EventHandler EndedControl;
+        protected virtual void OnEndedControl(object sender, EventArgs e)
+        {
+            if (EndedControl != null)
+                EndedControl(this, e);
+        }
+
         private IList<Control> _addedControls = new List<Control>();
         private object _dataSource;
         public object DataSource
@@ -91,6 +98,7 @@ namespace JWLibrary.Winform.Container
                     {
                         _addedControls[i].Focus();
                         _addedControls[i].Select();
+                        OnEndedControl(this, new EventArgs());
                         break;
                     }
                 }
@@ -130,9 +138,6 @@ namespace JWLibrary.Winform.Container
                         ((CheckBox)ctrl).Enabled = true;
                     if (ctrl is DateTimePicker)
                         ((DateTimePicker)ctrl).Enabled = true;
-
-                    if (ctrl.Controls.Count > 0)
-                        UnLockControlValues(ctrl);
                 }
 
             }

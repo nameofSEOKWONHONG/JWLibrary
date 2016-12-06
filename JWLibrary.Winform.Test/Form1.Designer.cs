@@ -36,9 +36,9 @@
             this.jwLabel1 = new JWLibrary.Winform.CommonControls.JWLabel();
             this.jwDateTimePicker1 = new JWLibrary.Winform.CommonControls.JWDateTimePicker();
             this.button3 = new System.Windows.Forms.Button();
-            this.stoneCircleDataGridView1 = new JWLibrary.Winform.DataViewControls.JWDataGridView();
+            this.jwDataGridView1 = new JWLibrary.Winform.DataViewControls.JWDataGridView();
             this.jwFlowLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.stoneCircleDataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jwDataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -115,7 +115,7 @@
             this.jwDateTimePicker1.Name = "jwDateTimePicker1";
             this.jwDateTimePicker1.Size = new System.Drawing.Size(200, 21);
             this.jwDateTimePicker1.TabIndex = 4;
-            this.jwDateTimePicker1.Value = new System.DateTime(2016, 12, 2, 7, 48, 13, 552);
+            this.jwDateTimePicker1.Value = new System.DateTime(2016, 12, 7, 0, 25, 39, 501);
             // 
             // button3
             // 
@@ -127,24 +127,24 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // stoneCircleDataGridView1
+            // jwDataGridView1
             // 
-            this.stoneCircleDataGridView1.AllowUserToAddRows = false;
-            this.stoneCircleDataGridView1.AllowUserToDeleteRows = false;
-            this.stoneCircleDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.stoneCircleDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.stoneCircleDataGridView1.Location = new System.Drawing.Point(327, 241);
-            this.stoneCircleDataGridView1.Name = "stoneCircleDataGridView1";
-            this.stoneCircleDataGridView1.RowTemplate.Height = 23;
-            this.stoneCircleDataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.stoneCircleDataGridView1.TabIndex = 4;
+            this.jwDataGridView1.AllowUserToAddRows = false;
+            this.jwDataGridView1.AllowUserToDeleteRows = false;
+            this.jwDataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.jwDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.jwDataGridView1.Location = new System.Drawing.Point(327, 241);
+            this.jwDataGridView1.Name = "jwDataGridView1";
+            this.jwDataGridView1.RowTemplate.Height = 23;
+            this.jwDataGridView1.Size = new System.Drawing.Size(240, 150);
+            this.jwDataGridView1.TabIndex = 4;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(686, 450);
-            this.Controls.Add(this.stoneCircleDataGridView1);
+            this.Controls.Add(this.jwDataGridView1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -153,7 +153,7 @@
             this.Text = "Form1";
             this.jwFlowLayoutPanel1.ResumeLayout(false);
             this.jwFlowLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.stoneCircleDataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.jwDataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -168,7 +168,7 @@
         private CommonControls.JWDateTimePicker jwDateTimePicker1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private DataViewControls.JWDataGridView stoneCircleDataGridView1;
+        private DataViewControls.JWDataGridView jwDataGridView1;
     }
 }
 

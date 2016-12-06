@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JWLibrary.Winform.CommonControls
 {
-    public class JWTextBox : TextBox, IBindingObject, INotifyPropertyChanged
+    public class JWTextBox : TextBox, IBindingObject
     {
         private INPUT_MODE _inputMode;
         public INPUT_MODE InputMode
@@ -153,28 +153,13 @@ namespace JWLibrary.Winform.CommonControls
 
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, e);
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
-        }
-
         private string _bindingName;
         public string BindingName
         {
             get { return _bindingName; }
             set
             {
-                _bindingName = value;
-                OnPropertyChanged("BindingName");
+                _bindingName = value;                
             }
         }
 
