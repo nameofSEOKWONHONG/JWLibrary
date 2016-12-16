@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F35EFFAD-E89E-4DF8-9CA7-DA1DCC31CA72}</ProjectGuid>
+    <ProjectGuid>{10FB981C-5757-4EAB-A331-F6B0917B3201}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JWLibrary.Win32</RootNamespace>
-    <AssemblyName>JWLibrary.Win32</AssemblyName>
+    <RootNamespace>JWLibrary.Hook</RootNamespace>
+    <AssemblyName>JWLibrary.Hook</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Win32Apis.cs" />
+    <Compile Include="SystemHotkey.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JWLibrary.Win32\JWLibrary.Win32.csproj">
+      <Project>{f35effad-e89e-4df8-9ca7-da1dcc31ca72}</Project>
+      <Name>JWLibrary.Win32</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

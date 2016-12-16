@@ -10,7 +10,7 @@ namespace JWLibrary.FFmpeg
     {
         public FFmpegCommandModel()
         {
-            this._outPutQuality = "29";
+            this._outPutQuality = "30";
             this._videoSource = "screen-capture-recorder";
             this._audioSource = "virtual-audio-capturer";
         }

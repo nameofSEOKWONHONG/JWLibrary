@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Wpf", "JWLibrary.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Win32", "JWLibrary.Win32\JWLibrary.Win32.csproj", "{F35EFFAD-E89E-4DF8-9CA7-DA1DCC31CA72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Hook", "JWLibrary.Hook\JWLibrary.Hook.csproj", "{10FB981C-5757-4EAB-A331-F6B0917B3201}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{F35EFFAD-E89E-4DF8-9CA7-DA1DCC31CA72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F35EFFAD-E89E-4DF8-9CA7-DA1DCC31CA72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F35EFFAD-E89E-4DF8-9CA7-DA1DCC31CA72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10FB981C-5757-4EAB-A331-F6B0917B3201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10FB981C-5757-4EAB-A331-F6B0917B3201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10FB981C-5757-4EAB-A331-F6B0917B3201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10FB981C-5757-4EAB-A331-F6B0917B3201}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
