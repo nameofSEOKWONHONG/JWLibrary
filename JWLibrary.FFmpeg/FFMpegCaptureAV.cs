@@ -1,7 +1,10 @@
 ﻿using JWLibrary.CLI;
+using JWLibrary.FFmpeg.Properties;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +36,15 @@ namespace JWLibrary.FFmpeg
         bool disposed = false;
         private CLIHelper _cmdHelper;
         private FrameDropChecker _frameDropChecker;
-        public static string ExeFileName = @"ffmpeg.exe";
+
+        private const string FFMPEG_PROCESS_NAME = "ffmpeg";
+        private const string FFMPEG_FILE_NAME = "ffmpeg.exe";
+        private const string STOP_COMMAND = "q";
+        private const string DROP_KEYWORD = "FRAME DROPPED!";
+        private const string AUDIO_SNIFFER_FILE_NAME = "audio_sniffer.dll";        
+        private const string SCREEN_CAPTURE_RECORDER_FILE_NAME = "screen_capture_recorder.dll";
+        private const string LIBRARY_REGISTER_FILE_NAME = "library-register.bat";
+        private const string LIBRARY_UNREGISTER_FILE_NAME = "library-unregister.bat";
         #endregion
 
         #region constructor
@@ -46,6 +57,110 @@ namespace JWLibrary.FFmpeg
         }
         #endregion
 
+        public bool Initialize()
+        {
+            var executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var ffmpegFilePath = Path.Combine(executablePath, FFMPEG_FILE_NAME);
+
+            if (!File.Exists(ffmpegFilePath))
+            {
+                File.WriteAllBytes(ffmpegFilePath, Resources.ffmpeg);
+            }
+
+            var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
+            if(!File.Exists(audioSnifferFilePath))
+            {
+                File.WriteAllBytes(audioSnifferFilePath, Resources.audio_sniffer);
+            }
+
+            var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
+            if(!File.Exists(scrFilePath))
+            {
+                File.WriteAllBytes(scrFilePath, Resources.screen_capture_recorder);
+            }
+
+            return IsRequireFile();
+        }
+
+        /// <summary>
+        /// Call after initialization.
+        /// </summary>
+        public void Register()
+        {
+            var executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var registerPath = Path.Combine(executablePath, LIBRARY_REGISTER_FILE_NAME);
+
+            var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
+            var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
+
+            if (!File.Exists(registerPath))
+            {
+                string contents = Resources.library_register
+                    .Replace("@mode", "/s")
+                    .Replace("@audio_sniffer_file", audioSnifferFilePath)
+                    .Replace("@screen_capture_recorder_file", scrFilePath);
+                File.WriteAllText(registerPath, contents);
+
+                //process
+
+                File.Delete(registerPath);
+            }
+        }
+
+        /// <summary>
+        /// Call before dispose.
+        /// </summary>
+        public void UnRegister()
+        {
+            var executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var registerPath = Path.Combine(executablePath, LIBRARY_REGISTER_FILE_NAME);
+
+            var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
+            var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
+
+            if (!File.Exists(registerPath))
+            {
+                string contents = Resources.library_register
+                    .Replace("@mode", "/u /s")
+                    .Replace("@audio_sniffer_file", audioSnifferFilePath)
+                    .Replace("@screen_capture_recorder_file", scrFilePath);
+                File.WriteAllText(registerPath, contents);
+
+                //process 
+
+                File.Delete(registerPath);
+            }
+        }
+
+        /// <summary>
+        /// Check required files.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsRequireFile()
+        {
+            var executablePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var ffmpegFilePath = Path.Combine(executablePath, FFMPEG_FILE_NAME);
+
+            if (!File.Exists(ffmpegFilePath))
+            {
+                return false;
+            }
+
+            var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
+            if (!File.Exists(audioSnifferFilePath))
+            {
+                return false;
+            }
+
+            var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
+            if (!File.Exists(scrFilePath))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         #region events
         private void _frameDropChecker_FrameDroped(object sender, EventArgs e)
         {
@@ -55,9 +170,8 @@ namespace JWLibrary.FFmpeg
         private void cmdHelper_CommandDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             if (e.Data != null)
-            {
-                //Console.WriteLine(e.Data);
-                if (e.Data.ToUpper().Contains("FRAME DROPPED!"))
+            {                
+                if (e.Data.ToUpper().Contains(DROP_KEYWORD))
                 {
                     this._frameDropChecker.FrameDropCount++;
                 }
@@ -69,64 +183,44 @@ namespace JWLibrary.FFmpeg
         #region functions
         public void FFmpegCommandExcute(string workingDir, string exeFileName, string arguments, bool createNoWindow)
         {
-            this._cmdHelper.ExecuteCommand(workingDir, exeFileName, arguments, createNoWindow);
-            this._frameDropChecker.FrameDropCheckStart();
+            if (IsRequireFile())
+            {
+                this._cmdHelper.ExecuteCommand(workingDir, exeFileName, arguments, createNoWindow);
+                this._frameDropChecker.FrameDropCheckStart();
+            }
         }
 
-        public void FFmpegCommandStop(string stopCommand)
+        /// <summary>
+        /// ffmpeg recording stop.
+        /// </summary>        
+        public void FFmpegCommandStop()
         {
-            this._cmdHelper.CommandLineStandardInput(stopCommand);
+            this._cmdHelper.CommandLineStandardInput(STOP_COMMAND);
             this._frameDropChecker.FrameDropCheckStop();
+
+            System.Diagnostics.Process[] procs =
+                System.Diagnostics.Process.GetProcessesByName(FFMPEG_PROCESS_NAME);
+
+            foreach (var item in procs)
+            {
+                item.StandardInput.Write(STOP_COMMAND);
+                item.WaitForExit();
+            }
         }
 
+        /// <summary>
+        /// ffmpeg command process force stop.
+        /// (process killed.)
+        /// </summary>
         public void FFmpegForceStop()
         {
             this._cmdHelper.CommandLineStop();
             this._frameDropChecker.FrameDropCheckStop();
         }
 
-        public bool ProcessHasExited()
+        public bool IsProcessHasExited()
         {
             return this._cmdHelper.RunProcess.HasExited;
-        }
-
-        public string BuildRecordingCommand(FFmpegCommandModel model)
-        {
-            string command = CommandConst.GET_DESKTOP_RECODING_COMMAND();
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", model.Width);
-            command = command.Replace("@height", model.Height);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@filename", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            return command;
-        }
-
-        //not tested.
-        public string BuildTwitchLiveCommnad(FFmpegCommandModel model)
-        {
-            string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", model.Width);
-            command = command.Replace("@height", model.Height);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@liveUrl", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            return command;
         }
         #endregion
 
@@ -163,5 +257,70 @@ namespace JWLibrary.FFmpeg
             disposed = true;
         }
         #endregion
+    }
+
+    public class BuildCommand {
+        public static string BuildRecordingCommand(RecordingTypes rType, FFmpegCommandModel model)
+        {
+            switch (rType)
+            {
+                case RecordingTypes.Local:
+                    return BuildRecordingCommandByLocal(model);
+                case RecordingTypes.TwitchTV:
+                    return BuildRecordingCommandByTwitchTV(model);
+                case RecordingTypes.YouTube:
+                    throw new Exception("This type was not implemented.");
+                default:
+                    throw new Exception("Command string error.");
+            }
+        }
+
+        /// <summary>
+        /// making ffmpeg command string
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>builded ffmpeg command string</returns>
+        private static string BuildRecordingCommandByLocal(FFmpegCommandModel model)
+        {
+            string command = CommandConst.GET_DESKTOP_RECODING_COMMAND();
+            command = command.Replace("@videoSource", model.VideoSource);
+            command = command.Replace("@audioSource", model.AudioSource);
+            command = command.Replace("@x", model.OffsetX);
+            command = command.Replace("@y", model.OffsetY);
+            command = command.Replace("@width", model.Width);
+            command = command.Replace("@height", model.Height);
+            command = command.Replace("@framerate", model.FrameRate);
+            command = command.Replace("@preset", model.Preset);
+            command = command.Replace("@audioRate", model.AudioQuality);
+            command = command.Replace("@format", model.Format);
+            command = command.Replace("@option1", model.Option1);
+            command = command.Replace("@filename", model.FullFileName);
+            command = command.Replace("@outputquality", model.OutPutQuality);
+            return command;
+        }
+
+        /// <summary>
+        /// not support yet.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns>builded ffmpeg command string</returns>
+        private static string BuildRecordingCommandByTwitchTV(FFmpegCommandModel model)
+        {
+            string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
+            command = command.Replace("@videoSource", model.VideoSource);
+            command = command.Replace("@audioSource", model.AudioSource);
+            command = command.Replace("@x", model.OffsetX);
+            command = command.Replace("@y", model.OffsetY);
+            command = command.Replace("@width", model.Width);
+            command = command.Replace("@height", model.Height);
+            command = command.Replace("@framerate", model.FrameRate);
+            command = command.Replace("@preset", model.Preset);
+            command = command.Replace("@audioRate", model.AudioQuality);
+            command = command.Replace("@format", model.Format);
+            command = command.Replace("@option1", model.Option1);
+            command = command.Replace("@liveUrl", model.FullFileName);
+            command = command.Replace("@outputquality", model.OutPutQuality);
+            return command;
+        }
     }
 }

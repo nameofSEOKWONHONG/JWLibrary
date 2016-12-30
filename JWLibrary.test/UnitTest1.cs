@@ -16,5 +16,22 @@ namespace JWLibrary.test
 
             Assert.AreEqual(text, decrypto);
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+            JWLibrary.FFmpeg.FFMpegCaptureAV ffmpegCav = new FFmpeg.FFMpegCaptureAV();
+            ffmpegCav.Initialize();
+            ffmpegCav.Register();
+
+            var model = new FFmpeg.FFmpegCommandModel()
+            {
+
+            };
+            ffmpegCav.FFmpegCommandExcute(null, "ffmpeg.exe", FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model), true);
+
+            ffmpegCav.UnRegister();
+
+        }
     }
 }

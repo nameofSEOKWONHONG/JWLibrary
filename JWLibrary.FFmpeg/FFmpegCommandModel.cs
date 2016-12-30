@@ -84,6 +84,11 @@ namespace JWLibrary.FFmpeg
             set { this._height = value; }
         }
         private string _fullFileName;
+
+        /// <summary>
+        /// Base name is local file name.
+        /// If you using twitchTV and Youtube live, enter live token or path.
+        /// </summary>
         public string FullFileName
         {
             get { return this._fullFileName; }
