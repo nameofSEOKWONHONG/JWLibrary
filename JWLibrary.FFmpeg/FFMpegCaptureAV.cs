@@ -265,9 +265,9 @@ namespace JWLibrary.FFmpeg
             switch (rType)
             {
                 case RecordingTypes.Local:
-                    return BuildRecordingCommandByLocal(model);
+                    return BuildRecordingCommandForLocal(model);
                 case RecordingTypes.TwitchTV:
-                    return BuildRecordingCommandByTwitchTV(model);
+                    return BuildRecordingCommandForTwitchTV(model);
                 case RecordingTypes.YouTube:
                     throw new Exception("This type was not implemented.");
                 default:
@@ -280,7 +280,7 @@ namespace JWLibrary.FFmpeg
         /// </summary>
         /// <param name="model"></param>
         /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandByLocal(FFmpegCommandModel model)
+        private static string BuildRecordingCommandForLocal(FFmpegCommandModel model)
         {
             string command = CommandConst.GET_DESKTOP_RECODING_COMMAND();
             command = command.Replace("@videoSource", model.VideoSource);
@@ -304,7 +304,7 @@ namespace JWLibrary.FFmpeg
         /// </summary>
         /// <param name="model"></param>
         /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandByTwitchTV(FFmpegCommandModel model)
+        private static string BuildRecordingCommandForTwitchTV(FFmpegCommandModel model)
         {
             string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
             command = command.Replace("@videoSource", model.VideoSource);
