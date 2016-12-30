@@ -271,7 +271,7 @@ namespace JWLibrary.FFmpeg
                 case RecordingTypes.YouTube:
                     throw new Exception("This type was not implemented.");
                 default:
-                    throw new Exception("Command string error.");
+                    throw new Exception("Unknown type.");
             }
         }
 
