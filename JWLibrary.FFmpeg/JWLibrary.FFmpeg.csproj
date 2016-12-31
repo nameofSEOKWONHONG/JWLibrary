@@ -63,6 +63,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="README.md" />
     <None Include="Resources\ffmpeg.exe" />
   </ItemGroup>
   <ItemGroup>
