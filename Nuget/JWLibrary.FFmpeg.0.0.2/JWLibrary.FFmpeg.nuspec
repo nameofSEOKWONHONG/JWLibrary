@@ -6,10 +6,11 @@
     <title>JWLibrary.FFmpeg</title>
     <authors>StoneCircle</authors>
     <owners>StoneCircle</owners>
-	<licenseurl>https://github.com/GuyFawkesFromKorea/JWLibrary/blob/master/LICENSE</licenseurl>
-	<projecturl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.FFmpeg</projecturl>
+	<licenseUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.FFmpeg</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Desktop Recording library</description>
+	<releaseNotes>test version. (If you execute this module, you must run as administrator account.)</releaseNotes>
     <copyright>StoneCircle  2016</copyright>
     <dependencies />
 	<tags>recording ffmpeg c#</tags>

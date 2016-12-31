@@ -214,11 +214,11 @@ namespace JWLibrary.FFmpeg
         #endregion
 
         #region functions
-        public void FFmpegCommandExcute(string workingDir, string exeFileName, string arguments, bool createNoWindow)
+        public void FFmpegCommandExcute(string arguments)
         {
             if (IsRequireFile())
             {
-                this._cmdHelper.ExecuteCommand(workingDir, exeFileName, arguments, createNoWindow);
+                this._cmdHelper.ExecuteCommand(/*workingDir*/null, "ffmpeg.exe", arguments, true);
                 this._frameDropChecker.FrameDropCheckStart();
             }
         }

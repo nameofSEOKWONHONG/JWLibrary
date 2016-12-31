@@ -24,7 +24,8 @@ How to use :
 				//recording information.
             };
 
-            ffmpegCav.FFmpegCommandExcute(null, "ffmpeg.exe", FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model), true);
+			var command = FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
+            ffmpegCav.FFmpegCommandExcute(command);
 
 			//regsvr32 dll unregister
             ffmpegCav.UnRegister();
