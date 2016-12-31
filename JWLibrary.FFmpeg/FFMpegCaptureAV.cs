@@ -1,12 +1,7 @@
-﻿using JWLibrary.CLI;
-using JWLibrary.FFmpeg.Properties;
+﻿using JWLibrary.FFmpeg.Properties;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JWLibrary.FFmpeg
 {

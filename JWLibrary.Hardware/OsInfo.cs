@@ -1,4 +1,4 @@
-﻿using JWLibrary.StringToEnum;
+﻿using JWLibrary.Core.StringToEnum;
 using System;
 using System.Management;
 

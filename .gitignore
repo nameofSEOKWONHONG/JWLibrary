@@ -251,3 +251,5 @@ paket-files/
 .idea/
 *.sln.iml
 /output
+/JWLibrary/nuget.exe
+/JWLibrary.FFmpeg/nuget.exe
