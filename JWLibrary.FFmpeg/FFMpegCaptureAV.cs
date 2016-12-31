@@ -1,5 +1,6 @@
 ﻿using JWLibrary.FFmpeg.Properties;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
@@ -88,18 +89,35 @@ namespace JWLibrary.FFmpeg
             var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
             var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
 
-            if (!File.Exists(registerPath))
-            {
-                string contents = Resources.library_register
-                    .Replace("@mode", "/s")
-                    .Replace("@audio_sniffer_file", audioSnifferFilePath)
-                    .Replace("@screen_capture_recorder_file", scrFilePath);
-                File.WriteAllText(registerPath, contents);
+            string contents = Resources.library_register
+                                .Replace("@mode", "/s")
+                                .Replace("@audio_sniffer_file", audioSnifferFilePath)
+                                .Replace("@screen_capture_recorder_file", scrFilePath);
+            File.WriteAllText(registerPath, contents);
 
-                //process
+            //process
+            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + registerPath);
+            processInfo.CreateNoWindow = true;
+            processInfo.UseShellExecute = false;
+            processInfo.RedirectStandardError = true;
+            processInfo.RedirectStandardOutput = true;
 
-                File.Delete(registerPath);
-            }
+            var process = Process.Start(processInfo);
+
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
+                Console.WriteLine("output>>" + e.Data);
+            process.BeginOutputReadLine();
+
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
+                Console.WriteLine("error>>" + e.Data);
+            process.BeginErrorReadLine();
+
+            process.WaitForExit();
+
+            Console.WriteLine("ExitCode: {0}", process.ExitCode);
+            process.Close();
+
+            File.Delete(registerPath);
         }
 
         /// <summary>
@@ -113,18 +131,38 @@ namespace JWLibrary.FFmpeg
             var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
             var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
 
-            if (!File.Exists(registerPath))
-            {
-                string contents = Resources.library_register
-                    .Replace("@mode", "/u /s")
-                    .Replace("@audio_sniffer_file", audioSnifferFilePath)
-                    .Replace("@screen_capture_recorder_file", scrFilePath);
-                File.WriteAllText(registerPath, contents);
+            string contents = Resources.library_register
+                                .Replace("@mode", "/u /s")
+                                .Replace("@audio_sniffer_file", audioSnifferFilePath)
+                                .Replace("@screen_capture_recorder_file", scrFilePath);
+            File.WriteAllText(registerPath, contents);
 
-                //process 
+            //process
+            //process
+            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + registerPath);
+            processInfo.CreateNoWindow = true;
+            processInfo.UseShellExecute = false;
+            processInfo.RedirectStandardError = true;
+            processInfo.RedirectStandardOutput = true;
 
-                File.Delete(registerPath);
-            }
+            var process = Process.Start(processInfo);
+
+            process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
+                Console.WriteLine("output>>" + e.Data);
+            process.BeginOutputReadLine();
+
+            process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
+                Console.WriteLine("error>>" + e.Data);
+            process.BeginErrorReadLine();
+
+            process.WaitForExit();
+
+            Console.WriteLine("ExitCode: {0}", process.ExitCode);
+            process.Close();
+
+            File.Delete(registerPath);
+            File.Delete(audioSnifferFilePath);
+            File.Delete(scrFilePath);
         }
 
         /// <summary>

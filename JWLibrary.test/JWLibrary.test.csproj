@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj">
+      <Project>{37ff01ad-9c00-47fb-aff0-b8f9084b91d1}</Project>
+      <Name>JWLibrary.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JWLibrary.FFmpeg\JWLibrary.FFmpeg.csproj">
       <Project>{41464a67-e8bf-4b88-bbcc-ae878b1bd365}</Project>
       <Name>JWLibrary.FFmpeg</Name>
