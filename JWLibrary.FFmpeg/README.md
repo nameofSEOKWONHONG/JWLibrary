@@ -10,6 +10,10 @@ ffmpeg[http://www.ffmpeg.org/]
 
 How to use :
 
+/*
+ * If you run this module, you must run it as an administrator.
+ */
+
         [TestMethod]
         public void RunRecording()
         {
