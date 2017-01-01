@@ -115,7 +115,7 @@
             this.jwDateTimePicker1.Name = "jwDateTimePicker1";
             this.jwDateTimePicker1.Size = new System.Drawing.Size(200, 21);
             this.jwDateTimePicker1.TabIndex = 4;
-            this.jwDateTimePicker1.Value = new System.DateTime(2016, 12, 7, 0, 25, 39, 501);
+            this.jwDateTimePicker1.Value = new System.DateTime(2017, 1, 1, 23, 38, 26, 37);
             // 
             // button3
             // 

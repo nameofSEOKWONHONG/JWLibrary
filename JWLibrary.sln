@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Hook", "JWLibrary
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Core", "JWLibrary.Core\JWLibrary.Core.csproj", "{37FF01AD-9C00-47FB-AFF0-B8F9084B91D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.FFmpeg.Test", "JWLibrary.FFmpeg.Test\JWLibrary.FFmpeg.Test.csproj", "{63870E05-54C9-488C-BE18-DB621DEC1326}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{37FF01AD-9C00-47FB-AFF0-B8F9084B91D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37FF01AD-9C00-47FB-AFF0-B8F9084B91D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37FF01AD-9C00-47FB-AFF0-B8F9084B91D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63870E05-54C9-488C-BE18-DB621DEC1326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63870E05-54C9-488C-BE18-DB621DEC1326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63870E05-54C9-488C-BE18-DB621DEC1326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63870E05-54C9-488C-BE18-DB621DEC1326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
