@@ -10,6 +10,10 @@
         }
 
         private string _videoSource;
+
+        /// <summary>
+        /// recording video source (init : screen-capture-recorder)
+        /// </summary>
         public string VideoSource
         {
             get { return _videoSource; }
@@ -17,6 +21,10 @@
         }
 
         private string _audioSource;
+
+        /// <summary>
+        /// recording audio source (init : virtual-audio-capturer)
+        /// </summary>
         public string AudioSource
         {
             get { return _audioSource; }
@@ -24,12 +32,20 @@
         }
 
         private string _executeFileName;
+
+        /// <summary>
+        /// not use
+        /// </summary>
         public string ExecuteFileName
         {
             get { return this._executeFileName; }
             set { this._executeFileName = value; }
         }
         private string _generalCommand;
+
+        /// <summary>
+        /// not use
+        /// </summary>
         public string GeneralCommand
         {
             get { return this._generalCommand; }
@@ -42,29 +58,40 @@
             set { this._frameRate = value; }
         }
         private string _videoDeviceName;
+
+        /// <summary>
+        /// not use
+        /// </summary>
         public string VideoDeviceName
         {
             get { return this._videoDeviceName; }
             set { this._videoDeviceName = value; }
         }
         private string _audioDeviceName;
+
+        /// <summary>
+        /// not use
+        /// </summary>
         public string AudioDeviceName
         {
             get { return this._audioDeviceName; }
             set { this._audioDeviceName = value; }
         }
+
         private string _offsetX;
         public string OffsetX
         {
             get { return this._offsetX; }
             set { this._offsetX = value; }
         }
+
         private string _offsetY;
         public string OffsetY
         {
             get { return this._offsetY; }
             set { this._offsetY = value; }
         }
+
         private string _width;
         public string Width
         {
@@ -77,17 +104,19 @@
             get { return this._height; }
             set { this._height = value; }
         }
-        private string _fullFileName;
 
+        private string _fullFileName;
         /// <summary>
         /// Base name is local file name.
         /// If you using twitchTV and Youtube live, enter live token or path.
+        /// But twitchTV and youtube live not implemented yet.
         /// </summary>
         public string FullFileName
         {
             get { return this._fullFileName; }
             set { this._fullFileName = value; }
         }
+
         private string _preset;
         public string Preset
         {
@@ -100,6 +129,7 @@
                 this._preset = value;
             }
         }
+
         private string _audioQuality;
         public string AudioQuality
         {
@@ -112,6 +142,7 @@
                 this._audioQuality = value;
             }
         }
+
         private string _format;
         public string Format
         {
@@ -124,7 +155,11 @@
                 this._format = value;
             }
         }
+
         private string _option1;
+        /// <summary>
+        /// Optional ffmpeg argument
+        /// </summary>
         public string Option1
         {
             get
@@ -138,6 +173,9 @@
         }
 
         private string _outPutQuality;
+        /// <summary>
+        /// Initial value is 30.
+        /// </summary>
         public string OutPutQuality
         {
             get

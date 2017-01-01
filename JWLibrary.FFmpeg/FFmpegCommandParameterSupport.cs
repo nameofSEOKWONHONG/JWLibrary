@@ -2,9 +2,9 @@
 
 namespace JWLibrary.FFmpeg
 {
-    public class FFmpegCommandSupport
+    public class FFmpegCommandParameterSupport
     {
-        public List<string> GetSupportFPS()
+        public static List<string> GetSupportFPS()
         {
             List<string> sfps = new List<string>();
             sfps.Add("10");
@@ -14,7 +14,7 @@ namespace JWLibrary.FFmpeg
             return sfps;
         }
 
-        public List<string> GetSupportFrameRate()
+        public static List<string> GetSupportFrameRate()
         {
             List<string> sfr = new List<string>();
             sfr.Add("10");
@@ -24,7 +24,7 @@ namespace JWLibrary.FFmpeg
             return sfr;
         }
 
-        public List<string> GetSupportAudioQuality()
+        public static List<string> GetSupportAudioQuality()
         {
             List<string> saq = new List<string>();
             saq.Add("11025");
@@ -34,7 +34,7 @@ namespace JWLibrary.FFmpeg
             return saq;
         }
 
-        public List<string> GetSupportRecordSpeed()
+        public static List<string> GetSupportPreset()
         {
             List<string> srs = new List<string>();
             srs.Add("ultrafast");

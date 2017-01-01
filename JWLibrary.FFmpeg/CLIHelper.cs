@@ -69,6 +69,8 @@ namespace JWLibrary.FFmpeg
         public void CommandLineStandardInput(string command)
         {
             RunProcess.StandardInput.Write(command);
+            RunProcess.CancelOutputRead();
+            RunProcess.CancelErrorRead();            
         }
 
         public void CommandLineStop()
@@ -95,6 +97,7 @@ namespace JWLibrary.FFmpeg
             {
                 if (RunProcess != null)
                 {
+                    RunProcess.Close();
                     RunProcess.Dispose();
                     RunProcess = null;
                 }

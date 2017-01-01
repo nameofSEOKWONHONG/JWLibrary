@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 
 namespace JWLibrary.FFmpeg
 {
@@ -159,10 +160,13 @@ namespace JWLibrary.FFmpeg
 
             Console.WriteLine("ExitCode: {0}", process.ExitCode);
             process.Close();
-
+            
             File.Delete(registerPath);
+            Thread.Sleep(500);
             File.Delete(audioSnifferFilePath);
+            Thread.Sleep(500);
             File.Delete(scrFilePath);
+            Thread.Sleep(500);
         }
 
         /// <summary>
@@ -217,7 +221,7 @@ namespace JWLibrary.FFmpeg
         public void FFmpegCommandExcute(string arguments)
         {
             if (IsRequireFile())
-            {
+            {                
                 this._cmdHelper.ExecuteCommand(/*workingDir*/null, "ffmpeg.exe", arguments, true);
                 this._frameDropChecker.FrameDropCheckStart();
             }
@@ -231,14 +235,7 @@ namespace JWLibrary.FFmpeg
             this._cmdHelper.CommandLineStandardInput(STOP_COMMAND);
             this._frameDropChecker.FrameDropCheckStop();
 
-            System.Diagnostics.Process[] procs =
-                System.Diagnostics.Process.GetProcessesByName(FFMPEG_PROCESS_NAME);
-
-            foreach (var item in procs)
-            {
-                item.StandardInput.Write(STOP_COMMAND);
-                item.WaitForExit();
-            }
+            Thread.Sleep(1000);
         }
 
         /// <summary>
@@ -272,6 +269,15 @@ namespace JWLibrary.FFmpeg
             //memory free is here
             if (disposing)
             {
+                System.Diagnostics.Process[] procs =
+                     System.Diagnostics.Process.GetProcessesByName(FFMPEG_PROCESS_NAME);
+
+                foreach (var item in procs)
+                {
+                    item.StandardInput.Write(STOP_COMMAND);
+                    item.WaitForExit();
+                }
+
                 if (_cmdHelper != null)
                 {
                     _cmdHelper.CommandDataReceived -= cmdHelper_CommandDataReceived;

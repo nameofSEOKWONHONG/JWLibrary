@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLIHelper.cs" />
-    <Compile Include="FFmpegCommandSupport.cs" />
+    <Compile Include="FFmpegCommandParameterSupport.cs" />
     <Compile Include="FFmpegCommandModel.cs" />
     <Compile Include="CommandConst.cs" />
     <Compile Include="FFMpegCaptureAV.cs" />
