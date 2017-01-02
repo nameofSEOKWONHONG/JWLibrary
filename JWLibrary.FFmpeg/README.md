@@ -8,7 +8,8 @@ screen-capture-recorder[https://github.com/rdp/screen-capture-recorder-to-video-
 
 ffmpeg[http://www.ffmpeg.org/]
 
-How to use :
+How to use : 
+[update : 2017-01-02]
 
    /* If you run this module, you must run it as an administrator. */
 
@@ -21,6 +22,7 @@ How to use :
         {
             InitializeComponent();
 
+			// add event code
             _ffmpegCav.FFmpegDataReceived += (s, e) =>
             {
                 this.Invoke(
@@ -33,6 +35,7 @@ How to use :
                 );
             };
 
+			// add event code
             _ffmpegCav.FrameDroped += (s, e) =>
             {
                 Console.WriteLine("Frame drop!!!");
@@ -41,6 +44,7 @@ How to use :
 
         private void btnRecStart_Click(object sender, EventArgs e)
         {
+		    // add state code
             if (!_ffmpegCav.IsRunning)
             {
                 if (_ffmpegCav.Initialize())
