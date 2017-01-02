@@ -18,32 +18,52 @@ namespace JWLibrary.FFmpeg.Test
         public Form1()
         {
             InitializeComponent();
+
+            _ffmpegCav.FFmpegDataReceived += (s, e) =>
+            {
+                this.Invoke(
+                    new MethodInvoker(delegate ()
+                    {
+                        lblFps.Text = e.Fps;
+                        lblFrame.Text = e.Frame;
+                        lblTime.Text = e.Time;
+                    })                  
+                );
+            };
+
+            _ffmpegCav.FrameDroped += (s, e) =>
+            {
+                Console.WriteLine("Frame drop!!!");
+            };
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnRecStart_Click(object sender, EventArgs e)
         {
-            if (_ffmpegCav.Initialize())
+            if (!_ffmpegCav.IsRunning)
             {
-                _ffmpegCav.Register();
-
-                JWLibrary.FFmpeg.FFmpegCommandModel model = new FFmpeg.FFmpegCommandModel
+                if (_ffmpegCav.Initialize())
                 {
-                    AudioQuality = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportAudioQuality()[0],
-                    Format = "mp4",
-                    FrameRate = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportFrameRate()[0],
-                    Height = "1440",
-                    Width = "2560",
-                    OffsetX = "0",
-                    OffsetY = "0",
-                    Preset = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportPreset()[0],
-                    FullFileName = @"E:\test.mp4"
-                };
-                var command = JWLibrary.FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
-                _ffmpegCav.FFmpegCommandExcute(command);
+                    _ffmpegCav.Register();
+
+                    JWLibrary.FFmpeg.FFmpegCommandModel model = new FFmpeg.FFmpegCommandModel
+                    {
+                        AudioQuality = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportAudioQuality()[0],
+                        Format = "mp4",
+                        FrameRate = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportFrameRate()[0],
+                        Height = "1440",
+                        Width = "2560",
+                        OffsetX = "0",
+                        OffsetY = "0",
+                        Preset = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportPreset()[0],
+                        FullFileName = @"E:\test.mp4"
+                    };
+                    var command = JWLibrary.FFmpeg.FFmpegCommandBuilder.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
+                    _ffmpegCav.FFmpegCommandExcute(command);
+                }
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnRecStop_Click(object sender, EventArgs e)
         {
             _ffmpegCav.FFmpegCommandStop();
             _ffmpegCav.UnRegister();
