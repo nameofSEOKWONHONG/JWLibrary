@@ -9,13 +9,13 @@ namespace JWLibrary.FFmpeg
 {
     public class FFMpegCaptureAV : IDisposable
     {
-        #region delegate events
-        public event EventHandler<System.Diagnostics.DataReceivedEventArgs> DataReceived;
-        protected virtual void OnDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+        #region delegate events        
+        public event EventHandler<FFmpegDataReceiveArgs> FFmpegDataReceived;
+        protected virtual void OnDataReceived(object sender, FFmpegDataReceiveArgs e)
         {
-            if (DataReceived != null)
+            if (FFmpegDataReceived != null)
             {
-                DataReceived(this, e);
+                FFmpegDataReceived(this, e);
             }
         }
 
@@ -33,15 +33,20 @@ namespace JWLibrary.FFmpeg
         bool disposed = false;
         private CLIHelper _cmdHelper;
         private FrameDropChecker _frameDropChecker;
+        private string[] _param;
 
         private const string FFMPEG_PROCESS_NAME = "ffmpeg";
         private const string FFMPEG_FILE_NAME = "ffmpeg.exe";
         private const string STOP_COMMAND = "q";
         private const string DROP_KEYWORD = "FRAME DROPPED!";
-        private const string AUDIO_SNIFFER_FILE_NAME = "audio_sniffer.dll";        
+        private const string AUDIO_SNIFFER_FILE_NAME = "audio_sniffer.dll";
         private const string SCREEN_CAPTURE_RECORDER_FILE_NAME = "screen_capture_recorder.dll";
         private const string LIBRARY_REGISTER_FILE_NAME = "library-register.bat";
         private const string LIBRARY_UNREGISTER_FILE_NAME = "library-unregister.bat";
+        #endregion
+
+        #region property
+        public bool IsRunning { get; set; }
         #endregion
 
         #region constructor
@@ -65,13 +70,13 @@ namespace JWLibrary.FFmpeg
             }
 
             var audioSnifferFilePath = Path.Combine(executablePath, AUDIO_SNIFFER_FILE_NAME);
-            if(!File.Exists(audioSnifferFilePath))
+            if (!File.Exists(audioSnifferFilePath))
             {
                 File.WriteAllBytes(audioSnifferFilePath, Resources.audio_sniffer);
             }
 
             var scrFilePath = Path.Combine(executablePath, SCREEN_CAPTURE_RECORDER_FILE_NAME);
-            if(!File.Exists(scrFilePath))
+            if (!File.Exists(scrFilePath))
             {
                 File.WriteAllBytes(scrFilePath, Resources.screen_capture_recorder);
             }
@@ -160,7 +165,7 @@ namespace JWLibrary.FFmpeg
 
             Console.WriteLine("ExitCode: {0}", process.ExitCode);
             process.Close();
-            
+
             File.Delete(registerPath);
             Thread.Sleep(500);
             File.Delete(audioSnifferFilePath);
@@ -207,13 +212,22 @@ namespace JWLibrary.FFmpeg
         private void cmdHelper_CommandDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
         {
             if (e.Data != null)
-            {                
+            {
                 if (e.Data.ToUpper().Contains(DROP_KEYWORD))
                 {
                     this._frameDropChecker.FrameDropCount++;
                 }
+
+                if (e.Data.Contains("time="))
+                {
+                    int startIndex = e.Data.IndexOf("time=") + 5;
+                    _param = e.Data.Split(new string[] { "=", " " }, StringSplitOptions.RemoveEmptyEntries);
+
+                    OnDataReceived(this, 
+                        new FFmpegDataReceiveArgs(
+                            e.Data.Substring(startIndex, 11), _param[3], _param[1]));
+                }                
             }
-            OnDataReceived(this, e);
         }
         #endregion
 
@@ -221,9 +235,11 @@ namespace JWLibrary.FFmpeg
         public void FFmpegCommandExcute(string arguments)
         {
             if (IsRequireFile())
-            {                
+            {
                 this._cmdHelper.ExecuteCommand(/*workingDir*/null, "ffmpeg.exe", arguments, true);
                 this._frameDropChecker.FrameDropCheckStart();
+
+                IsRunning = true;
             }
         }
 
@@ -232,10 +248,10 @@ namespace JWLibrary.FFmpeg
         /// </summary>        
         public void FFmpegCommandStop()
         {
+            IsRunning = false;
+
             this._cmdHelper.CommandLineStandardInput(STOP_COMMAND);
             this._frameDropChecker.FrameDropCheckStop();
-
-            Thread.Sleep(1000);
         }
 
         /// <summary>
@@ -298,68 +314,17 @@ namespace JWLibrary.FFmpeg
         #endregion
     }
 
-    public class BuildCommand {
-        public static string BuildRecordingCommand(RecordingTypes rType, FFmpegCommandModel model)
-        {
-            switch (rType)
-            {
-                case RecordingTypes.Local:
-                    return BuildRecordingCommandForLocal(model);
-                case RecordingTypes.TwitchTV:
-                    return BuildRecordingCommandForTwitchTV(model);
-                case RecordingTypes.YouTube:
-                    throw new Exception("This type was not implemented.");
-                default:
-                    throw new Exception("Unknown type.");
-            }
-        }
+    public class FFmpegDataReceiveArgs : EventArgs {
+        public string Time { get; set; }
+        public string Fps { get; set; }
+        public string Frame { get; set; }
 
-        /// <summary>
-        /// making ffmpeg command string
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForLocal(FFmpegCommandModel model)
+        public FFmpegDataReceiveArgs(string time, string fps, string frame)
         {
-            string command = CommandConst.GET_DESKTOP_RECODING_COMMAND();
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", model.Width);
-            command = command.Replace("@height", model.Height);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@filename", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            return command;
-        }
-
-        /// <summary>
-        /// not support yet.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForTwitchTV(FFmpegCommandModel model)
-        {
-            string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", model.Width);
-            command = command.Replace("@height", model.Height);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@liveUrl", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            return command;
+            this.Time = time;
+            this.Fps = fps;
+            this.Frame = frame;
         }
     }
+
 }
