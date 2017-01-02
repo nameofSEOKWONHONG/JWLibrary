@@ -9,7 +9,7 @@
 	<licenseUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/blob/master/LICENSE</licenseUrl>
 	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.FFmpeg</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Desktop Recording library</description>
+    <description>Desktop Recording library(For winform, wpf)</description>
 	<releaseNotes>alpha version. (If you execute this module, you must run as administrator account.)</releaseNotes>
     <copyright>StoneCircle  2017</copyright>
     <dependencies />
