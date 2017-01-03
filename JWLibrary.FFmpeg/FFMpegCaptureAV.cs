@@ -46,7 +46,7 @@ namespace JWLibrary.FFmpeg
         #endregion
 
         #region property
-        public bool IsRunning { get; set; }
+        public bool IsRunning { get; private set; }
         #endregion
 
         #region constructor
