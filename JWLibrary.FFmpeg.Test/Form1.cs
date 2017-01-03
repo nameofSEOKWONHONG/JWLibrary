@@ -55,7 +55,7 @@ namespace JWLibrary.FFmpeg.Test
                         OffsetX = "0",
                         OffsetY = "0",
                         Preset = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportPreset()[0],
-                        FullFileName = @"E:\test.mp4"
+                        FullFileName = @"C:\test.mp4"
                     };
                     var command = JWLibrary.FFmpeg.FFmpegCommandBuilder.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
                     _ffmpegCav.FFmpegCommandExcute(command);

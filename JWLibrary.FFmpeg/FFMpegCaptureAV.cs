@@ -102,7 +102,7 @@ namespace JWLibrary.FFmpeg
             File.WriteAllText(registerPath, contents);
 
             //process
-            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + registerPath);
+            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + @"""" + registerPath + @"""");
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardError = true;
@@ -145,7 +145,7 @@ namespace JWLibrary.FFmpeg
 
             //process
             //process
-            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + registerPath);
+            var processInfo = new ProcessStartInfo("cmd.exe", " /c " + @"""" + registerPath + @"""");
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardError = true;
