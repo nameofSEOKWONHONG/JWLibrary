@@ -6,11 +6,11 @@
     <title>JWLibrary.Core</title>
     <authors>StoneCircle</authors>
     <owners>StoneCircle</owners>
-	<licenseUrl>Unlicense</licenseUrl>
+	<licenseUrl>http://Unlicense</licenseUrl>
 	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.net framework commmon library</description>
-	<releaseNotes>personal version.</releaseNotes>
+	<releaseNotes>personal version.(support net40)</releaseNotes>
     <copyright>StoneCircle  2017</copyright>
     <dependencies />
 	<tags>c# common library</tags>

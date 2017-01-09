@@ -6,13 +6,12 @@
     <title>JWLibrary.Core</title>
     <authors>StoneCircle</authors>
     <owners>StoneCircle</owners>
-	<licenseUrl>Unlicense</licenseUrl>
-	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>http://unlicense/</licenseUrl>
+    <projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
     <description>.net framework commmon library</description>
-	<releaseNotes>personal version.</releaseNotes>
+    <releaseNotes>personal version.</releaseNotes>
     <copyright>StoneCircle  2017</copyright>
-    <dependencies />
-	<tags>c# common library</tags>
+    <tags>c# common library</tags>
   </metadata>
 </package>

@@ -64,6 +64,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="LICENSE" />
     <None Include="README.md" />
     <None Include="Resources\ffmpeg.exe" />
   </ItemGroup>
