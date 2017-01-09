@@ -1,2 +1,0 @@
-# JWLibrary
-dotnet libraries
