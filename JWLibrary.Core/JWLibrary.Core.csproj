@@ -85,6 +85,11 @@
     <Compile Include="GZip\ICompress.cs" />
     <Compile Include="ExecuteLocation\PathInfo.cs" />
     <Compile Include="Log\FileLogger.cs" />
+    <Compile Include="Log\JWDbLogger.cs" />
+    <Compile Include="Log\JWFileLogger.cs" />
+    <Compile Include="Log\IJWLogger.cs" />
+    <Compile Include="Log\LogCode.cs" />
+    <Compile Include="Log\LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SMTP\JWSmtp.cs" />
     <Compile Include="StringToEnum\StringEnum.cs" />
