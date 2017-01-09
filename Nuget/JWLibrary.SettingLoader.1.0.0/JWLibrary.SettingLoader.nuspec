@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>JWLibrary.SettingLoader</id>
+    <version>1.0.0</version>
+    <title>JWLibrary.SettingLoader</title>
+    <authors>StoneCircle</authors>
+    <owners>StoneCircle</owners>
+	<licenseUrl>http://Unlicense</licenseUrl>
+	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.SettingLoader</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Xml, Json Loader (for .net framework)</description>
+	<releaseNotes>personal version.(support net45)</releaseNotes>
+    <copyright>StoneCircle  2017</copyright>
+    <dependencies>
+		<dependency id="Newtonsoft.Json" version="9.0.0.0"/>
+	</dependencies>
+	<tags>c# xml json loader</tags>
+  </metadata>
+</package>

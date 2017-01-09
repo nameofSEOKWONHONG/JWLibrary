@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>JWLibrary.Core</id>
+    <version>1.0.0</version>
+    <title>JWLibrary.Core</title>
+    <authors>StoneCircle</authors>
+    <owners>StoneCircle</owners>
+	<licenseUrl>http://Unlicense</licenseUrl>
+	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.net framework commmon library</description>
+	<releaseNotes>personal version.(support net40)</releaseNotes>
+    <copyright>StoneCircle  2017</copyright>
+    <dependencies />
+	<tags>c# common library</tags>
+  </metadata>
+</package>

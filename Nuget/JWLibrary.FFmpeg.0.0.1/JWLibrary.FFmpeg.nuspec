@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>JWLibrary.FFmpeg</id>
+    <version>0.0.2</version>
+    <title>JWLibrary.FFmpeg</title>
+    <authors>StoneCircle</authors>
+    <owners>StoneCircle</owners>
+	<licenseurl>https://github.com/GuyFawkesFromKorea/JWLibrary/blob/master/LICENSE</licenseurl>
+	<projecturl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.FFmpeg</projecturl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Desktop Recording library</description>
+    <copyright>StoneCircle  2016</copyright>
+    <dependencies />
+	<tags>recording ffmpeg c#</tags>
+  </metadata>
+</package>
