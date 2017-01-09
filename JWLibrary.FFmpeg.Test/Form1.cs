@@ -58,14 +58,14 @@ namespace JWLibrary.FFmpeg.Test
                         FullFileName = @"C:\test.mp4"
                     };
                     var command = JWLibrary.FFmpeg.FFmpegCommandBuilder.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
-                    _ffmpegCav.FFmpegCommandExcute(command);
+                    _ffmpegCav.RecordingStart(command);
                 }
             }
         }
 
         private void btnRecStop_Click(object sender, EventArgs e)
         {
-            _ffmpegCav.FFmpegCommandStop();
+            _ffmpegCav.RecordingStop();
             _ffmpegCav.UnRegister();
         }
 

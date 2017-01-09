@@ -232,7 +232,7 @@ namespace JWLibrary.FFmpeg
         #endregion
 
         #region functions
-        public void FFmpegCommandExcute(string arguments)
+        public void RecordingStart(string arguments)
         {
             if (IsRequireFile())
             {
@@ -246,7 +246,7 @@ namespace JWLibrary.FFmpeg
         /// <summary>
         /// ffmpeg recording stop.
         /// </summary>        
-        public void FFmpegCommandStop()
+        public void RecordingStop()
         {
             IsRunning = false;
 
