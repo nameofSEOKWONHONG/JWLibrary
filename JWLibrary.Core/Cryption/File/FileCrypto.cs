@@ -1,4 +1,6 @@
-﻿//http://h5bak.tistory.com/148
+﻿/* 
+ * refer from : http://h5bak.tistory.com/148
+ */
 
 using System.IO;
 using System.Security.Cryptography;
@@ -6,13 +8,7 @@ using System.Text;
 
 namespace JWLibrary.Core.Cryption.File
 {
-	public class Crypto {
-		/// <summary>
-		/// AES 256 암호화
-		/// </summary>
-		/// <param name="inputFile"></param>
-		/// <param name="outputFile"></param>
-		/// <param name="sKey"></param>
+	public class Crypto {		
 		public static void EncryptFile(string inputFile, string outputFile, string sKey) {
 			UnicodeEncoding UE = new UnicodeEncoding();
 			byte[] key = UE.GetBytes(sKey);
@@ -36,12 +32,6 @@ namespace JWLibrary.Core.Cryption.File
 			}
 		}
 
-		/// <summary>
-		/// AES 256 복호화
-		/// </summary>
-		/// <param name="inputFile"></param>
-		/// <param name="outputFile"></param>
-		/// <param name="sKey"></param>
 		public static void DecryptFile(string inputFile, string outputFile, string sKey) {
 			UnicodeEncoding UE = new UnicodeEncoding();
 			byte[] key = UE.GetBytes(sKey);

@@ -8,6 +8,13 @@ using System.Text;
 namespace JWLibrary.Core.Cryption.Str
 {
 	public class CryptorEngineAES128 : ICrypto {
+        /// <summary>
+        /// AES128 Encrypt
+        /// </summary>
+        /// <param name="encryptText"></param>
+        /// <param name="encryptKey"></param>
+        /// <param name="useHashing">not use</param>
+        /// <returns></returns>
 		public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
 			RijndaelManaged RijndaelCipher = new RijndaelManaged();
 
@@ -33,6 +40,13 @@ namespace JWLibrary.Core.Cryption.Str
 			return EncryptedData;
 		}
 
+        /// <summary>
+        /// AES128 Decrypt
+        /// </summary>
+        /// <param name="decryptText"></param>
+        /// <param name="decryptKey"></param>
+        /// <param name="useHashing">not use</param>
+        /// <returns></returns>
 		public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
 			RijndaelManaged RijndaelCipher = new RijndaelManaged();
 

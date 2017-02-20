@@ -8,6 +8,13 @@ namespace JWLibrary.Core.Cryption.Str
 {
 	public class CryptorEngineSHA512 : ICrypto
     {
+        /// <summary>
+        /// SHA512 Encrypt (Decrypt is not support.)
+        /// </summary>
+        /// <param name="encryptText"></param>
+        /// <param name="encryptKey"></param>
+        /// <param name="useHashing">not use</param>
+        /// <returns></returns>
 		public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
 			SHA512 sha512 = new SHA512Managed();
 			byte[] bytes = Encoding.UTF8.GetBytes(encryptText);
@@ -21,6 +28,13 @@ namespace JWLibrary.Core.Cryption.Str
 			return sb.ToString();
 		}
 
+        /// <summary>
+        /// do not implemented.
+        /// </summary>
+        /// <param name="decryptText"></param>
+        /// <param name="decryptKey"></param>
+        /// <param name="useHashing"></param>
+        /// <returns></returns>
 		public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
 			throw new NotImplementedException();
 		}

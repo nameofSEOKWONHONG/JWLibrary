@@ -120,9 +120,16 @@ namespace JWLibrary.Core.Cryption.Str
 
 			return decryptedBytes;
 		}
-		#endregion
+        #endregion
 
-		public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
+        /// <summary>
+        /// AES256 Encrypt
+        /// </summary>
+        /// <param name="encryptText"></param>
+        /// <param name="encryptKey"></param>
+        /// <param name="useHashing">not use</param>
+        /// <returns></returns>
+        public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
 			RijndaelManaged RijndaelCipher = new RijndaelManaged();
 
 			// 입력받은 문자열을 바이트 배열로 변환  
@@ -159,6 +166,13 @@ namespace JWLibrary.Core.Cryption.Str
 			return EncryptedData;
 		}
 
+        /// <summary>
+        /// AES256 Decrypt
+        /// </summary>
+        /// <param name="decryptText"></param>
+        /// <param name="decryptKey"></param>
+        /// <param name="useHashing">not use</param>
+        /// <returns></returns>
 		public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
 			RijndaelManaged RijndaelCipher = new RijndaelManaged();
 
