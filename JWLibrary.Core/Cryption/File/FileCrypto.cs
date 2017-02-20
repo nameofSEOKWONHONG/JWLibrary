@@ -8,7 +8,7 @@ using System.Text;
 
 namespace JWLibrary.Core.Cryption.File
 {
-	public class Crypto {		
+    public class Crypto {		
 		public static void EncryptFile(string inputFile, string outputFile, string sKey) {
 			UnicodeEncoding UE = new UnicodeEncoding();
 			byte[] key = UE.GetBytes(sKey);

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Core.Cryption.Str
 {
-	public class CryptorEngineMD5 : ICrypto
+    public class CryptorEngineMD5 : ICrypto
     {
 		public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
 			byte[] keyArray;

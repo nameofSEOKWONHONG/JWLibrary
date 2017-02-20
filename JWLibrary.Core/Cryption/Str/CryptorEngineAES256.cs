@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Core.Cryption.Str
 {
-	public class CryptorEngineAES256 : ICrypto
+    public class CryptorEngineAES256 : ICrypto
     {
 		#region low speed and random value, so return value is not match. single string only
 		public string Encrypt(string plainText, string password) {

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Core.Cryption.Str
 {
-	public class CryptorEngineAES128 : ICrypto {
+    public class CryptorEngineAES128 : ICrypto {
         /// <summary>
         /// AES128 Encrypt
         /// </summary>

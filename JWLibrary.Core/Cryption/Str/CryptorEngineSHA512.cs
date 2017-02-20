@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Core.Cryption.Str
 {
-	public class CryptorEngineSHA512 : ICrypto
+    public class CryptorEngineSHA512 : ICrypto
     {
         /// <summary>
         /// SHA512 Encrypt (Decrypt is not support.)
