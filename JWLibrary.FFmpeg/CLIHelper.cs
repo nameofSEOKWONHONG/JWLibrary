@@ -8,7 +8,7 @@ namespace JWLibrary.FFmpeg
     class CLIHelper : IDisposable
     {
         #region define events
-        public event EventHandler<DataReceivedEventArgs> CommandDataReceived;
+        public event EventHandler<DataReceivedEventArgs> CommandDataReceived;        
         public virtual void OnCommandDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (CommandDataReceived != null)

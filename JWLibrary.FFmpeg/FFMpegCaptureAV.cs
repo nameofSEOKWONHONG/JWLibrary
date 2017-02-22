@@ -27,6 +27,15 @@ namespace JWLibrary.FFmpeg
                 FrameDroped(this, e);
             }
         }
+
+        public event EventHandler<EventArgs> ErrorOccured;
+        protected virtual void OnErrorOccured(object sender, EventArgs e)
+        {
+            if(ErrorOccured != null)
+            {
+                ErrorOccured(this, e);
+            }
+        }
         #endregion
 
         #region variable
@@ -55,7 +64,7 @@ namespace JWLibrary.FFmpeg
             this._cmdHelper = new CLIHelper();
             this._frameDropChecker = new FrameDropChecker();
             this._cmdHelper.CommandDataReceived += cmdHelper_CommandDataReceived;
-            this._frameDropChecker.FrameDroped += _frameDropChecker_FrameDroped;
+            this._frameDropChecker.FrameDroped += _frameDropChecker_FrameDroped;            
         }
         #endregion
 
@@ -107,6 +116,7 @@ namespace JWLibrary.FFmpeg
             processInfo.UseShellExecute = false;
             processInfo.RedirectStandardError = true;
             processInfo.RedirectStandardOutput = true;
+            processInfo.Verb = "runas";
 
             var process = Process.Start(processInfo);
 
@@ -226,7 +236,12 @@ namespace JWLibrary.FFmpeg
                     OnDataReceived(this, 
                         new FFmpegDataReceiveArgs(
                             e.Data.Substring(startIndex, 11), _param[3], _param[1]));
-                }                
+                }         
+                
+                if(e.Data.ToUpper().Contains("ERROR"))
+                {
+                    ErrorOccured(sender, e);
+                }
             }
         }
         #endregion

@@ -35,6 +35,11 @@ namespace JWLibrary.FFmpeg.Test
             {
                 Console.WriteLine("Frame drop!!!");
             };
+
+            _ffmpegCav.ErrorOccured += (s, e) =>
+            {
+                MessageBox.Show("Error Occured!");
+            };
         }
 
         private void btnRecStart_Click(object sender, EventArgs e)
@@ -55,7 +60,7 @@ namespace JWLibrary.FFmpeg.Test
                         OffsetX = "0",
                         OffsetY = "0",
                         Preset = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportPreset()[0],
-                        FullFileName = @"C:\test.mp4"
+                        FullFileName = @"C:\Users\h2091\Source\Repos\JWLibrary\JWLibrary.FFmpeg.Test\bin\Debug\test.mp4"
                     };
                     var command = JWLibrary.FFmpeg.FFmpegCommandBuilder.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model);
                     _ffmpegCav.RecordingStart(command);
