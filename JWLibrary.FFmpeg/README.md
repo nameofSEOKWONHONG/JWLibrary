@@ -40,6 +40,11 @@ How to use :
             {
                 Console.WriteLine("Frame drop!!!");
             };
+
+            // add event code
+            _ffmpegCav.ErrorOccured += (s, e) => {
+                MessageBox.Show("Error!");
+            };_
         }
 
         private void btnRecStart_Click(object sender, EventArgs e)
