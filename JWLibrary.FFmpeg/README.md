@@ -9,7 +9,7 @@ screen-capture-recorder[https://github.com/rdp/screen-capture-recorder-to-video-
 ffmpeg[http://www.ffmpeg.org/]
 
 How to use : 
-[update : 2017-01-02]
+[update : 2017-02-23]
 
    /* If you run this module, you must run it as an administrator. */
 
