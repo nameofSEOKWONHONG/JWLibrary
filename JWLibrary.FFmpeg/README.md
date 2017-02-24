@@ -38,7 +38,7 @@ How to use :
 			// add event code
             _ffmpegCav.FrameDroped += (s, e) =>
             {
-                Console.WriteLine("Frame drop!!!");
+                Debug.WriteLine("Frame drop!!!");
             };
 
             // add event code

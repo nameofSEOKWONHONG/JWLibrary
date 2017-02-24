@@ -121,16 +121,16 @@ namespace JWLibrary.FFmpeg
             var process = Process.Start(processInfo);
 
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("output>>" + e.Data);
+                Debug.WriteLine("output>>" + e.Data);
             process.BeginOutputReadLine();
 
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("error>>" + e.Data);
+                Debug.WriteLine("error>>" + e.Data);
             process.BeginErrorReadLine();
 
             process.WaitForExit();
 
-            Console.WriteLine("ExitCode: {0}", process.ExitCode);
+            Debug.WriteLine("ExitCode: {0}", process.ExitCode);
             process.Close();
 
             File.Delete(registerPath);
@@ -154,7 +154,6 @@ namespace JWLibrary.FFmpeg
             File.WriteAllText(registerPath, contents);
 
             //process
-            //process
             var processInfo = new ProcessStartInfo("cmd.exe", " /c " + @"""" + registerPath + @"""");
             processInfo.CreateNoWindow = true;
             processInfo.UseShellExecute = false;
@@ -164,16 +163,16 @@ namespace JWLibrary.FFmpeg
             var process = Process.Start(processInfo);
 
             process.OutputDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("output>>" + e.Data);
+                Debug.WriteLine("output>>" + e.Data);
             process.BeginOutputReadLine();
 
             process.ErrorDataReceived += (object sender, DataReceivedEventArgs e) =>
-                Console.WriteLine("error>>" + e.Data);
+                Debug.WriteLine("error>>" + e.Data);
             process.BeginErrorReadLine();
 
             process.WaitForExit();
 
-            Console.WriteLine("ExitCode: {0}", process.ExitCode);
+            Debug.WriteLine("ExitCode: {0}", process.ExitCode);
             process.Close();
 
             File.Delete(registerPath);
