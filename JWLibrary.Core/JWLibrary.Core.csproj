@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLI\CLIHelper.cs" />
+    <Compile Include="Cryption\KISA\CryptoEngineSHA256.cs" />
     <Compile Include="Cryption\Str\CryptorEngineAES128.cs" />
     <Compile Include="Cryption\Str\CryptorEngineAES256.cs" />
     <Compile Include="Cryption\Str\CryptorEngineMD5.cs" />
@@ -55,9 +56,6 @@
     <Compile Include="DataStructure\Collections\Stack.cs" />
     <Compile Include="DataStructure\OList.cs" />
     <Compile Include="DataStructure\SortableBindingList.cs" />
-    <Compile Include="DB\MSSQL.Meta\DataAccessor\MetaDataAccesor.cs" />
-    <Compile Include="DB\MSSQL.Meta\MetaInfoManager.cs" />
-    <Compile Include="DB\MSSQL.Meta\Query\QueryConst.cs" />
     <Compile Include="DB\MSSQL\DataHelperFactory.cs" />
     <Compile Include="DB\MSSQL\IDacHelper.cs" />
     <Compile Include="DB\MSSQL\IDataBinder.cs" />
