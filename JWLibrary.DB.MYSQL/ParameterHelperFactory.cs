@@ -4,7 +4,7 @@ using System.Data;
 
 namespace JWLibrary.DB.MYSQL {
 	public class ParameterHelperFactory {
-		#region MS-SQL Parameter
+		#region MySql Parameter
 
 		public static MySqlParameter CreateMySqlParameter(string parameterName, object value) {
 			return (MySqlParameter)new MySqlParameterHelper().CreateParameter(parameterName, value);

@@ -3,7 +3,7 @@ using MySql.Data.MySqlClient;
 
 namespace JWLibrary.DB.MYSQL {
 	public class DataHelperFactory {
-		#region MS-SQL Data Helper
+		#region MySql Data Helper
 
 		public static MySqlDacHelper CreateMySqlDacHelper(string connectionStringName) {
 			return new MySqlDacHelper(connectionStringName);

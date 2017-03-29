@@ -7,8 +7,8 @@
     <ProjectGuid>{28141F0E-93B4-47D5-850E-6738ED920F6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JWLibrary.DB.MYSQL</RootNamespace>
-    <AssemblyName>JWLibrary.DB.MYSQL</AssemblyName>
+    <RootNamespace>JWLibrary.DB.MySql</RootNamespace>
+    <AssemblyName>JWLibrary.DB.MySql</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
