@@ -56,6 +56,7 @@
     <Compile Include="DataStructure\Collections\Stack.cs" />
     <Compile Include="DataStructure\OList.cs" />
     <Compile Include="DataStructure\SortableBindingList.cs" />
+    <Compile Include="Date\DateHelper.cs" />
     <Compile Include="DB\MSSQL\DataHelperFactory.cs" />
     <Compile Include="DB\MSSQL\IDacHelper.cs" />
     <Compile Include="DB\MSSQL\IDataBinder.cs" />
