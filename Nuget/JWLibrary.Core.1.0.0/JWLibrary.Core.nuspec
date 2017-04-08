@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>JWLibrary.Core</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <title>JWLibrary.Core</title>
     <authors>StoneCircle</authors>
     <owners>StoneCircle</owners>
@@ -10,9 +10,13 @@
 	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.net framework commmon library</description>
-	<releaseNotes>personal version.(support net40)</releaseNotes>
+	<releaseNotes>personal version.(support net45)</releaseNotes>
     <copyright>StoneCircle  2017</copyright>
-    <dependencies />
+    <dependencies>
+		<group>
+			<dependency id="dotnet" version="4.5" />
+		</group>
+	</dependencies>
 	<tags>c# common library</tags>
   </metadata>
 </package>

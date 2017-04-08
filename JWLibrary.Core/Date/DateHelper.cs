@@ -8,19 +8,19 @@ namespace JWLibrary.Core.Date
 {
     public static class DateHelper
     {
-        public static string ConvertDateFormat(this DateTime date, DateHelperFormat format)
+        public static string ConvertDateToString(this DateTime date, ConvertFormat format)
         {
             switch (format)
             {
-                case DateHelperFormat.YYYY_MM_DD:
+                case ConvertFormat.YYYY_MM_DD:
                     return date.ToString("yyyy-MM-dd");
-                case DateHelperFormat.YYYYMMDD:
+                case ConvertFormat.YYYYMMDD:
                     return date.ToString("yyyyMMdd");
-                case DateHelperFormat.HHMMSS:
+                case ConvertFormat.HHMMSS:
                     return date.ToString("HHmmss");
-                case DateHelperFormat.YYYY_S_MM_S_DD:
+                case ConvertFormat.YYYY_S_MM_S_DD:
                     return date.ToString("yyyy/MM/dd");
-                case DateHelperFormat.YYYYMMDDHHMMSS:
+                case ConvertFormat.YYYYMMDDHHMMSS:
                     return date.ToString("yyyyMMddHHmmss");
                 default:
                     return date.ToLongDateString();
@@ -28,7 +28,7 @@ namespace JWLibrary.Core.Date
         }
     }
 
-    public enum DateHelperFormat
+    public enum ConvertFormat
     {
         YYYY_MM_DD,
         YYYYMMDD,
