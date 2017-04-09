@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("JWLibrary.Core.NetStandard")]
+[assembly: AssemblyProduct("JWLibrary.Core.NetStandard.Test")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
@@ -16,4 +16,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c4087431-7b0b-4f3e-bff1-e5b361188e49")]
+[assembly: Guid("22886559-0cf6-460c-871d-5c2026e823b5")]

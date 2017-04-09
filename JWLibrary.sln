@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Core", "JWLibrary
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.FFmpeg.Test", "JWLibrary.FFmpeg.Test\JWLibrary.FFmpeg.Test.csproj", "{63870E05-54C9-488C-BE18-DB621DEC1326}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JWLibrary.Core.NetStandard", "JWLibrary.Core.NetStandard\JWLibrary.Core.NetStandard.xproj", "{C4087431-7B0B-4F3E-BFF1-E5B361188E49}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JWLibrary.Core.NetStandard.Test", "JWLibrary.Core.NetStandard.Test\JWLibrary.Core.NetStandard.Test.xproj", "{22886559-0CF6-460C-871D-5C2026E823B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +109,14 @@ Global
 		{63870E05-54C9-488C-BE18-DB621DEC1326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63870E05-54C9-488C-BE18-DB621DEC1326}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63870E05-54C9-488C-BE18-DB621DEC1326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4087431-7B0B-4F3E-BFF1-E5B361188E49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4087431-7B0B-4F3E-BFF1-E5B361188E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4087431-7B0B-4F3E-BFF1-E5B361188E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4087431-7B0B-4F3E-BFF1-E5B361188E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22886559-0CF6-460C-871D-5C2026E823B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22886559-0CF6-460C-871D-5C2026E823B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22886559-0CF6-460C-871D-5C2026E823B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22886559-0CF6-460C-871D-5C2026E823B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
