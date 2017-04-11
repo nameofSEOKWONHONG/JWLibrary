@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Core.SMTP
 {
-    public class SMTPDataModel
+    public class SendMessageModel
     {
         public string Name { get; set; }
         public string From { get; set; }
@@ -20,61 +20,71 @@ namespace JWLibrary.Core.SMTP
 
     public class JWSmtpFactory
     {
-        public static JWSmtpHelper CreateSMTPHelper(string connection, string userid, string password, int port)
+        public static ClientHelper CreateSMTPHelper(string connection, string userid, string password, int port, bool enableSsl)
         {
-            return new JWSmtpHelper(connection, userid, password, port);
+            return new ClientHelper(connection, userid, password, port, enableSsl);
         }
     }
 
-    public class JWSmtpHelper
+    public class ClientHelper
     {
-        string connection;
-        string userid;
-        string password;
-        int port;
+        string _host;
+        string _userId;
+        string _password;
+        int _port;
+        bool _enableSsl;
 
-        public List<SMTPDataModel> WorkList
+        public List<SendMessageModel> SendList
         {
-            get { return workList; }
+            get { return _sendList; }
         }
 
-        List<SMTPDataModel> workList = new List<SMTPDataModel>();
+        List<SendMessageModel> _sendList = new List<SendMessageModel>();
 
-        public event Action<object, SMTPDataModel> SendResultEvent;
+        public event Action<object, SendMessageModel> SendResultEvent;
 
-        public JWSmtpHelper(string connection, string userid, string password, int port)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="userid"></param>
+        /// <param name="password"></param>
+        /// <param name="port"></param>
+        /// <param name="enableSsl">gmail = true</param>
+        public ClientHelper(string connection, string userid, string password, int port, bool enableSsl)
         {
-            this.connection = connection;
-            this.userid = userid;
-            this.password = password;
-            this.port = port;
+            this._host = connection;
+            this._userId = userid;
+            this._password = password;
+            this._port = port;
+            this._enableSsl = enableSsl;
         }
 
-        public JWSmtpHelper AddWork(SMTPDataModel model)
+        public ClientHelper AddWork(SendMessageModel model)
         {
-            workList.Add(model);
+            _sendList.Add(model);
             return this;
         }
 
         public void BeginSend()
         {
-            foreach (var item in workList)
+            foreach (var item in _sendList)
             {
                 Send(item);
                 if (SendResultEvent != null)
                     SendResultEvent(this, item);
             }
 
-            workList.Clear();
+            _sendList.Clear();
         }
 
-        private void Send(SMTPDataModel model)
+        private void Send(SendMessageModel model)
         {
-            var smtp = new JWSmtp(connection, userid, password, port);
+            var smtp = new Client(_host, _userId, _password, _port, _enableSsl);
 
             if (smtp != null)
             {
-                smtp.SendEmail(
+                smtp.Send(
                     model.Name, model.From, model.To,
                     model.Body, model.Body,
                     model.AttachmentFilenames == null ? null : model.AttachmentFilenames.ToArray());
@@ -86,9 +96,9 @@ namespace JWLibrary.Core.SMTP
         }
     }
 
-    public class JWSmtp : IDisposable
+    public class Client : IDisposable
     {
-        public string SmtpConnection { get; private set; }
+        public string Host { get; private set; }
         public string Userid { get; private set; }
         public string Passwd { get; private set; }
         public int Port { get; private set; }
@@ -96,24 +106,32 @@ namespace JWLibrary.Core.SMTP
 
         private SmtpClient objSmtpClient;
 
-        public JWSmtp(string connection, string userid, string password, int port)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="userid"></param>
+        /// <param name="password"></param>
+        /// <param name="port"></param>
+        /// <param name="enableSsl">gmail : true</param>
+        public Client(string host, string userid, string password, int port, bool enableSsl)
         {
-            this.SmtpConnection = connection;
+            this.Host = host;
             this.Userid = userid;
             this.Passwd = password;
             this.Port = port;
 
-            objSmtpClient = new SmtpClient(SmtpConnection); // Server IP
+            objSmtpClient = new SmtpClient(Host); // Server IP
             objSmtpClient.Port = Port;
             objSmtpClient.UseDefaultCredentials = false;
             objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            objSmtpClient.EnableSsl = enableSsl;
 
-            System.Net.NetworkCredential objSMTPUserInfo = new System.Net.NetworkCredential();
-            objSMTPUserInfo = new System.Net.NetworkCredential(Userid, Passwd);
+            System.Net.NetworkCredential objSMTPUserInfo = new System.Net.NetworkCredential(Userid, Passwd);            
             objSmtpClient.Credentials = objSMTPUserInfo;
         }
 
-        public void SendEmail(string name
+        public void Send(string name
                             , string strFrom
                             , string strTo
                             , string strSubject
@@ -132,18 +150,21 @@ namespace JWLibrary.Core.SMTP
                 objMailMessage.Body = strBody;
 
                 string filePath = string.Empty;
-                foreach (string item in attachmentFilenames)
+                if (attachmentFilenames != null)
                 {
-                    filePath = "";
-                    if (!string.IsNullOrEmpty(item))
+                    foreach (string item in attachmentFilenames)
                     {
-                        filePath = AttFileName + item;
-
-                        if (File.Exists(filePath))
+                        filePath = "";
+                        if (!string.IsNullOrEmpty(item))
                         {
-                            System.Net.Mail.Attachment attachment;
-                            attachment = new System.Net.Mail.Attachment(filePath);
-                            objMailMessage.Attachments.Add(attachment);
+                            filePath = AttFileName + item;
+
+                            if (File.Exists(filePath))
+                            {
+                                System.Net.Mail.Attachment attachment;
+                                attachment = new System.Net.Mail.Attachment(filePath);
+                                objMailMessage.Attachments.Add(attachment);
+                            }
                         }
                     }
                 }
