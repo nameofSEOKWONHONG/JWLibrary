@@ -44,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JWHttp.cs" />
-    <Compile Include="JWWebRequest.cs" />
+    <Compile Include="HttpRequest.cs" />
+    <Compile Include="WebRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

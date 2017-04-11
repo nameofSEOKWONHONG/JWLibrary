@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Core.DataStructure
 {
-    public class OList<T> : List<T>, IEnumerable<T>
+    public class CircleList<T> : List<T>, IEnumerable<T>
         where T : class
     {
         private int index = 0;
@@ -18,12 +18,12 @@ namespace JWLibrary.Core.DataStructure
             }
         }
 
-        public OList()
+        public CircleList()
         {
 
         }
 
-        ~OList()
+        ~CircleList()
         {
             this.Clear();
         }
@@ -90,7 +90,7 @@ namespace JWLibrary.Core.DataStructure
             if (this.Count > index) { index = this.Count - 1; }
         }
 
-        public OList<T> Arrange(bool desc)
+        public CircleList<T> Arrange(bool desc)
         {
             List<T> templist = null;
             if (!desc)
@@ -101,7 +101,7 @@ namespace JWLibrary.Core.DataStructure
             {
                 templist = this.OrderByDescending(item => item).ToList();
             }
-            var circularList = new OList<T>();
+            var circularList = new CircleList<T>();
             circularList.AddRange(templist);
             return circularList;
         }

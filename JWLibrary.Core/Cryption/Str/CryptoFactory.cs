@@ -31,20 +31,30 @@ namespace JWLibrary.Core.Cryption.Str
 				return crypto.Decrypt(encryptedText, encryptKey, useHashing);
 			}
 
-			return null;
+            return null;
 		}
 	}
 
 	public enum SecurityType {
-		//SHA256
-		PSWD,
-		//SHA512
-		PSWD2,
-		//AES128
-		SSN,
-		//AES256
-		SSN2,
-		//MD5
-		SSN3
-	}
+        /// <summary>
+        /// SHA256
+        /// </summary>
+        PSWD,
+        /// <summary>
+        /// SHA512
+        /// </summary>
+        PSWD2,
+        /// <summary>
+        /// AES128
+        /// </summary>
+        SSN,
+        /// <summary>
+        /// AES256
+        /// </summary>
+        SSN2,
+        /// <summary>
+        /// MD5
+        /// </summary>
+        SSN3
+    }
 }

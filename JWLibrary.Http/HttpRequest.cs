@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Http
 {
-    public class JWHttp
+    public class HttpRequest
     {
         string _address;
         Uri _uri;
-        public JWHttp(string baseAddress)
+        public HttpRequest(string baseAddress)
         {
             _address = baseAddress;
             _uri = new Uri(_address);

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JWLibrary.Win32
 {
-    public class Win32Apis
+    public class WIN32Api
     {
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern IntPtr NtQueryInformationFile(IntPtr fileHandle, ref IO_STATUS_BLOCK IoStatusBlock, IntPtr pInfoBlock, uint length, FILE_INFORMATION_CLASS fileInformation);

@@ -4,13 +4,13 @@ using System.Collections;
 
 namespace JWLibrary.Firewall
 {
-    public class JWFirewall
+    public class FirewallHelper
     {
         private int[] portsSocket = null;//{ 777, 3306 };
         private string[] portsName = null;//{ "AsyncPort", "MySqlPort" };
         private INetFwProfile fwProfile = null;
 
-        public JWFirewall(int[] portsSocket, string[] portsName)
+        public FirewallHelper(int[] portsSocket, string[] portsName)
         {
             this.portsSocket = portsSocket;
             this.portsName = portsName;

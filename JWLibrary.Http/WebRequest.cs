@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace JWLibrary.Http
 {
-    public class JWWebRequest
+    public class WebRequest
     {
         public string GetToken(
             string fullUrl,
@@ -19,7 +19,7 @@ namespace JWLibrary.Http
 
             HttpWebResponse response = null;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
             //request.AllowAutoRedirect = false;
@@ -63,7 +63,7 @@ namespace JWLibrary.Http
         {
             HttpWebResponse response = null;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(fullUrl);
+            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
             request.Method = method;
             request.ContentType = "application/json; charset=utf-8";
             request.Headers.Add("Token", token);
@@ -96,7 +96,7 @@ namespace JWLibrary.Http
             try
             {
                 Uri uri = new Uri(url);
-                HttpWebRequest wReq = (HttpWebRequest)WebRequest.Create(uri);
+                HttpWebRequest wReq = (HttpWebRequest)System.Net.WebRequest.Create(uri);
                 wReq.Method = method;
                 wReq.ServicePoint.Expect100Continue = false;
                 wReq.CookieContainer = new CookieContainer();
@@ -164,7 +164,7 @@ namespace JWLibrary.Http
             HttpWebResponse response = null;
             string result = null;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
             //request.Proxy = new WebProxy("203.236.20.219", 8086);
@@ -199,7 +199,7 @@ namespace JWLibrary.Http
             HttpWebResponse response = null;
             string result = null;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
             //request.Proxy = new WebProxy("203.236.20.219", 8086);

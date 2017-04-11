@@ -54,7 +54,7 @@
     <Compile Include="DataStructure\BindingSort.cs" />
     <Compile Include="DataStructure\Collections\Generic\Stack.cs" />
     <Compile Include="DataStructure\Collections\Stack.cs" />
-    <Compile Include="DataStructure\OList.cs" />
+    <Compile Include="DataStructure\CircleList.cs" />
     <Compile Include="DataStructure\SortableBindingList.cs" />
     <Compile Include="Date\DateHelper.cs" />
     <Compile Include="DB\MSSQL\DataHelperFactory.cs" />
