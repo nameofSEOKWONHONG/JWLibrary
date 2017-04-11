@@ -69,6 +69,7 @@
     <Compile Include="DB\MSSQL\Module\MsSqlParameterHelper.cs" />
     <Compile Include="DB\MSSQL\ParameterHelperFactory.cs" />
     <Compile Include="DynamicInstanceLoader\Loader.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="FileIdentify\FileUniqueId.cs" />
     <Compile Include="FileWatcher\FileSystemWatcherEx.cs">
       <SubType>Component</SubType>
