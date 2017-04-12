@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>JWLibrary.Core</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <title>JWLibrary.Core</title>
     <authors>StoneCircle</authors>
     <owners>StoneCircle</owners>
@@ -10,7 +10,7 @@
 	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.Core</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.net framework commmon library (personal version.(support net45))</description>
-	<releaseNotes>fixed smtp error. name change of stmp class and method. </releaseNotes>
+	<releaseNotes>add smtp async method. </releaseNotes>
     <copyright>StoneCircle  2017</copyright>
     <dependencies>
 	</dependencies>

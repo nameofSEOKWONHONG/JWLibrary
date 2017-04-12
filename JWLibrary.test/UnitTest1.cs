@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JWLibrary.Core.Cryption.Str;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JWLibrary.test
 {
@@ -87,6 +88,29 @@ namespace JWLibrary.test
             Debug.WriteLine("Ciphertext\t: ");
             for (int i = 0; i < 32; i++) Debug.WriteLine((0xff & pbCipher[i]).ToString("X4") + " ");
             Debug.WriteLine("\n\n");
+        }
+
+        [TestMethod]
+        public void TestMethod4()
+        {
+            JWLibrary.Core.SMTP.Client client = new Core.SMTP.Client("smtp.gmail.com", "", "", 587 , true);
+            Task t = client.SendAsync("","","","","",null);
+            t.ContinueWith(task =>
+            {
+                if (task.IsFaulted)
+                {
+
+                }
+                else if(task.IsCanceled)
+                {
+
+                }
+                else
+                {
+
+                }
+            });
+            t.Wait();
         }
     }
 }

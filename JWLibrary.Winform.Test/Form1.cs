@@ -41,7 +41,7 @@ namespace JWLibrary.Winform.Test
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.jwFlowLayoutPanel1.Clear();
+            this.jwFlowLayoutPanel1.Clear();            
         }
 
         private void button2_Click(object sender, EventArgs e)

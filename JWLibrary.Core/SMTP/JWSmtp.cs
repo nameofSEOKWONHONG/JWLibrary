@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Core.SMTP
 {
-    public class SendMessageModel
+    public class SendMailModel
     {
         public string Name { get; set; }
         public string From { get; set; }
@@ -18,9 +18,9 @@ namespace JWLibrary.Core.SMTP
         public List<string> AttachmentFilenames { get; set; }
     }
 
-    public class JWSmtpFactory
+    public class ClientFactory
     {
-        public static ClientHelper CreateSMTPHelper(string connection, string userid, string password, int port, bool enableSsl)
+        public static ClientHelper Create(string connection, string userid, string password, int port, bool enableSsl)
         {
             return new ClientHelper(connection, userid, password, port, enableSsl);
         }
@@ -34,14 +34,14 @@ namespace JWLibrary.Core.SMTP
         int _port;
         bool _enableSsl;
 
-        public List<SendMessageModel> SendList
+        public List<SendMailModel> SendList
         {
             get { return _sendList; }
         }
 
-        List<SendMessageModel> _sendList = new List<SendMessageModel>();
+        List<SendMailModel> _sendList = new List<SendMailModel>();
 
-        public event Action<object, SendMessageModel> SendResultEvent;
+        public event Action<object, SendMailModel> SendResultEvent;
 
         /// <summary>
         /// 
@@ -60,7 +60,7 @@ namespace JWLibrary.Core.SMTP
             this._enableSsl = enableSsl;
         }
 
-        public ClientHelper AddWork(SendMessageModel model)
+        public ClientHelper AddWork(SendMailModel model)
         {
             _sendList.Add(model);
             return this;
@@ -78,7 +78,7 @@ namespace JWLibrary.Core.SMTP
             _sendList.Clear();
         }
 
-        private void Send(SendMessageModel model)
+        private void Send(SendMailModel model)
         {
             var smtp = new Client(_host, _userId, _password, _port, _enableSsl);
 
@@ -140,50 +140,105 @@ namespace JWLibrary.Core.SMTP
         {
             MailMessage objMailMessage = new MailMessage();
 
-            try
+            objMailMessage.From = new MailAddress(strFrom, name);
+            objMailMessage.To.Add(new MailAddress(strTo));
+            objMailMessage.BodyEncoding = Encoding.UTF8;//Encoding.GetEncoding("EUC-KR");                
+            objMailMessage.IsBodyHtml = true;
+            objMailMessage.Subject = strSubject;
+            objMailMessage.Body = strBody;
+
+            string filePath = string.Empty;
+            if (attachmentFilenames != null)
             {
-                objMailMessage.From = new MailAddress(strFrom, name);
-                objMailMessage.To.Add(new MailAddress(strTo));
-                objMailMessage.BodyEncoding = Encoding.UTF8;//Encoding.GetEncoding("EUC-KR");                
-                objMailMessage.IsBodyHtml = true;
-                objMailMessage.Subject = strSubject;
-                objMailMessage.Body = strBody;
-
-                string filePath = string.Empty;
-                if (attachmentFilenames != null)
+                foreach (string item in attachmentFilenames)
                 {
-                    foreach (string item in attachmentFilenames)
+                    filePath = "";
+                    if (!string.IsNullOrEmpty(item))
                     {
-                        filePath = "";
-                        if (!string.IsNullOrEmpty(item))
-                        {
-                            filePath = AttFileName + item;
+                        filePath = AttFileName + item;
 
-                            if (File.Exists(filePath))
-                            {
-                                System.Net.Mail.Attachment attachment;
-                                attachment = new System.Net.Mail.Attachment(filePath);
-                                objMailMessage.Attachments.Add(attachment);
-                            }
+                        if (File.Exists(filePath))
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(filePath);
+                            objMailMessage.Attachments.Add(attachment);
                         }
                     }
                 }
-                objSmtpClient.Send(objMailMessage);
             }
-            catch (SmtpException ex)
-            {
-                throw;
-            }
-            finally
-            {
-                objMailMessage.Dispose();
-                objMailMessage = null;
-            }
+            objSmtpClient.Send(objMailMessage);
+            objMailMessage.Dispose();
         }
 
         public void Dispose()
         {
-			objSmtpClient.Dispose();
+            objSmtpClient.Dispose();
+        }
+
+        public Task SendAsync(string name
+                                    , string strFrom
+                                    , string strTo
+                                    , string strSubject
+                                    , string strBody
+                                    , string[] attachmentFilenames)
+        {
+            TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();
+            Guid sendGuid = Guid.NewGuid();
+            
+            MailMessage objMailMessage = new MailMessage();
+
+            objMailMessage.From = new MailAddress(strFrom, name);
+            objMailMessage.To.Add(new MailAddress(strTo));
+            objMailMessage.BodyEncoding = Encoding.UTF8;//Encoding.GetEncoding("EUC-KR");                
+            objMailMessage.IsBodyHtml = true;
+            objMailMessage.Subject = strSubject;
+            objMailMessage.Body = strBody;
+
+            string filePath = string.Empty;
+            if (attachmentFilenames != null)
+            {
+                foreach (string item in attachmentFilenames)
+                {
+                    filePath = "";
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        filePath = AttFileName + item;
+
+                        if (File.Exists(filePath))
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(filePath);
+                            objMailMessage.Attachments.Add(attachment);
+                        }
+                    }
+                }
+            }
+
+            SendCompletedEventHandler handler = null;
+            handler = (o, ea) =>
+            {
+                if (ea.UserState is Guid && ((Guid)ea.UserState) == sendGuid)
+                {
+                    objSmtpClient.SendCompleted -= handler;
+                    if (ea.Cancelled)
+                    {
+                        tcs.SetCanceled();
+                    }
+                    else if (ea.Error != null)
+                    {
+                        tcs.SetException(ea.Error);
+                    }
+                    else
+                    {
+                        tcs.SetResult(null);
+                    }
+                    objMailMessage.Dispose();
+                }
+            };
+            objSmtpClient.SendCompleted += handler;
+            objSmtpClient.SendAsync(objMailMessage, sendGuid);
+
+            return tcs.Task;
         }
     }
 }
