@@ -1,8 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FullFramework", "FullFramework", "{D5C64493-591E-4871-90D6-B6C9194D9324}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetStandard", "NetStandard", "{473D741E-FA76-4680-AA7E-D110D7AD4B73}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.test", "JWLibrary.test\JWLibrary.test.csproj", "{2722A56C-596A-4051-B31C-0146AD213C16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.DB.MySql", "JWLibrary.DB.MYSQL\JWLibrary.DB.MySql.csproj", "{28141F0E-93B4-47D5-850E-6738ED920F6A}"
@@ -35,13 +39,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Core", "JWLibrary
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.FFmpeg.Test", "JWLibrary.FFmpeg.Test\JWLibrary.FFmpeg.Test.csproj", "{63870E05-54C9-488C-BE18-DB621DEC1326}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JWLibrary.Core.NetStandard", "JWLibrary.Core.NetStandard\JWLibrary.Core.NetStandard.xproj", "{C4087431-7B0B-4F3E-BFF1-E5B361188E49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Core.NetStandard", "JWLibrary.Core.NetStandard\JWLibrary.Core.NetStandard.csproj", "{C4087431-7B0B-4F3E-BFF1-E5B361188E49}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "JWLibrary.Core.NetStandard.Test", "JWLibrary.Core.NetStandard.Test\JWLibrary.Core.NetStandard.Test.xproj", "{22886559-0CF6-460C-871D-5C2026E823B5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FullFramework", "FullFramework", "{D5C64493-591E-4871-90D6-B6C9194D9324}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetStandard", "NetStandard", "{473D741E-FA76-4680-AA7E-D110D7AD4B73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Core.NetStandard.Test", "JWLibrary.Core.NetStandard.Test\JWLibrary.Core.NetStandard.Test.csproj", "{22886559-0CF6-460C-871D-5C2026E823B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

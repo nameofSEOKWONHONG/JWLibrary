@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>JWLibrary.FFmpeg</id>
+    <version>0.1.3</version>
+    <title>JWLibrary.FFmpeg</title>
+    <authors>StoneCircle</authors>
+    <owners>StoneCircle</owners>
+	<licenseUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/blob/master/LICENSE</licenseUrl>
+	<projectUrl>https://github.com/GuyFawkesFromKorea/JWLibrary/tree/master/JWLibrary.FFmpeg</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Desktop Recording library(For winform, wpf)</description>
+	<releaseNotes>beta version. (If you execute this module, you must run as administrator account.)</releaseNotes>
+    <copyright>StoneCircle  2017</copyright>
+	<frameworkAssemblies>
+		<frameworkAssembly assemblyName="System.Drawing" />
+		<frameworkAssembly assemblyName="System.Windows.Form" />
+	</frameworkAssemblies>
+	<tags>recording ffmpeg c#</tags>
+  </metadata>
+</package>

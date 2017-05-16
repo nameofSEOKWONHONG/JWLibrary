@@ -49,6 +49,12 @@
     <Compile Include="OsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj">
+      <Project>{37ff01ad-9c00-47fb-aff0-b8f9084b91d1}</Project>
+      <Name>JWLibrary.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -79,6 +79,9 @@ namespace JWLibrary.FFmpeg
             {
                 RunProcess.Kill();
                 Thread.Sleep(100);
+
+                RunProcess.CancelOutputRead();
+                RunProcess.CancelErrorRead();
             }
         }
         #endregion

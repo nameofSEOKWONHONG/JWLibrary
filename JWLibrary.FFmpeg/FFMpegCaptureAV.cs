@@ -1,9 +1,11 @@
 ﻿using JWLibrary.FFmpeg.Properties;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace JWLibrary.FFmpeg
 {
@@ -134,6 +136,33 @@ namespace JWLibrary.FFmpeg
             process.Close();
 
             File.Delete(registerPath);
+
+            RegistryWrite();
+        }
+
+        private void RegistryWrite()
+        {
+            var screen = Screen.PrimaryScreen;
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+            if (key == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey("software\\screen-capture-recorder", RegistryKeyPermissionCheck.ReadWriteSubTree);
+            }
+
+            var height = key.GetValue("capture_height");
+
+            if (Convert.ToDouble(height) != screen.Bounds.Height)
+            {
+                key.SetValue("capture_height", screen.Bounds.Height, RegistryValueKind.DWord);
+            }
+
+            var width = key.GetValue("capture_width");
+            if (Convert.ToDouble(width) != screen.Bounds.Width)
+            {
+                key.SetValue("capture_width", screen.Bounds.Width, RegistryValueKind.DWord);
+            }
+            key.SetValue("start_x", 0, RegistryValueKind.DWord);
+            key.SetValue("start_y", 0, RegistryValueKind.DWord);
         }
 
         /// <summary>
@@ -231,7 +260,7 @@ namespace JWLibrary.FFmpeg
                 {
                     int startIndex = e.Data.IndexOf("time=") + 5;
                     _param = e.Data.Split(new string[] { "=", " " }, StringSplitOptions.RemoveEmptyEntries);
-
+                    
                     OnDataReceived(this, 
                         new FFmpegDataReceiveArgs(
                             e.Data.Substring(startIndex, 11), _param[3], _param[1]));
@@ -239,7 +268,7 @@ namespace JWLibrary.FFmpeg
                 
                 if(e.Data.ToUpper().Contains("ERROR"))
                 {
-                    ErrorOccured(sender, e);
+                    OnErrorOccured(this, e);
                 }
             }
         }
