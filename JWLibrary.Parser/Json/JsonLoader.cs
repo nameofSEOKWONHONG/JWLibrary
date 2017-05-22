@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 
-namespace JWLibrary.SettingLoader.Json
+namespace JWLibrary.Parser.Json
 {
     public class JsonLoader<T> where T : class
     {

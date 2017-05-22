@@ -7,10 +7,11 @@
     <ProjectGuid>{A36CD745-67A8-413E-B1D4-ACF1D0771013}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JWLibrary.SettingLoader</RootNamespace>
-    <AssemblyName>JWLibrary.SettingLoader</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>JWLibrary.Parser</RootNamespace>
+    <AssemblyName>JWLibrary.Parser</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

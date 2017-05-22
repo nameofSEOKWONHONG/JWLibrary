@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace JWLibrary.SettingLoader.Xml
+namespace JWLibrary.Parser.Xml
 {
     // T는 [Serializable]을 가져야 함    
     public class XmlLoader<T>
