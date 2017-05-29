@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -84,6 +85,7 @@
     <Compile Include="GZip\GZipStringCompress.cs" />
     <Compile Include="GZip\ICompress.cs" />
     <Compile Include="ExecuteLocation\PathInfo.cs" />
+    <Compile Include="Images\ImageHelper.cs" />
     <Compile Include="Log\FileLogger.cs" />
     <Compile Include="Log\JWDbLogger.cs" />
     <Compile Include="Log\JWFileLogger.cs" />
