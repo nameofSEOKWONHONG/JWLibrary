@@ -20,7 +20,7 @@ namespace JWLibrary.Core.Extensions
         {
             if (value.Contains("-"))
             {
-                return string.Format("{0}-{1}", value. (6), "*******");
+                return string.Format("{0}-{1}", value.FirstGetByLength(6), "*******");
             }
 
             return string.Format("{0}{1}", value.FirstGetByLength(6), "*******");
