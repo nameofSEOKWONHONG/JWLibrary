@@ -161,7 +161,7 @@ namespace JWLibrary.OSI
 				_totalTimer.Dispose();
 				_totalTimer = null;
 			}
-		}
+		}        
 	}
 
 	public class CpuUseRateChangedEventArgs : EventArgs {

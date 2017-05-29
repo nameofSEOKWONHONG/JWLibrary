@@ -5,14 +5,14 @@ namespace JWLibrary.FFmpeg
 {
     public class FFmpegCommandBuilder
     {
-        public static string BuildRecordingCommand(RecordingTypes rType, FFmpegCommandModel model)
+        public static string BuildRecordingCommand(RecordingTypes rType, FFmpegCommandModel model, bool IsNEVNC)
         {
             switch (rType)
             {
                 case RecordingTypes.Local:
-                    return BuildRecordingCommandForLocal(model);
+                    return BuildRecordingCommandForLocal(model, IsNEVNC);
                 case RecordingTypes.TwitchTV:
-                    return BuildRecordingCommandForTwitchTV(model);
+                    return BuildRecordingCommandForTwitchTV(model, IsNEVNC);
                 case RecordingTypes.YouTube:
                     throw new Exception("This type was not implemented.");
                 default:
@@ -25,11 +25,16 @@ namespace JWLibrary.FFmpeg
         /// </summary>
         /// <param name="model"></param>
         /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForLocal(FFmpegCommandModel model)
+        private static string BuildRecordingCommandForLocal(FFmpegCommandModel model, bool IsNEVNC)
         {
             var tuple = ChecWHValue(model.Width, model.Height);
 
-            string command = CommandConst.GET_DESKTOP_RECODING_COMMAND();
+            string command = "";
+            if(!IsNEVNC)
+                command = CommandConst.GET_DESKTOP_RECORDING_COMMAND();
+            else
+                command = CommandConst.GET_DESKTOP_RECORDING_COMMAND_NVIDIA();
+
             command = command.Replace("@videoSource", model.VideoSource);
             command = command.Replace("@audioSource", model.AudioSource);
             command = command.Replace("@x", model.OffsetX);
@@ -43,6 +48,8 @@ namespace JWLibrary.FFmpeg
             command = command.Replace("@option1", model.Option1);
             command = command.Replace("@filename", model.FullFileName);
             command = command.Replace("@outputquality", model.OutPutQuality);
+            command = command.Replace("@cpucore", model.CpuCore);
+
             return command;
         }
 
@@ -92,7 +99,7 @@ namespace JWLibrary.FFmpeg
         /// </summary>
         /// <param name="model"></param>
         /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForTwitchTV(FFmpegCommandModel model)
+        private static string BuildRecordingCommandForTwitchTV(FFmpegCommandModel model, bool IsNEVNC)
         {
             string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
             command = command.Replace("@videoSource", model.VideoSource);

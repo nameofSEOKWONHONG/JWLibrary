@@ -112,5 +112,22 @@ namespace JWLibrary.test
             });
             t.Wait();
         }
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+        }
+
+        [TestMethod]
+        public void TestMethod6()
+        {
+            JWLibrary.OSI.GraphicCardInfo gcinfo = new OSI.GraphicCardInfo();
+            var info = gcinfo.GetVideoCardInfo();
+
+            if(info != null)
+            {
+
+            }
+        }
     }
 }

@@ -62,6 +62,10 @@
       <Project>{41464a67-e8bf-4b88-bbcc-ae878b1bd365}</Project>
       <Name>JWLibrary.FFmpeg</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JWLibrary.Hardware\JWLibrary.OSI.csproj">
+      <Project>{271ec4ea-adc3-4e97-a1f9-f5da8e578144}</Project>
+      <Name>JWLibrary.OSI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

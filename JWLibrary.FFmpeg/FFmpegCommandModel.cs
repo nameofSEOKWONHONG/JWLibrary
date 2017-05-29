@@ -6,7 +6,7 @@
         {
             this._outPutQuality = "30";
             this._videoSource = "screen-capture-recorder";
-            this._audioSource = "virtual-audio-capturer";
+            this._audioSource = "virtual-audio-capturer";            
         }
 
         private string _videoSource;
@@ -187,5 +187,19 @@
                 this._outPutQuality = value;
             }
         }
+
+        private string _cpuCore;
+        public string CpuCore
+        {
+            get
+            {
+                return _cpuCore;
+            }
+
+            set
+            {
+                _cpuCore = value;
+            }
+        }        
     }
 }

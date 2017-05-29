@@ -45,6 +45,7 @@
     <Compile Include="Audio.cs" />
     <Compile Include="CpuInfo.cs" />
     <Compile Include="DisplaySetting.cs" />
+    <Compile Include="GraphicCardInfo.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="OsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
