@@ -255,3 +255,8 @@ paket-files/
 /JWLibrary.FFmpeg/nuget.exe
 /Nuget/JWLibrary.FFmpeg.0.1.4
 /Nuget/JWLibrary.FFmpeg.0.1.4
+/Nuget/JWLibrary.Core
+/Nuget/JWLibrary.FFmpeg
+/Nuget/JWLibrary.OSI
+/Nuget/JWLibrary.SettingLoader
+/Nuget/JWLibrary.Winform
