@@ -163,6 +163,19 @@ namespace JWLibrary.FFmpeg
             }
             key.SetValue("start_x", 0, RegistryValueKind.DWord);
             key.SetValue("start_y", 0, RegistryValueKind.DWord);
+            key.SetValue("default_max_fps", 30, RegistryValueKind.DWord);
+        }
+
+        public void SetFPS(int fps)
+        {            
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+
+            if (key == null)
+            {
+                RegistryWrite();
+            }
+
+            key.SetValue("default_max_fps", fps, RegistryValueKind.DWord);
         }
 
         /// <summary>
