@@ -20,6 +20,10 @@ namespace JWLibrary.FFmpeg
             sfr.Add("10");
             sfr.Add("20");
             sfr.Add("30");
+            sfr.Add("40");
+            sfr.Add("50");
+            sfr.Add("59");
+            sfr.Add("60");
 
             return sfr;
         }
