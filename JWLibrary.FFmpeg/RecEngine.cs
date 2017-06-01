@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace JWLibrary.FFmpeg
 {
-    public class FFMpegCaptureAV : IDisposable
+    public class RecEngine : IDisposable
     {
         #region delegate events        
         public event EventHandler<FFmpegDataReceiveArgs> FFmpegDataReceived;
@@ -61,7 +61,7 @@ namespace JWLibrary.FFmpeg
         #endregion
 
         #region constructor
-        public FFMpegCaptureAV()
+        public RecEngine()
         {
             this._cmdHelper = new CLIHelper();
             this._frameDropChecker = new FrameDropChecker();
@@ -166,7 +166,7 @@ namespace JWLibrary.FFmpeg
             key.SetValue("default_max_fps", 60, RegistryValueKind.DWord);
         }
 
-        public void SetFPS(int fps)
+        public void SetDefaultMaxFPS(int fps)
         {            
             RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
 
@@ -298,7 +298,7 @@ namespace JWLibrary.FFmpeg
         #endregion
 
         #region functions
-        public void RecordingStart(string arguments)
+        public void RecStart(string arguments)
         {
             if (IsRequireFile())
             {
@@ -312,7 +312,7 @@ namespace JWLibrary.FFmpeg
         /// <summary>
         /// ffmpeg recording stop.
         /// </summary>        
-        public void RecordingStop()
+        public void RecStop()
         {
             IsRunning = false;
 
@@ -324,7 +324,7 @@ namespace JWLibrary.FFmpeg
         /// ffmpeg command process force stop.
         /// (process killed.)
         /// </summary>
-        public void RecordingForceStop()
+        public void RecForceStop()
         {
             this._cmdHelper.CommandLineStop();
             this._frameDropChecker.FrameDropCheckStop();

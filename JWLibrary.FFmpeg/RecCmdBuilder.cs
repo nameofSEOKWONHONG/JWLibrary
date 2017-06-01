@@ -4,35 +4,35 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.FFmpeg
 {
-    public class FFmpegCommandBuilder
+    public class RecCmdBuilder
     {
-        private FFmpegCommandModel _ffmpegCmdModel = null;
-        private RecordingTypes _type;
+        private RecCmd _ffmpegCmdModel = null;
+        private RecTypes _type;
 
-        public FFmpegCommandBuilder()
+        public RecCmdBuilder()
         {
-            _ffmpegCmdModel = new FFmpegCommandModel();
+            _ffmpegCmdModel = new RecCmd();
         }
 
-        public FFmpegCommandBuilder SetRecordingType(RecordingTypes type)
+        public RecCmdBuilder SetRecordingType(RecTypes type)
         {
             _type = type;
             return this;
         }
 
-        public FFmpegCommandBuilder SetVideoSource(string videoSourceName)
+        public RecCmdBuilder SetVideoSource(string videoSourceName)
         {
             _ffmpegCmdModel.VideoSource = videoSourceName;
             return this;
         }
 
-        public FFmpegCommandBuilder SetAudioSource(string audioSourceName)
+        public RecCmdBuilder SetAudioSource(string audioSourceName)
         {
             _ffmpegCmdModel.AudioSource = audioSourceName;
             return this;
         }
 
-        public FFmpegCommandBuilder SetOffsetX(string offsetX)
+        public RecCmdBuilder SetOffsetX(string offsetX)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
             if (key == null)
@@ -44,7 +44,7 @@ namespace JWLibrary.FFmpeg
             return this;
         }
 
-        public FFmpegCommandBuilder SetOffsetY(string offsetY)
+        public RecCmdBuilder SetOffsetY(string offsetY)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
             if (key == null)
@@ -56,7 +56,7 @@ namespace JWLibrary.FFmpeg
             return this;
         }
 
-        public FFmpegCommandBuilder SetWidth(string width)
+        public RecCmdBuilder SetWidth(string width)
         {            
             RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
             if (key == null)
@@ -68,7 +68,7 @@ namespace JWLibrary.FFmpeg
             return this;
         }
 
-        public FFmpegCommandBuilder SetHeight(string height)
+        public RecCmdBuilder SetHeight(string height)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
             if (key == null)
@@ -80,49 +80,49 @@ namespace JWLibrary.FFmpeg
             return this;
         }
 
-        public FFmpegCommandBuilder SetFrameRate(string framerate)
+        public RecCmdBuilder SetFrameRate(string framerate)
         {
             _ffmpegCmdModel.FrameRate = framerate;
             return this;
         }
 
-        public FFmpegCommandBuilder SetPreset(string preset)
+        public RecCmdBuilder SetPreset(string preset)
         {
             _ffmpegCmdModel.Preset = preset;
             return this;
         }
 
-        public FFmpegCommandBuilder SetAudioQuality(string audioquality)
+        public RecCmdBuilder SetAudioQuality(string audioquality)
         {
             _ffmpegCmdModel.AudioQuality = audioquality;
             return this;
         }
 
-        public FFmpegCommandBuilder SetFileFormat(string format = "mp4")
+        public RecCmdBuilder SetFileFormat(string format = "mp4")
         {
             _ffmpegCmdModel.Format = format;
             return this;
         }
 
-        public FFmpegCommandBuilder SetOption(string option)
+        public RecCmdBuilder SetOption(string option)
         {
             _ffmpegCmdModel.Option1 = option;
             return this;
         }
 
-        public FFmpegCommandBuilder SetFileName(string filename)
+        public RecCmdBuilder SetFileName(string filename)
         {
             _ffmpegCmdModel.FullFileName = filename;
             return this;
         }
 
-        public FFmpegCommandBuilder SetCpuCore(string corenum)
+        public RecCmdBuilder SetCpuCore(string corenum)
         {
             _ffmpegCmdModel.CpuCore = corenum;
             return this;
         }
 
-        public FFmpegCommandBuilder SetNVENC(bool isNVENC)
+        public RecCmdBuilder SetNVENC(bool isNVENC)
         {
             _ffmpegCmdModel.IsNVENC = isNVENC;
             return this;
@@ -131,19 +131,19 @@ namespace JWLibrary.FFmpeg
         public bool Build(out string cmd)
         {
             cmd = string.Empty;
-            if(_type == RecordingTypes.Local)
+            if(_type == RecTypes.Local)
             {
                 if(!_ffmpegCmdModel.IsNVENC)
-                    cmd = CommandConst.GET_DESKTOP_RECORDING_COMMAND();
+                    cmd = RecCmdConst.GET_REC_CMD();
                 else
-                    cmd = CommandConst.GET_DESKTOP_RECORDING_COMMAND_NVIDIA();
+                    cmd = RecCmdConst.GET_REC_CMD_FOR_NVENC();
             }
-            else if(_type == RecordingTypes.TwitchTV)
+            else if(_type == RecTypes.TwitchTV)
             {
                 if (!_ffmpegCmdModel.IsNVENC)
-                    cmd = CommandConst.GET_TWITCH_LIVE_COMMNAD();
+                    cmd = RecCmdConst.GET_TWITCH_CMD();
                 else
-                    cmd = CommandConst.GET_TWITCH_LIVE_COMMNAD_NVIDIA();
+                    cmd = RecCmdConst.GET_TWITCH_CMD_FOR_NVENC();
             }
 
             cmd = cmd.Replace("@videoSource", _ffmpegCmdModel.VideoSource);

@@ -2,7 +2,7 @@
 
 namespace JWLibrary.FFmpeg
 {
-    public class FFmpegCommandParameterSupport
+    public class RecCmdParameters
     {
         public static List<string> GetSupportFPS()
         {

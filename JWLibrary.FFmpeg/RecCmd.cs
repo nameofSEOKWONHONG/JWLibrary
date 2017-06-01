@@ -1,8 +1,8 @@
 ﻿namespace JWLibrary.FFmpeg
 {
-    internal class FFmpegCommandModel
+    internal class RecCmd
     {
-        public FFmpegCommandModel()
+        public RecCmd()
         {
             this._outPutQuality = "30";
             this._videoSource = "screen-capture-recorder";

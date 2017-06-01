@@ -1,6 +1,6 @@
 ﻿namespace JWLibrary.FFmpeg
 {
-    public enum RecordingTypes
+    public enum RecTypes
     {
         Local,
         TwitchTV,
