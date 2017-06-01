@@ -1,6 +1,6 @@
 ﻿namespace JWLibrary.FFmpeg
 {
-    public class FFmpegCommandModel
+    internal class FFmpegCommandModel
     {
         public FFmpegCommandModel()
         {
@@ -201,5 +201,7 @@
                 _cpuCore = value;
             }
         }        
+
+        public bool IsNVENC { get; set; }
     }
 }

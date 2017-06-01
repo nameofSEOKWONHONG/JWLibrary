@@ -215,12 +215,22 @@ namespace JWLibrary.FFmpeg
             process.WaitForExit();
 
             Debug.WriteLine("ExitCode: {0}", process.ExitCode);
-            process.Close();
+            process.Close();            
 
             File.Delete(registerPath);
             Thread.Sleep(500);
-            File.Delete(audioSnifferFilePath);
-            Thread.Sleep(500);
+
+            try
+            {
+                File.Delete(audioSnifferFilePath);
+                Thread.Sleep(500);
+            }
+            catch
+            {
+                //why happen delete error???
+                //for only twitch mode
+            }
+
             File.Delete(scrFilePath);
             Thread.Sleep(500);
         }
@@ -314,7 +324,7 @@ namespace JWLibrary.FFmpeg
         /// ffmpeg command process force stop.
         /// (process killed.)
         /// </summary>
-        public void FFmpegForceStop()
+        public void RecordingForceStop()
         {
             this._cmdHelper.CommandLineStop();
             this._frameDropChecker.FrameDropCheckStop();

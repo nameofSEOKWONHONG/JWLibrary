@@ -1,121 +1,204 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Threading.Tasks;
 
 namespace JWLibrary.FFmpeg
 {
     public class FFmpegCommandBuilder
     {
-        public static string BuildRecordingCommand(RecordingTypes rType, FFmpegCommandModel model, bool IsNEVNC)
+        private FFmpegCommandModel _ffmpegCmdModel = null;
+        private RecordingTypes _type;
+
+        public FFmpegCommandBuilder()
         {
-            switch (rType)
+            _ffmpegCmdModel = new FFmpegCommandModel();
+        }
+
+        public FFmpegCommandBuilder SetRecordingType(RecordingTypes type)
+        {
+            _type = type;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetVideoSource(string videoSourceName)
+        {
+            _ffmpegCmdModel.VideoSource = videoSourceName;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetAudioSource(string audioSourceName)
+        {
+            _ffmpegCmdModel.AudioSource = audioSourceName;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetOffsetX(string offsetX)
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+            if (key == null)
             {
-                case RecordingTypes.Local:
-                    return BuildRecordingCommandForLocal(model, IsNEVNC);
-                case RecordingTypes.TwitchTV:
-                    return BuildRecordingCommandForTwitchTV(model, IsNEVNC);
-                case RecordingTypes.YouTube:
-                    throw new Exception("This type was not implemented.");
-                default:
-                    throw new Exception("Unknown type.");
+                key = Registry.CurrentUser.CreateSubKey("software\\screen-capture-recorder", RegistryKeyPermissionCheck.ReadWriteSubTree);
             }
+            key.SetValue("start_x", offsetX , RegistryValueKind.DWord);
+            
+            return this;
         }
 
-        /// <summary>
-        /// making ffmpeg command string
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForLocal(FFmpegCommandModel model, bool IsNEVNC)
+        public FFmpegCommandBuilder SetOffsetY(string offsetY)
         {
-            var tuple = ChecWHValue(model.Width, model.Height);
-
-            string command = "";
-            if(!IsNEVNC)
-                command = CommandConst.GET_DESKTOP_RECORDING_COMMAND();
-            else
-                command = CommandConst.GET_DESKTOP_RECORDING_COMMAND_NVIDIA();
-
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", tuple.Item1);
-            command = command.Replace("@height", tuple.Item2);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@filename", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            command = command.Replace("@cpucore", model.CpuCore);
-
-            return command;
-        }
-
-        private static Tuple<string, string> ChecWHValue(string width, string height)
-        {
-            var tempWidth = 0;
-            var tempHeight = 0;
-
-            Task t1 = new Task(() =>
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+            if (key == null)
             {
-                if (int.TryParse(width, out tempWidth))
-                {
-                    while (true)
-                    {
-                        if (tempWidth % 2 == 0)
-                            break;
-
-                        tempWidth++;
-                    }
-                }
-            });
-
-            Task t2 = new Task(() =>
-            {
-                if (int.TryParse(height, out tempHeight))
-                {
-                    while (true)
-                    {
-                        if (tempHeight % 2 == 0)
-                            break;
-
-                        tempHeight++;
-
-                    }
-                }
-            });
-
-            t1.Start();t2.Start();
-            Task.WaitAll(new[] { t1, t2 });
-
-
-            return new Tuple<string, string>(tempWidth.ToString(), tempHeight.ToString());
+                key = Registry.CurrentUser.CreateSubKey("software\\screen-capture-recorder", RegistryKeyPermissionCheck.ReadWriteSubTree);
+            }
+            key.SetValue("start_y", offsetY, RegistryValueKind.DWord);
+            
+            return this;
         }
 
-        /// <summary>
-        /// not support yet.
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns>builded ffmpeg command string</returns>
-        private static string BuildRecordingCommandForTwitchTV(FFmpegCommandModel model, bool IsNEVNC)
+        public FFmpegCommandBuilder SetWidth(string width)
+        {            
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+            if (key == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey("software\\screen-capture-recorder", RegistryKeyPermissionCheck.ReadWriteSubTree);
+            }
+            key.SetValue("capture_width", LengthNormalize(width), RegistryValueKind.DWord);
+
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetHeight(string height)
         {
-            string command = CommandConst.GET_TWITCH_LIVE_COMMNAD();
-            command = command.Replace("@videoSource", model.VideoSource);
-            command = command.Replace("@audioSource", model.AudioSource);
-            command = command.Replace("@x", model.OffsetX);
-            command = command.Replace("@y", model.OffsetY);
-            command = command.Replace("@width", model.Width);
-            command = command.Replace("@height", model.Height);
-            command = command.Replace("@framerate", model.FrameRate);
-            command = command.Replace("@preset", model.Preset);
-            command = command.Replace("@audioRate", model.AudioQuality);
-            command = command.Replace("@format", model.Format);
-            command = command.Replace("@option1", model.Option1);
-            command = command.Replace("@liveUrl", model.FullFileName);
-            command = command.Replace("@outputquality", model.OutPutQuality);
-            return command;
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("software\\screen-capture-recorder", true);
+            if (key == null)
+            {
+                key = Registry.CurrentUser.CreateSubKey("software\\screen-capture-recorder", RegistryKeyPermissionCheck.ReadWriteSubTree);
+            }
+            key.SetValue("capture_height", LengthNormalize(height), RegistryValueKind.DWord);
+
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetFrameRate(string framerate)
+        {
+            _ffmpegCmdModel.FrameRate = framerate;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetPreset(string preset)
+        {
+            _ffmpegCmdModel.Preset = preset;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetAudioQuality(string audioquality)
+        {
+            _ffmpegCmdModel.AudioQuality = audioquality;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetFileFormat(string format = "mp4")
+        {
+            _ffmpegCmdModel.Format = format;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetOption(string option)
+        {
+            _ffmpegCmdModel.Option1 = option;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetFileName(string filename)
+        {
+            _ffmpegCmdModel.FullFileName = filename;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetCpuCore(string corenum)
+        {
+            _ffmpegCmdModel.CpuCore = corenum;
+            return this;
+        }
+
+        public FFmpegCommandBuilder SetNVENC(bool isNVENC)
+        {
+            _ffmpegCmdModel.IsNVENC = isNVENC;
+            return this;
+        }
+
+        public bool Build(out string cmd)
+        {
+            cmd = string.Empty;
+            if(_type == RecordingTypes.Local)
+            {
+                if(!_ffmpegCmdModel.IsNVENC)
+                    cmd = CommandConst.GET_DESKTOP_RECORDING_COMMAND();
+                else
+                    cmd = CommandConst.GET_DESKTOP_RECORDING_COMMAND_NVIDIA();
+            }
+            else if(_type == RecordingTypes.TwitchTV)
+            {
+                if (!_ffmpegCmdModel.IsNVENC)
+                    cmd = CommandConst.GET_TWITCH_LIVE_COMMNAD();
+                else
+                    cmd = CommandConst.GET_TWITCH_LIVE_COMMNAD_NVIDIA();
+            }
+
+            cmd = cmd.Replace("@videoSource", _ffmpegCmdModel.VideoSource);
+            cmd = cmd.Replace("@audioSource", _ffmpegCmdModel.AudioSource);
+            //cmd = cmd.Replace("@x", _ffmpegCmdModel.OffsetX);
+            //cmd = cmd.Replace("@y", _ffmpegCmdModel.OffsetY);
+            //cmd = cmd.Replace("@width", tuple.Item1);
+            //cmd = cmd.Replace("@height", tuple.Item2);
+            cmd = cmd.Replace("@framerate", _ffmpegCmdModel.FrameRate);
+            cmd = cmd.Replace("@preset", _ffmpegCmdModel.Preset);
+            cmd = cmd.Replace("@audioquality", _ffmpegCmdModel.AudioQuality);
+            cmd = cmd.Replace("@format", _ffmpegCmdModel.Format);
+            cmd = cmd.Replace("@option1", _ffmpegCmdModel.Option1);
+            cmd = cmd.Replace("@filename", _ffmpegCmdModel.FullFileName);            
+            cmd = cmd.Replace("@cpucore", _ffmpegCmdModel.CpuCore);
+
+            if (cmd.Contains("@")) return false;
+
+            return true;
+        }
+
+        private static string LengthNormalize(string length)
+        {
+            var tempLength = 0;            
+
+            //Task t1 = new Task(() =>
+            //{
+            //    if (int.TryParse(length, out tempLength))
+            //    {
+            //        while (true)
+            //        {
+            //            if (tempLength % 2 == 0)
+            //                break;
+
+            //            tempLength++;
+            //        }
+            //    }
+            //});
+
+            //t1.Start();
+            //Task.WaitAll(new[] { t1 });
+
+            if (int.TryParse(length, out tempLength))
+            {
+                while (true)
+                {
+                    if (tempLength % 2 == 0)
+                        break;
+
+                    tempLength++;
+                }
+            }
+
+
+            return tempLength.ToString();
         }
     }
 }
