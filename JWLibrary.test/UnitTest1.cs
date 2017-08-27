@@ -4,6 +4,7 @@ using JWLibrary.Core.Cryption.Str;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using JWLibrary.Core.Extensions;
 
 namespace JWLibrary.test
 {
@@ -24,17 +25,17 @@ namespace JWLibrary.test
         [TestMethod]
         public void TestMethod2()
         {
-            JWLibrary.FFmpeg.FFMpegCaptureAV ffmpegCav = new FFmpeg.FFMpegCaptureAV();
-            ffmpegCav.Initialize();
-            ffmpegCav.Register();
+        //    JWLibrary.FFmpeg.FFMpegCaptureAV ffmpegCav = new FFmpeg.FFMpegCaptureAV();
+        //    ffmpegCav.Initialize();
+        //    ffmpegCav.Register();
 
-            var model = new FFmpeg.FFmpegCommandModel()
-            {
+        //    var model = new FFmpeg.FFmpegCommandModel()
+        //    {
 
-            };
-            //ffmpegCav.FFmpegCommandExcute(null, "ffmpeg.exe", FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model), true);
+        //    };
+        //    //ffmpegCav.FFmpegCommandExcute(null, "ffmpeg.exe", FFmpeg.BuildCommand.BuildRecordingCommand(FFmpeg.RecordingTypes.Local, model), true);
 
-            ffmpegCav.UnRegister();
+        //    ffmpegCav.UnRegister();
 
         }
 
@@ -128,6 +129,38 @@ namespace JWLibrary.test
             {
 
             }
+        }
+
+        [TestMethod]
+        public void NumberConvertTest()
+        {
+            string number = "01011112222";
+            var result = number.ToFormat(FormatType.Mobile, GetAllow.Allow);
+            Assert.AreEqual("010-1111-2222", result);
+
+            var number2 = 1020004;
+            result = number2.ToFormat(FormatType.Comma, GetAllow.Allow);
+            Assert.AreEqual("1,020,004", result);
+
+            var number3 = 1020004d;
+            result = number3.ToFormat(FormatType.Comma, GetAllow.Allow);
+            Assert.AreEqual("1,020,004", result);
+
+
+            var number4 = "021112222";
+            result = number4.ToFormat(FormatType.Phone, GetAllow.Allow);
+            Assert.AreEqual("02-111-2222", result);
+
+            result = number4.ToFormat(FormatType.Phone, GetAllow.NotAllow);
+            Assert.AreEqual("02-111-****", result);
+
+            string rrn = "1122331234567";
+            result = rrn.ToFormat(FormatType.RRN, GetAllow.Allow);
+            Assert.AreEqual("112233-1234567", result);
+
+            int cofficePrice = 3400;
+            result = cofficePrice.ToFormat(FormatType.CofficePrice, GetAllow.Allow);
+            Assert.AreEqual("3.4", result);
         }
     }
 }

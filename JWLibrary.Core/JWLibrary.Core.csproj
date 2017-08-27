@@ -57,7 +57,6 @@
     <Compile Include="DataStructure\Collections\Stack.cs" />
     <Compile Include="DataStructure\CircleList.cs" />
     <Compile Include="DataStructure\SortableBindingList.cs" />
-    <Compile Include="Date\DateHelper.cs" />
     <Compile Include="DB\MSSQL\DataHelperFactory.cs" />
     <Compile Include="DB\MSSQL\IDacHelper.cs" />
     <Compile Include="DB\MSSQL\IDataBinder.cs" />
@@ -70,7 +69,8 @@
     <Compile Include="DB\MSSQL\Module\MsSqlParameterHelper.cs" />
     <Compile Include="DB\MSSQL\ParameterHelperFactory.cs" />
     <Compile Include="DynamicInstanceLoader\Loader.cs" />
-    <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Extensions\DateStringExtension.cs" />
+    <Compile Include="Extensions\NumberStringExtension.cs" />
     <Compile Include="FileIdentify\FileUniqueId.cs" />
     <Compile Include="FileWatcher\FileSystemWatcherEx.cs">
       <SubType>Component</SubType>
