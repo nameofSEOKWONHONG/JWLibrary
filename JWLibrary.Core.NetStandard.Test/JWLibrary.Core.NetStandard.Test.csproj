@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Backup\JWLibrary.Core.NetStandard\JWLibrary.Core.NetStandard.csproj" />
-    <ProjectReference Include="..\JWLibrary.Core.NetStandard\JWLibrary.Core.NetStandard.csproj" />
   </ItemGroup>
 
 </Project>
