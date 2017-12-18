@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Dynamic;
 
 namespace JWLibrary.Helpers
 {
@@ -18,6 +19,14 @@ namespace JWLibrary.Helpers
             }
         }
 
+        public ParameterHelper(params dynamic[] kvps)
+        {
+            foreach(var kvp in kvps)
+            {
+                _map.Add(kvp.Key, kvp.Value);
+            }
+        }
+        
         public void Add(KeyValuePair<string, object> kvp)
         {
             _map.Add(kvp.Key, kvp.Value);

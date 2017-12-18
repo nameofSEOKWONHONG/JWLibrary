@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CLI\CLIHelper.cs" />
+    <Compile Include="Cryption\HMAC\AES256Cipher.cs" />
+    <Compile Include="Cryption\HMAC\CryptoHMAC.cs" />
+    <Compile Include="Cryption\HMAC\HMACCipherCommon.cs" />
     <Compile Include="Cryption\KISA\CryptoEngineSHA256.cs" />
     <Compile Include="Cryption\Str\CryptorEngineAES128.cs" />
     <Compile Include="Cryption\Str\CryptorEngineAES256.cs" />

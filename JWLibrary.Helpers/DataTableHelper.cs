@@ -10,11 +10,6 @@ namespace JWLibrary.Helpers
 {
     public static class DataTableHelper
     {
-        public static List<TEntity> ToList<TEntity>(this DataTable datatable)
-        {
-
-        }
-
         public static DataTable ToDatatable(this string json)
         {
             return JsonConvert.DeserializeObject<DataTable>(json);
