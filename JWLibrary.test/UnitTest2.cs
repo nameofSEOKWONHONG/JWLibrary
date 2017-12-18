@@ -10,9 +10,9 @@ namespace JWLibrary.test
         public void TestMethod1()
         {
             var encText = "test";
-            //var encKey = "781a4e6c6b6b9328aaee873353879fdabb";
-            var encKey = "781a4e6c6b9328aaee873353879fdabb";
-            var encKeyIV = "0000000000000000";
+            //var encKey = "";
+            var encKey = "";
+            var encKeyIV = "";
 
             JWLibrary.Core.Cryption.HMAC.CryptoHMAC hmac = new Core.Cryption.HMAC.CryptoHMAC(Core.Cryption.HMAC.DeconvertCipherFormat.Base64);
             var signiture = hmac.GetHMACValue(encText, encKey);
