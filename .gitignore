@@ -260,3 +260,4 @@ paket-files/
 /Nuget/JWLibrary.OSI
 /Nuget/JWLibrary.SettingLoader
 /Nuget/JWLibrary.Winform
+/JWLibrary.DB.MSSQL
