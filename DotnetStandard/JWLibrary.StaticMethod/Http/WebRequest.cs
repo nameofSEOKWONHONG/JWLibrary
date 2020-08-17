@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace JWLibrary.StaticMethod
 {
-    public class WebRequest
+    public static class WebRequest
     {
         public static string GetToken(
             string fullUrl,
@@ -46,17 +43,15 @@ namespace JWLibrary.StaticMethod
                     return responseString;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                throw;
             }
             finally
             {
                 if (response != null)
                     response.Close();
             }
-
-            return null;
         }
 
         public static string GetResponse(string fullUrl, string method, string token)
@@ -78,9 +73,9 @@ namespace JWLibrary.StaticMethod
                     return responseString;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
             finally
             {
@@ -112,7 +107,7 @@ namespace JWLibrary.StaticMethod
 
                 isRet = true;
             }
-            catch (Exception ex)
+            catch
             {
                 throw;
             }
@@ -180,9 +175,9 @@ namespace JWLibrary.StaticMethod
                     String responseString = reader.ReadToEnd();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                throw;
             }
             finally
             {
@@ -215,9 +210,9 @@ namespace JWLibrary.StaticMethod
                     String responseString = reader.ReadToEnd();
                 }
             }
-            catch (Exception ex)
+            catch
             {
-
+                throw;
             }
             finally
             {

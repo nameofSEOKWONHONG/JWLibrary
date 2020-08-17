@@ -25,7 +25,7 @@ namespace JWLibrary.StaticMethod
         public T this[int index] {
             get {
                 if(index > this.Count - 1) return null;
-                
+
                 return _hashset.ToList()[index];
             }
             set {
@@ -41,9 +41,6 @@ namespace JWLibrary.StaticMethod
         }
 
         public bool IsReadOnly {get{return false;}}
-
-        readonly int _sleepOfLoop = 1;
-        readonly int _maxOfArray = 4;
 
         public virtual void Add(T item)
         {
@@ -81,7 +78,7 @@ namespace JWLibrary.StaticMethod
         public virtual void Insert(int index, T item)
         {
             var hashset = new HashSet<T>();
-            for(var i=0; i < _hashset.Count; i++) 
+            for(var i=0; i < _hashset.Count; i++)
             {
                 if(i == index) {
                     hashset.Add(item);

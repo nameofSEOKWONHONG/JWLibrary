@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,9 +45,9 @@ namespace JWLibrary.Http
                     }
                 }
             }
-            catch(Exception e)
+            catch
             {
-
+                throw;
             }
 
             return default(T);

@@ -100,7 +100,7 @@ namespace JWLibrary.StaticMethod.Resx
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
             }
-            catch (Exception e)
+            catch
             {
                 throw;
             }
