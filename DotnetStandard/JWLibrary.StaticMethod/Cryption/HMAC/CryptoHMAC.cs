@@ -3,16 +3,9 @@ using System.Text;
 
 namespace JWLibrary.Core.Cryption.HMAC
 {
-    public class CryptoHMAC
+    public static class CryptoHMAC
     {
-        private DeconvertCipherFormat _deconvertCipherFormat;
-
-        public CryptoHMAC(DeconvertCipherFormat deconvertCipherFormat)
-        {
-            _deconvertCipherFormat = deconvertCipherFormat;
-        }
-
-        public string GetHMACValue(string encData, string encKey)
+        public static string GetHMACValue(this string encData, string encKey, DeconvertCipherFormat deconvertCipherFormat)
         {
             UTF8Encoding encoding = new UTF8Encoding();
             byte[] keyBuff = encoding.GetBytes(encKey);
@@ -24,7 +17,7 @@ namespace JWLibrary.Core.Cryption.HMAC
                 hashMessage = hmacsha256.ComputeHash(dataBytes);
             }
 
-            return HMACCipherCommon.ByteToString(hashMessage);
+            return hashMessage.jToString();
         }
     }
 }

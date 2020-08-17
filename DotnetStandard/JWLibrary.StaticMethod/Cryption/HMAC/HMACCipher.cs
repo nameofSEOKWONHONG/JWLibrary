@@ -2,15 +2,15 @@
 
 namespace JWLibrary.Core.Cryption.HMAC
 {
-    public class HMACCipherCommon
+    public static class HMACCipher
     {
-        public static byte[] DeConvertCipherText(string cipherText, DeconvertCipherFormat outputFormat)
+        public static byte[] jToDecode(this string cipherText, DeconvertCipherFormat outputFormat)
         {
             byte[] decodeText = null;
             switch (outputFormat)
             {
                 case DeconvertCipherFormat.HEX:
-                    decodeText = HexStringToByte(cipherText);
+                    decodeText = jToByte(cipherText);
                     break;
                 case DeconvertCipherFormat.Base64:
                     decodeText = Convert.FromBase64String(cipherText);
@@ -22,7 +22,7 @@ namespace JWLibrary.Core.Cryption.HMAC
             return decodeText;
         }
 
-        public static byte[] HexStringToByte(string hexString)
+        public static byte[] jToByte(this string hexString)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace JWLibrary.Core.Cryption.HMAC
             }
         }
 
-        public static string ByteToString(byte[] hashMessage)
+        public static string jToString(this byte[] hashMessage)
         {
             string sbinary = string.Empty;
 
