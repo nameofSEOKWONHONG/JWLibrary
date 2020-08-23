@@ -1,3 +1,4 @@
+using Org.BouncyCastle.Crypto.Engines;
 using System;
 
 namespace JWLibrary.StaticMethod
@@ -5,19 +6,21 @@ namespace JWLibrary.StaticMethod
     public static class JObject
     {
         public static bool jIsNull(this object obj) {
+            if (obj == null) return true;
             if (obj.GetType() == typeof(string))
             {
                 return StringIsNullOrEmpty(obj);
             }
-            return obj == null;
+            return false;
         }
 
         public static bool jIsNotNull(this object obj) {
+            if (obj == null) return false;
             if(obj.GetType() == typeof(string))
             {
                 return StringIsNotNullOrEmpty(obj);
             }
-            return obj != null;
+            return true;
         }
 
         private static bool StringIsNullOrEmpty(object obj)

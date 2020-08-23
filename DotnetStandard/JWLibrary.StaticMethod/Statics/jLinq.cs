@@ -49,5 +49,17 @@ namespace JWLibrary.StaticMethod
 
             return defaultValue;
         }
+
+        public static IEnumerable<T> jWhere<T>(this IEnumerable<T> obj, Func<T, bool> predicate)
+            where T : class {
+            List<T> list = new List<T>();
+            if (obj.jToList().jCount() <= 0) obj = new List<T>();
+            list = obj.Where(predicate).jToList();
+            return list;
+        }
+
+        public static bool jEquals<T>(this T obj, object diffObj){
+            return obj.Equals(diffObj);
+        }
     }
 }
