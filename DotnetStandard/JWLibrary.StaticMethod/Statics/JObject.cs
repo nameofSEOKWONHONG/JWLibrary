@@ -5,6 +5,14 @@ namespace JWLibrary.StaticMethod
 {
     public static class JObject
     {
+        public static bool jIsTrue(this bool obj) {
+            return obj.Equals(true);
+        }
+
+        public static bool jIsFalse(this bool obj) {
+            return obj.Equals(false);
+        }
+
         public static bool jIsNull(this object obj) {
             if (obj == null) return true;
             if (obj.GetType() == typeof(string))
