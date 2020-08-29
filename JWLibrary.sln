@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Pattern", "Dotnet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JCoreSvcTest", "DotnetTest\JCoreSvcTest\JCoreSvcTest.csproj", "{19B504B9-4D51-44C7-A295-281CC41A95F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.StaticMethod.Database", "DotnetStandard\JWLibrary.StaticMethod.Database\JWLibrary.StaticMethod.Database.csproj", "{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.StaticMethod.Database", "DotnetStandard\JWLibrary.StaticMethod.Database\JWLibrary.StaticMethod.Database.csproj", "{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.ApiCore", "DotnetCore\JWLibrary.ApiCore\JWLibrary.ApiCore.csproj", "{B6BAC85B-FBF2-40C5-8EF0-7960309C497B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,10 @@ Global
 		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6BAC85B-FBF2-40C5-8EF0-7960309C497B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BAC85B-FBF2-40C5-8EF0-7960309C497B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6BAC85B-FBF2-40C5-8EF0-7960309C497B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6BAC85B-FBF2-40C5-8EF0-7960309C497B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +164,7 @@ Global
 		{503A7567-9BAD-4023-BA52-FECEF13B9151} = {473D741E-FA76-4680-AA7E-D110D7AD4B73}
 		{19B504B9-4D51-44C7-A295-281CC41A95F6} = {71D0401D-12AC-4745-B8ED-4B3555483BA0}
 		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F} = {473D741E-FA76-4680-AA7E-D110D7AD4B73}
+		{B6BAC85B-FBF2-40C5-8EF0-7960309C497B} = {0E3227D5-56A1-4A6D-8388-A1D4AFE1EC0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E469A77-3A20-49DE-ABC5-6ED14F253F99}

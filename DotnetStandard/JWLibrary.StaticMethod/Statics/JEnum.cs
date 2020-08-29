@@ -9,7 +9,7 @@ namespace JWLibrary.StaticMethod
     {
         public static T ToEnum<T>(this string value, T defaultValue) where T : struct
         {
-            if (string.IsNullOrEmpty(value))
+            if (value.jIsNullOrEmpty())
             {
                 return defaultValue;
             }
@@ -18,7 +18,7 @@ namespace JWLibrary.StaticMethod
             return Enum.TryParse<T>(value, true, out result) ? result : defaultValue;
         }
 
-        public static string ToDescription(this Enum value)
+        public static string jToEnumString(this Enum value)
         {
             var da = (DescriptionAttribute[])(value.GetType().GetField(value.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), false);
             return da.Length > 0 ? da[0].Description : value.ToString();

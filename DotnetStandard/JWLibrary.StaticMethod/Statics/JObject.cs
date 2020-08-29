@@ -1,8 +1,4 @@
-using Org.BouncyCastle.Crypto.Engines;
-using System;
-
-namespace JWLibrary.StaticMethod
-{
+namespace JWLibrary.StaticMethod {
     public static class JObject
     {
         public static bool jIsTrue(this bool obj) {

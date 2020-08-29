@@ -1,15 +1,9 @@
-using HigLabo.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 
-namespace JWLibrary.StaticMethod
-{
+namespace JWLibrary.StaticMethod {
     public static class JCollection
     {
 

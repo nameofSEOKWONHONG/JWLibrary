@@ -1,18 +1,13 @@
-using NUnit.Framework;
-using System.Collections.Generic;
 using JWLibrary.StaticMethod;
-using System.Linq;
-using System.Data;
 using Moq;
+using NUnit.Framework;
 using System;
-using Moq.Language.Flow;
-using System.Collections.Concurrent;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using System.Collections;
-using MySqlX.XDevAPI.Relational;
+using System.Collections.Generic;
+using System.Data;
+using System.Security.Cryptography;
 
-namespace JWLibrary.Tests
-{
+namespace JWLibrary.Tests {
     public class StaticMethodTests
     {
         [SetUp]
@@ -91,6 +86,23 @@ namespace JWLibrary.Tests
                     Console.WriteLine("========================");
                 } while (reader.NextResult());
             }
+        }
+
+        [Test]
+        public void JIsNumberTest() {
+            Assert.IsTrue("123".jIsNumber());
+            Assert.IsFalse("a123".jIsNumber());
+        }
+
+        [Test]
+        public void JIsAlphabetTest() {
+            //Assert.IsTrue("asb".jIsAlphabetOnly());
+            //Assert.IsFalse("asb«—±€".jIsAlphabetOnly());
+            //Assert.IsTrue("absdf1123".jIsAlphabetAndNumber());
+            //Assert.IsTrue("1123asdf".jIsAlphabetAndNumber());
+            //Assert.IsTrue("asdfasdf".jIsAlphabetAndNumber());
+            Assert.IsTrue("123.123".jIsNumeric());
+            Assert.IsFalse("123,123".jIsNumeric());
         }
     }
 

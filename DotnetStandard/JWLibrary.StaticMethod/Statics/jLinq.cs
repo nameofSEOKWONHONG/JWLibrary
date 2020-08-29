@@ -29,6 +29,14 @@ namespace JWLibrary.StaticMethod
             return list.LastOrDefault();
         }
 
+        public static string jIfNullOrEmpty(this string str, Func<string, string> func) {
+            var result = str;
+            if(str.jIsNullOrEmpty().jIsTrue()) {
+                result = func(str);
+            }
+            return result;
+        }
+
         public static T jIfNull<T>(this T obj, Func<T, T> predicate)
         {
             if(obj.jIsNull())

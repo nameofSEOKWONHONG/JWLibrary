@@ -1,6 +1,7 @@
 ﻿using JWLibrary.StaticMethod.CLI;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -9,11 +10,30 @@ using System.Text;
 
 namespace JWLibrary.StaticMethod.Network
 {
-    public class NetworkHelper
+    /// <summary>
+    /// firewall port type
+    /// </summary>
+    public enum ENUM_PORT_TYPE {
+        [StringValue("TCP")]
+        TCP,
+        [StringValue("UDP")]
+        UDP
+    }
+
+    /// <summary>
+    /// firewall bound type
+    /// </summary>
+    public enum ENUM_BOUND_TYPE {
+        [StringValue("in")]
+        IN,
+        [StringValue("out")]
+        OUT
+    }
+    public static class JNetworkHelper
     {
         public static readonly int[] DYNAMIC_UDP_TCP_PORT_RANGE = Enumerable.Range(49152, 65535).ToArray();
 
-        public static bool IsTcpPortAvailable(int tcpPort)
+        public static bool IsTcpPortAvailable(this int tcpPort)
         {
             var ipgp = IPGlobalProperties.GetIPGlobalProperties();
 
@@ -40,9 +60,9 @@ namespace JWLibrary.StaticMethod.Network
             return true;
         }
 
-        public static void OpenPort(string boundType, string portType, int port)
+        public static void OpenPort(this int port, ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN)
         {
-            var arg = OpenPortCommand(boundType, portType, port);
+            var arg = OpenPortCommand(boundType.jToEnumString(), portType.jToEnumString(), port);
             ProcessHandlerAsync.RunAsync("cmd.exe", arg,
                 (output) =>
                 {
@@ -59,9 +79,11 @@ namespace JWLibrary.StaticMethod.Network
                 });
         }
 
-        public static void ClosePort(string boundType, string portType, int port)
+        
+
+        public static void ClosePort(this int port, ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN)
         {
-            var arg = ClosePortCommand(boundType, portType, port);
+            var arg = ClosePortCommand(boundType.jToEnumString(), portType.jToEnumString(), port);
             ProcessHandlerAsync.RunAsync("cmd.exe", arg,
                 (output) =>
                 {

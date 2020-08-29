@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.StaticMethod
 {
-    public static class DateHelper
+    public static class JDateHelper
     {
         public static DateTime jToDateTime(this string date)
         {
