@@ -45,9 +45,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.FFmpeg", "DotNetF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.FFmpeg.Test", "DotNetFramework\Windows\JWLibrary.FFmpeg.Test\JWLibrary.FFmpeg.Test.csproj", "{63870E05-54C9-488C-BE18-DB621DEC1326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCoreSvc", "DotnetStandard\JCoreSvc\JCoreSvc.csproj", "{503A7567-9BAD-4023-BA52-FECEF13B9151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Pattern", "DotnetStandard\JCoreSvc\JWLibrary.Pattern.csproj", "{503A7567-9BAD-4023-BA52-FECEF13B9151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JCoreSvcTest", "DotnetTest\JCoreSvcTest\JCoreSvcTest.csproj", "{19B504B9-4D51-44C7-A295-281CC41A95F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JCoreSvcTest", "DotnetTest\JCoreSvcTest\JCoreSvcTest.csproj", "{19B504B9-4D51-44C7-A295-281CC41A95F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.StaticMethod.Database", "DotnetStandard\JWLibrary.StaticMethod.Database\JWLibrary.StaticMethod.Database.csproj", "{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +129,10 @@ Global
 		{19B504B9-4D51-44C7-A295-281CC41A95F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19B504B9-4D51-44C7-A295-281CC41A95F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19B504B9-4D51-44C7-A295-281CC41A95F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{63870E05-54C9-488C-BE18-DB621DEC1326} = {C2F59704-3FEF-487C-AD20-1A3743FD85C7}
 		{503A7567-9BAD-4023-BA52-FECEF13B9151} = {473D741E-FA76-4680-AA7E-D110D7AD4B73}
 		{19B504B9-4D51-44C7-A295-281CC41A95F6} = {71D0401D-12AC-4745-B8ED-4B3555483BA0}
+		{1BBE2BAB-B529-465C-9FA1-202FA7975C6F} = {473D741E-FA76-4680-AA7E-D110D7AD4B73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E469A77-3A20-49DE-ABC5-6ED14F253F99}

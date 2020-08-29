@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.StaticMethod
 {
-    public static class NumberString
+    public static class JNumberString
     {
         public static string jToFormatNumber<T>(this T val, FormatType type, GetAllow allow)
         {

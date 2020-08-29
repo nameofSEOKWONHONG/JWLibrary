@@ -13,7 +13,7 @@ namespace JCoreSvc {
 
         public PipeLine(TransactionScopeOption transactionScopeOption) { _transactionScopeOption = transactionScopeOption; }
 
-        public PipeLine Create(TransactionScopeOption transactionScopeOption) {
+        public PipeLine CreatePipeline(TransactionScopeOption transactionScopeOption) {
             _transactionScopeOption = transactionScopeOption;
             return this;
         }
@@ -29,7 +29,7 @@ namespace JCoreSvc {
             _request = request;
             return this;
         }
-        public PipeLine AddFilter(IFilter filter) {
+        public PipeLine AddFilter(Func<IFilter, bool> func) {
             return this;
         }
 

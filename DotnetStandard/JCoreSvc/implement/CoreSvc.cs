@@ -1,4 +1,5 @@
 ﻿using JWLibrary.StaticMethod;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 
 namespace JCoreSvc {
-
-    public abstract class CoreSvcBase : ICoreSvcBase {
+    public abstract class CoreSvcBase {
         protected bool State { get; set; }
 
         public abstract Task<bool> OnExecuted(IContext context);
@@ -16,7 +16,7 @@ namespace JCoreSvc {
         public abstract Task<bool> OnExecuting(IContext context);
     }
 
-    public abstract class CoreSvc<TOwner, TRequest, TResult> : CoreSvcBase, ICoreSvc<TRequest, TResult>
+    public abstract class CoreSvc<TOwner, TRequest, TResult> : CoreSvcBase
         where TOwner : class
         where TRequest : class, new() {
 
@@ -51,8 +51,7 @@ namespace JCoreSvc {
         }
     }
 
-    public class CoreSvcOwner<TOwner, TRequest, TResult> : CoreSvc<TOwner, TRequest, TResult>,
-        ICoreSvcOwner<TOwner, TRequest, TResult>, IDisposable
+    public class CoreSvcOwner<TOwner, TRequest, TResult> : CoreSvc<TOwner, TRequest, TResult>, IDisposable
         where TOwner : class
         where TRequest : class, new() {
         new public TRequest Request { get { return base.Request; } set { base.Request = value; } }

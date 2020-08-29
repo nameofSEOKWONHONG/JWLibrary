@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace JWLibrary.StaticMethod
+namespace JWLibrary.StaticMethod.Database
 {
     /// <summary>
     /// Database Client Extension
@@ -49,9 +49,9 @@ namespace JWLibrary.StaticMethod
         public static void BulkInsert<T>(this IDbConnection connection, IEnumerable<T> bulkDatas, string tableName = null)
             where T : class, new()
         {
-            try 
+            try
             {
-                var entity = new T();                
+                var entity = new T();
                 var dt = bulkDatas.jToDataTable();
 
                 using(SqlBulkCopy objbulk = new SqlBulkCopy((SqlConnection)connection, SqlBulkCopyOptions.Default, null))
@@ -60,14 +60,14 @@ namespace JWLibrary.StaticMethod
                     foreach(var property in entity.GetType().GetProperties()) {
                         objbulk.ColumnMappings.Add(property.Name, property.Name);
                     }
-                    
-                    connection.Open(); 
-                    objbulk.WriteToServer(dt); 
+
+                    connection.Open();
+                    objbulk.WriteToServer(dt);
                 }
             }
             finally {
                 connection.Close();
-                
+
             }
         }
         #endregion
@@ -88,14 +88,14 @@ namespace JWLibrary.StaticMethod
 
 
         public static async Task<IEnumerable<T>> GetAllAsync<T>(this IDbConnection connection, Func<IDbConnection, Task<IEnumerable<T>>> asyncFunc)
-            where T : class, new() 
+            where T : class, new()
         {
-            try 
+            try
             {
                 connection.Open();
                 return await asyncFunc(connection);
             }
-            finally 
+            finally
             {
                 connection.Close();
             }

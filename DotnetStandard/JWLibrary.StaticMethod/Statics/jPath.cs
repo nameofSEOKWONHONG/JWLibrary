@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace JWLibrary.StaticMethod
 {
-    public static class jPath
+    public static class JPath
     {
         /// <summary>
         /// executable app root path

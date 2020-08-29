@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JWLibrary.StaticMethod
 {
-    public static class jLinq
+    public static class JLinq
     {
         public static List<T> jToList<T>(this IEnumerable<T> list)
         {
@@ -21,7 +21,7 @@ namespace JWLibrary.StaticMethod
         {
             if (predicate.jIsNotNull()) return list.FirstOrDefault(predicate);
             return list.FirstOrDefault();
-        } 
+        }
 
         public static T jLast<T>(this IEnumerable<T> list, Func<T, bool> predicate = null)
         {

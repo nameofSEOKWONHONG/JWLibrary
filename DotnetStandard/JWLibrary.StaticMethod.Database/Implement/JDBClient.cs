@@ -10,7 +10,7 @@ using Dapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JWLibrary.StaticMethod
+namespace JWLibrary.StaticMethod.Database
 {
     /// <summary>
     /// Database Client
@@ -22,7 +22,7 @@ namespace JWLibrary.StaticMethod
         /// </summary>
         /// <value></value>
         public IDbConnection Connection {get; private set;}
-        
+
         /// <summary>
         /// Creator
         /// </summary>
@@ -36,7 +36,7 @@ namespace JWLibrary.StaticMethod
                 _ => null
             };
 
-            try 
+            try
             {
                 this.Connection.Open();
             }
@@ -72,13 +72,13 @@ CREATE TABLE [dbo].[WorkOut](
     [PaymentType] [char](2) NULL,
     [CategoryID] [int] NULL,
     [Year]  AS (datepart(year,[TimeSheetDate])),
- CONSTRAINT [PK_WorkOut] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_WorkOut] PRIMARY KEY CLUSTERED
 (
     [WorkOutID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-ALTER TABLE [dbo].[WorkOut] ADD  
+ALTER TABLE [dbo].[WorkOut] ADD
 CONSTRAINT [DF__WorkOut__IsMainW__2C1E8537]  DEFAULT ((1)) FOR [IsMainWorkPlace]
 
 ALTER TABLE [dbo].[WorkOut]  WITH CHECK ADD  CONSTRAINT [FK_WorkOut_Employee_EmployeeID] FOREIGN KEY([EmployeeID])

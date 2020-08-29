@@ -7,8 +7,8 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 
-namespace JWLibrary.StaticMethod
-{   
+namespace JWLibrary.StaticMethod.Database
+{
     /// <summary>
     /// MSSQL Database Client Connection Information
     /// </summary>

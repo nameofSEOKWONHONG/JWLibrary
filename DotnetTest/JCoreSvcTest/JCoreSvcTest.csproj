@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DotnetStandard\JCoreSvc\JCoreSvc.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JCoreSvc\JWLibrary.Pattern.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.StaticMethod\JWLibrary.StaticMethod.csproj" />
   </ItemGroup>
 
