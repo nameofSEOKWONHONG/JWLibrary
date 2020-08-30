@@ -51,20 +51,20 @@ namespace JWLibrary.Pattern {
         }
     }
 
-    public class Service : SvcImpl<Service, Request<TestReqestDto>, int> {
-        public void Run() {
-            var pipe = this.CreatePipeLine(TransactionScopeOption.Suppress);
-            pipe.Registry<>
-        }
-    }
+    //public class Service : SvcImpl<Service, Request<TestReqestDto>, int> {
+    //    public void Run() {
+    //        var pipe = this.CreatePipeLine(TransactionScopeOption.Suppress);
+    //        pipe.Registry<>
+    //    }
+    //}
 
-    public class Program {
-        public void Main() {
-            SvcImpl svcImpl = new SvcImpl();
+    //public class Program {
+    //    public void Main() {
+    //        SvcImpl svcImpl = new SvcImpl();
 
 
-        }
-    }
+    //    }
+    //}
 
     public class TestReqestDto {
 

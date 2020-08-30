@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>JWLibrary.ApiCore</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "T:JWLibrary.ApiCore.Config.SwaggerConfig" -->
+        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Post(JWLibrary.ApiCore.Dto.RequestDto{JWLibrary.ApiCore.Dto.TestRequestDto})" -->
+    </members>
+</doc>

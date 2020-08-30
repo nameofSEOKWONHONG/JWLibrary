@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using JWLibrary.StaticMethod;
+using JWLibrary.ApiCore.Config;
 
 namespace JWLibrary.ApiCore.Controllers
 {
-    
+
     public class WeatherForecastController : JControllerBase {
         private static readonly string[] Summaries = new[]
         {
@@ -37,8 +38,19 @@ namespace JWLibrary.ApiCore.Controllers
             .ToArray();
         }
 
+        /// <summary>
+        /// Post메서드
+        /// </summary>
+        /// <param name="request">요청:RequestDto<TestRequestDto></param>
+        /// <returns></returns>
         [HttpPost]
-        public string Put([FromBody]RequestDto<TestRequestDto> request) {
+        public string Post(
+            [FromBody]
+            [ModelBinder(typeof(JPostModelBinder<RequestDto<TestRequestDto>>))]
+            RequestDto<TestRequestDto> request) {
+            var req = HttpContext.Request;
+            var items = base.HttpContext.Items;
+
             request.WRITER_ID = "test";
             request.WRITE_DT = DateTime.Now;
             return request.Serialize();

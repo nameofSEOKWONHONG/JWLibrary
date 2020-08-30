@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JWLibrary.ApiCore.Config;
+using JWLibrary.ApiCore.Dto;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,9 +27,10 @@ namespace JWLibrary.ApiCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            SwaggerConfig.ConfigureServices(services);
             services.AddControllers()
                 .AddNewtonsoftJson();
-            SwaggerConfig.ConfigService(services);
+            //.AddNewtonsoftJson(o => o.SerializerSettings.Converters.Insert(0, new CustomConverter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
