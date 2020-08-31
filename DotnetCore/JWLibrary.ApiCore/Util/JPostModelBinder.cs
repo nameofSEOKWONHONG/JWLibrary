@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.ApiCore.Config {
+namespace JWLibrary.ApiCore {
     public class JModelBinder<T> : IModelBinder
         where T : class, new() {
         public async Task BindModelAsync(ModelBindingContext bindingContext) {

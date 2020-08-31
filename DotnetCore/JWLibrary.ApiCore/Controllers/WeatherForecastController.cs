@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 using JWLibrary.StaticMethod;
 using JWLibrary.ApiCore.Config;
+using JWLibrary.Pattern;
 
-namespace JWLibrary.ApiCore.Controllers
-{
+namespace JWLibrary.ApiCore.Controllers {
 
     public class WeatherForecastController : JControllerBase {
         private static readonly string[] Summaries = new[]
@@ -20,22 +20,30 @@ namespace JWLibrary.ApiCore.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
+        public WeatherForecastController(ILogger<WeatherForecastController> logger) {
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
-        {
+        public IEnumerable<WeatherForecast> Get(string name, int age) {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+
+        [HttpGet]
+        public async Task<int> GetTest() {
+            var result = 1;
+            using (var action = ActionFactory.CreateAction<ITestAction, TestAction, TestReqestDto, int>()) {
+                action.Request = new TestReqestDto();
+                result = await action.ExecuteCore();
+            }
+            return result;
         }
 
         /// <summary>
@@ -55,5 +63,25 @@ namespace JWLibrary.ApiCore.Controllers
             request.WRITE_DT = DateTime.Now;
             return request.Serialize();
         }
+    }
+
+    public interface ITestAction : IActionBase<int> { }
+
+    public class TestAction : ActionBase<TestReqestDto, int>, ITestAction {
+        public override bool PostExecute() {
+            return true;
+        }
+
+        public override bool PreExecute() {
+            return true;
+        }
+
+        public override int Executed() {
+            return 0;
+        }
+    }
+
+    public class TestReqestDto {
+
     }
 }

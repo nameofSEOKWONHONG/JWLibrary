@@ -66,7 +66,5 @@ namespace JWLibrary.Pattern {
     //    }
     //}
 
-    public class TestReqestDto {
 
-    }
 }
