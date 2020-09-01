@@ -1,4 +1,4 @@
-﻿using JWLibrary.Core.DB.MSSQL;
+﻿using JWLibrary.Core.NetFramework.DB.MSSQL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace JWLibrary.Core.DB.MSSQL.Module {
+namespace JWLibrary.Core.NetFramework.DB.MSSQL.Module {
 
 #if NETFX_40
 	public class DynamicDataReader : DynamicEnumerableDataObjectWrapper<DbDataReader> {

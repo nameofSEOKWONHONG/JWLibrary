@@ -3,7 +3,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace JWLibrary.Core.DB.MSSQL.Module
+namespace JWLibrary.Core.NetFramework.DB.MSSQL.Module
 {
 	public class MsSqlDataBinder<T> : IDataBinder<T>
     {

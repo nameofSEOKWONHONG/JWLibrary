@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.GZip
+namespace JWLibrary.Core.NetFramework.GZip
 {
 	public interface ICompress {
 		string Compress(string param);

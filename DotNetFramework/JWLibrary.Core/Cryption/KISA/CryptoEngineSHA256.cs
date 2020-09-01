@@ -1,11 +1,11 @@
-﻿using JWLibrary.Core.Cryption.Str;
+﻿using JWLibrary.Core.NetFramework.Cryption.Str;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.Cryption.KISA
+namespace JWLibrary.Core.NetFramework.Cryption.KISA
 {
     public class CryptoEngineSHA256
     {

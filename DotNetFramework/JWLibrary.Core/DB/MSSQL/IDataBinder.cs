@@ -1,5 +1,5 @@
 ﻿
-namespace JWLibrary.Core.DB.MSSQL
+namespace JWLibrary.Core.NetFramework.DB.MSSQL
 {
   public interface IDataBinder<T>
   {

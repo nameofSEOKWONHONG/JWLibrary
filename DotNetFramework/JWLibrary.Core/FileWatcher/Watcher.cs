@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace JWLibrary.Core.FileWatcher
+namespace JWLibrary.Core.NetFramework.FileWatcher
 {
     #region Helper Classes and Objects
     ////////////////////////////////////////////////////////////////////////////////////// 

@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace JWLibrary.Core.DB.MSSQL
+namespace JWLibrary.Core.NetFramework.DB.MSSQL
 {
   public interface IParameterHelper
   {

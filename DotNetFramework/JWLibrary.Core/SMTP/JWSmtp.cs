@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.SMTP
+namespace JWLibrary.Core.NetFramework.SMTP
 {
     public class SendMailModel
     {

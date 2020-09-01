@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DotnetStandard\JCoreSvc\JWLibrary.Pattern.csproj" />
-    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.StaticMethod\JWLibrary.StaticMethod.csproj" />
   </ItemGroup>
 
 </Project>

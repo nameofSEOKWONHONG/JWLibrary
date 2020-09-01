@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.Images
+namespace JWLibrary.Core.NetFramework.Images
 {
     public class ImageHelper
     {

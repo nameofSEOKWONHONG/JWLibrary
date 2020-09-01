@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace JWLibrary.Core.GZip
+namespace JWLibrary.Core.NetFramework.GZip
 {
 	public class GZipStringCompress : ICompress, IDisposable {		
 		public string Compress (string param) {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JWLibrary.Core.Cryption.Str
+namespace JWLibrary.Core.NetFramework.Cryption.Str
 {
 
     /// <summary>
@@ -9,7 +9,7 @@ namespace JWLibrary.Core.Cryption.Str
     /// (Must : SecurityKey must set 24bytes)
     /// If not use appsettings, you must write to encryptKey.
     /// </summary>
-    public sealed class CryptoFactory<T> where T : ICrypto {		
+    public sealed class CryptoFactory<T> where T : ICrypto {
 		public static string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
 			var type = typeof(T);
 

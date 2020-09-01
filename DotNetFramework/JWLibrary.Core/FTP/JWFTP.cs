@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.FTP
+namespace JWLibrary.Core.NetFramework.FTP
 {
     public class FTPHanderEventArgs : EventArgs
     {

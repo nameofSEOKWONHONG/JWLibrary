@@ -9,8 +9,9 @@ using MySql.Data.MySqlClient;
 using Dapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JWLibrary.Core;
 
-namespace JWLibrary.StaticMethod.Database
+namespace JWLibrary.Database
 {
     /// <summary>
     /// Database Client

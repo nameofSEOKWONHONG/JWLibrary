@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace JWLibrary.Core.Cryption.Str
+namespace JWLibrary.Core.NetFramework.Cryption.Str
 {
     public class CryptorEngineAES128 : ICrypto {
         /// <summary>

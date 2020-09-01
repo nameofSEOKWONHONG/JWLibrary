@@ -1,4 +1,4 @@
-﻿using JWLibrary.StaticMethod;
+﻿using JWLibrary.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace JWLibrary.Core.Cryption.Str
+﻿namespace JWLibrary.Core.NetFramework.Cryption.Str
 {
     public interface ICrypto {
 		string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false);

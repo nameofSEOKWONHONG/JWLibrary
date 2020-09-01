@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.IO;
 
-namespace JWLibrary.Core.FileWatcher
+namespace JWLibrary.Core.NetFramework.FileWatcher
 {
     #region WatcherEx Helper Objects
     ////////////////////////////////////////////////////////////////////////////////////// 

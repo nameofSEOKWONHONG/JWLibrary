@@ -1,10 +1,11 @@
+using JWLibrary.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace JWLibrary.StaticMethod.Database
+namespace JWLibrary.Database
 {
     /// <summary>
     /// Database Client Extension

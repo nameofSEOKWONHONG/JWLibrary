@@ -4,11 +4,11 @@
  * Date : 2012.02.01 
  */
 
-using JWLibrary.Core.DB.MSSQL.Module;
+using JWLibrary.Core.NetFramework.DB.MSSQL.Module;
 using System.Data.SqlClient;
 
 
-namespace JWLibrary.Core.DB.MSSQL
+namespace JWLibrary.Core.NetFramework.DB.MSSQL
 {
   public class DataHelperFactory
   {

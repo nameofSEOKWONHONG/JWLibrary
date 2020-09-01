@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using JWLibrary.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.EnvironmentVariables;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
 
-namespace JWLibrary.StaticMethod.Database
+namespace JWLibrary.Database
 {
     /// <summary>
     /// MSSQL Database Client Connection Information

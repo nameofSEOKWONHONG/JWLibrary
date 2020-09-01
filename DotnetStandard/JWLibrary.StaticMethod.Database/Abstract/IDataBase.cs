@@ -1,4 +1,4 @@
-namespace JWLibrary.StaticMethod.Database
+namespace JWLibrary.Database
 {
     public interface IDataBase
     {

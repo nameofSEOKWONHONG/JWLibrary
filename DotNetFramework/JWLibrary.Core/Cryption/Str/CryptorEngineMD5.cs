@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace JWLibrary.Core.Cryption.Str
+namespace JWLibrary.Core.NetFramework.Cryption.Str
 {
     public class CryptorEngineMD5 : ICrypto
     {

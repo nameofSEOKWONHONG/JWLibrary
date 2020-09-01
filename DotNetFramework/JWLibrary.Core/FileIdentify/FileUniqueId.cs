@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace JWLibrary.Core.FileIdentify
+namespace JWLibrary.Core.NetFramework.FileIdentify
 {
     public class FileUniqueId
     {

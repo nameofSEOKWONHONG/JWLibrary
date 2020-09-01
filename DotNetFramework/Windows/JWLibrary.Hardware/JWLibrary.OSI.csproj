@@ -51,9 +51,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\JWLibrary.Core\JWLibrary.Core.csproj">
+    <ProjectReference Include="..\..\JWLibrary.Core\JWLibrary.Core.NetFramework.csproj">
       <Project>{37ff01ad-9c00-47fb-aff0-b8f9084b91d1}</Project>
-      <Name>JWLibrary.Core</Name>
+      <Name>JWLibrary.Core.NetFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

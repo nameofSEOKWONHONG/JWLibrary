@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.DataStructure
+namespace JWLibrary.Core.NetFramework.DataStructure
 {
     public class CircleList<T> : List<T>, IEnumerable<T>
         where T : class

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace JWLibrary.Core.GZip
+namespace JWLibrary.Core.NetFramework.GZip
 {
 	public sealed class GZipCompressFactory<T>  where T : ICompress {		
 		public static string Compress (string param) {

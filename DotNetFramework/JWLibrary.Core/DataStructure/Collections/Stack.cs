@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JWLibrary.Core.DataStructure.Collections
+namespace JWLibrary.Core.NetFramework.DataStructure.Collections
 {
     public class Stack
     {

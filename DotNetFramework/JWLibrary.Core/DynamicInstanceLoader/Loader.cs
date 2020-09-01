@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Core.DynamicInstanceLoader
+namespace JWLibrary.Core.NetFramework.DynamicInstanceLoader
 {
     public class Loader
     {

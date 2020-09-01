@@ -2,7 +2,7 @@
 using System.Reflection;
 
 
-namespace JWLibrary.Core.DB.MSSQL.Module
+namespace JWLibrary.Core.NetFramework.DB.MSSQL.Module
 {
   [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
   public class MsSqlDataBinderAttribute : Attribute, IDataBinderAttribute

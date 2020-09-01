@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace JWLibrary.Core.DataStructure
+namespace JWLibrary.Core.NetFramework.DataStructure
 {
     public class SortableBindingList<T> : BindingList<T> where T : class
     {

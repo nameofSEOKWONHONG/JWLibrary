@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace JWLibrary.Core.DB.MSSQL.Module
+namespace JWLibrary.Core.NetFramework.DB.MSSQL.Module
 {
   public class MsSqlParameterHelper : IParameterHelper
   {

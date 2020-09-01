@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JWLibrary.StaticMethod\JWLibrary.StaticMethod.csproj" />
+    <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj" />
   </ItemGroup>
 
 </Project>

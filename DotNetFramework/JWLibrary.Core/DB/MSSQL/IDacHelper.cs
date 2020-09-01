@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace JWLibrary.Core.DB.MSSQL
+namespace JWLibrary.Core.NetFramework.DB.MSSQL
 {
   public interface IDacHelper
   {

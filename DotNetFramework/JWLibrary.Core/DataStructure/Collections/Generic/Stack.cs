@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace JWLibrary.Core.DataStructure.Collections.Generic
+namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
 {
     public class Stack<T> : IEnumerable<T>, IEnumerable, ICollection
     {

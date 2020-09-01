@@ -2,9 +2,9 @@
 
 using System.Data.SqlClient;
 
-using JWLibrary.Core.DB.MSSQL.Module;
+using JWLibrary.Core.NetFramework.DB.MSSQL.Module;
 
-namespace JWLibrary.Core.DB.MSSQL
+namespace JWLibrary.Core.NetFramework.DB.MSSQL
 {
   public class ParameterHelperFactory
   {
