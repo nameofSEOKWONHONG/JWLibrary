@@ -23,9 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DotnetStandard\JCoreSvc\JWLibrary.Pattern.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
-    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.StaticMethod.Database\JWLibrary.Database.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
   </ItemGroup>
 
