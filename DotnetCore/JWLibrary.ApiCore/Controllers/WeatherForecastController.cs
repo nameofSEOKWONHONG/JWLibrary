@@ -6,10 +6,14 @@ using JWLibrary.ApiCore.Dto;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using JWLibrary.StaticMethod;
+using JWLibrary.Core;
 using JWLibrary.ApiCore.Config;
 using JWLibrary.Pattern;
 using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Database;
+using JWLibrary.StaticMethod;
+
+using JWActions;
 
 namespace JWLibrary.ApiCore.Controllers {
 
@@ -25,23 +29,34 @@ namespace JWLibrary.ApiCore.Controllers {
             _logger = logger;
         }
 
+        //[HttpGet]
+        //public IEnumerable<WEATHER_FORECAST> Get(string name, int age) {
+        //    var rng = new Random();
+        //    return Enumerable.Range(1, 5).Select(index => new WEATHER_FORECAST {
+        //        DATE = DateTime.Now.AddDays(index),
+        //        TEMPERATURE_C = rng.Next(-20, 55),
+        //        SUMMARY = Summaries[rng.Next(Summaries.Length)]
+        //    })
+        //    .ToArray();
+        //}
+
+
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get(string name, int age) {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+        public async Task<WEATHER_FORECAST> Get(int idx = 1) {
+            WEATHER_FORECAST result = null;
+            using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
+                action.Request = new WeatherForecastRequestDto() {
+                    ID = idx
+                };
+                result = await action.ExecuteCore();
+            }
+            return result;
         }
 
-
         [HttpGet]
-        public async Task<int> GetTest() {
-            var result = 1;
-            using (var action = ActionFactory.CreateAction<ITestAction, TestAction, TestReqestDto, int>()) {
-                action.Request = new TestReqestDto();
+        public async Task<IEnumerable<WEATHER_FORECAST>> GetAll() {
+            IEnumerable<WEATHER_FORECAST> result = null;
+            using (var action = ActionFactory.CreateAction<IGetAllWeatherForecastAction, GetAllWeatherForecastAction, WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>()) {
                 result = await action.ExecuteCore();
             }
             return result;
@@ -64,25 +79,5 @@ namespace JWLibrary.ApiCore.Controllers {
             request.WRITE_DT = DateTime.Now;
             return request.Serialize();
         }
-    }
-
-    public interface ITestAction : IActionBase<int> { }
-
-    public class TestAction : ActionBase<TestReqestDto, int>, ITestAction {
-        public override bool PostExecute() {
-            return true;
-        }
-
-        public override bool PreExecute() {
-            return true;
-        }
-
-        public override int Executed() {
-            return 0;
-        }
-    }
-
-    public class TestReqestDto {
-
     }
 }

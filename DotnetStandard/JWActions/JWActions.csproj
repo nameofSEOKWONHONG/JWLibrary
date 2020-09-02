@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SqlKata" Version="2.2.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Database\JWLibrary.Database.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Pattern\JWLibrary.Pattern.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -20,10 +20,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.5.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DotnetStandard\JWActions\JWActions.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Database\JWLibrary.Database.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Pattern\JWLibrary.Pattern.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
   </ItemGroup>
 

@@ -29,7 +29,9 @@ namespace JWLibrary.ApiCore
         {
             SwaggerConfig.ConfigureServices(services);
             services.AddControllers()
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(options => {
+                    options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+                });
             //.AddNewtonsoftJson(o => o.SerializerSettings.Converters.Insert(0, new CustomConverter()));
         }
 
@@ -53,6 +55,13 @@ namespace JWLibrary.ApiCore
             });
 
             SwaggerConfig.Configure(app);
+            Database.DatabaseConfig.Configure();
+        }
+    }
+
+    public class LowercaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
+        protected override string ResolvePropertyName(string propertyName) {
+            return propertyName.ToLower();
         }
     }
 }

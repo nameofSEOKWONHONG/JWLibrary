@@ -261,3 +261,9 @@ paket-files/
 /Nuget/JWLibrary.SettingLoader
 /Nuget/JWLibrary.Winform
 /JWLibrary.DB.MSSQL
+/DotNetFramework/Windows/output/JWLibrary.Wpf.dll
+/DotNetFramework/Windows/output/JWLibrary.Winform.dll
+/DotNetFramework/Windows/output/JWLibrary.Win32.dll
+/DotNetFramework/Windows/output/JWLibrary.Hook.dll
+/DotNetFramework/Windows/output/JWLibrary.Firewall.dll
+/DotNetFramework/Windows/output/JWLibrary.FFmpeg.dll
