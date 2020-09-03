@@ -1,28 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using JWActions;
 using JWLibrary.ApiCore.Dto;
+using JWLibrary.Pattern.TaskAction;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
-using JWLibrary.Core;
-using JWLibrary.ApiCore.Config;
-using JWLibrary.Pattern;
-using JWLibrary.Pattern.TaskAction;
-using JWLibrary.Database;
-using JWLibrary.StaticMethod;
-
-using JWActions;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JWLibrary.ApiCore.Controllers {
-
+    /// <summary>
+    /// CRUD TEST CLASS
+    /// </summary>
     public class WeatherForecastController : JControllerBase {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<WeatherForecastController> _logger;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger) {
@@ -68,16 +56,23 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <param name="request">요청:RequestDto<TestRequestDto></param>
         /// <returns></returns>
         [HttpPost]
-        public string Post(
-            [FromBody]
-            [ModelBinder(typeof(JPostModelBinder<RequestDto<TestRequestDto>>))]
-            RequestDto<TestRequestDto> request) {
-            var req = HttpContext.Request;
-            var items = base.HttpContext.Items;
+        public async Task<int> Save([FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]
+            RequestDto<WEATHER_FORECAST> request) {
 
-            request.WRITER_ID = "test";
-            request.WRITE_DT = DateTime.Now;
-            return request.Serialize();
+            using(var action = ActionFactory.CreateAction<ISaveWeatherForecastAction, SaveWeatherForecastAction, WEATHER_FORECAST, int>()) {
+                action.Request = request.Dto;
+                return await action.ExecuteCore();
+            }
+        }
+
+        [HttpPost]
+        public async Task<bool> Remove([FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]
+            RequestDto<WeatherForecastRequestDto> request) {
+
+            using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction, DeleteWeatherForecastAction, WeatherForecastRequestDto, bool>()) {
+                action.Request = request.Dto;
+                return await action.ExecuteCore();
+            }
         }
     }
 }

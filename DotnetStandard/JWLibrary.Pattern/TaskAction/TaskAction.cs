@@ -23,7 +23,7 @@ namespace JWLibrary.Pattern.TaskAction {
         public Task<TResult> ExecuteCore() {
             return Task.Run(() => {
                 TResult result = default(TResult);
-                if (_action.PostExecute()) {
+                if (_action.PreExecute()) {
                     result = _action.Executed();
                     _action.PostExecute();
                 }

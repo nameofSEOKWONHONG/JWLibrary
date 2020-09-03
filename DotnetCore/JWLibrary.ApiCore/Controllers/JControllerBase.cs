@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.ApiCore.Controllers {
     [ApiController]
-    [Route("xform/[controller]/[action]")]
+    [Route("japi/[controller]/[action]")]
 
     public class JControllerBase : ControllerBase {
     }

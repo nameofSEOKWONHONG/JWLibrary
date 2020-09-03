@@ -19,7 +19,7 @@ namespace JWLibrary.ApiCore.Dto {
         }
 
         [JsonProperty("dto")]
-        TDto Dto { get; set; }
+        public TDto Dto { get; set; }
 
         public string WRITER_ID { get; set; }
         public DateTime WRITE_DT { get; set; } = DateTime.Now;

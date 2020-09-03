@@ -23,8 +23,7 @@ namespace JWLibrary.Database {
 
         #region [sync]
         #region [self impletment func method]
-        public static T jGet<T>(this IDbConnection connection, Func<IDbConnection, T> func)
-             where T : class, new() {
+        public static T jQuery<T>(this IDbConnection connection, Func<IDbConnection, T> func) {
             try {
                 connection.Open();
                 return func(connection);
