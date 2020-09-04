@@ -5,6 +5,11 @@
     </assembly>
     <members>
         <!-- Badly formed XML comment ignored for member "T:JWLibrary.ApiCore.Config.SwaggerConfig" -->
-        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.ApiCore.Dto.RequestDto{JWActions.WEATHER_FORECAST})" -->
+        <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
+            <summary>
+            CRUD TEST CLASS
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JWActions.WeatherForecast.WEATHER_FORECAST})" -->
     </members>
 </doc>

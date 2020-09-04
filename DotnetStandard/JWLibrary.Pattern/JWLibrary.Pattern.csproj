@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj" />
+    <ProjectReference Include="..\JWLibrary.Database\JWLibrary.Database.csproj" />
   </ItemGroup>
 
 </Project>

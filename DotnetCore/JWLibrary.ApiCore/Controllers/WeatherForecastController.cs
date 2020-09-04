@@ -1,5 +1,6 @@
-﻿using JWActions;
-using JWLibrary.ApiCore.Dto;
+﻿using JWActions.WeatherForecast;
+using JWLibrary.ApiCore.Base;
+using JWLibrary.Core;
 using JWLibrary.Pattern.TaskAction;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

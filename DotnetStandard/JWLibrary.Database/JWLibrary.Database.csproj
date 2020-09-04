@@ -24,4 +24,8 @@
   <ItemGroup>
     <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstract\" />
+  </ItemGroup>
 </Project>

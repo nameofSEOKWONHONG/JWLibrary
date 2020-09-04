@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace JWLibrary.ApiCore.Controllers {
+namespace JWLibrary.ApiCore.Base {
     [ApiController]
     [Route("japi/[controller]/[action]")]
 

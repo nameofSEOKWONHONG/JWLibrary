@@ -1,6 +1,5 @@
-using System;
-
-namespace JWActions {
+namespace JWActions.WeatherForecast {
+    using System;
 
     public class WEATHER_FORECAST
     {

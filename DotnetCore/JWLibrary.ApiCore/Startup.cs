@@ -1,20 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JWLibrary.ApiCore.Config;
-using JWLibrary.ApiCore.Dto;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+namespace JWLibrary.ApiCore {
+    using JWLibrary.ApiCore.Config;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
 
-namespace JWLibrary.ApiCore
-{
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -55,7 +46,7 @@ namespace JWLibrary.ApiCore
             });
 
             SwaggerConfig.Configure(app);
-            Database.DatabaseConfig.Configure();
+            //Database.DatabaseConfig.Configure();
         }
     }
 

@@ -1,13 +1,10 @@
-﻿using JWLibrary.Core;
-using JWLibrary.Database;
-using JWLibrary.Pattern.TaskAction;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace JWActions.WeatherForecast {
+    using Dapper;
+    using JWLibrary.Core;
+    using JWLibrary.Database;
+    using JWLibrary.Pattern.TaskAction;
+    using System.Data.SqlClient;
 
-using Dapper;
-
-namespace JWActions {
     public class DeleteWeatherForecastAction : ActionBase<WeatherForecastRequestDto, bool>, IDeleteWeatherForecastAction {
         WEATHER_FORECAST _removeObj = null;
         public override bool Executed() {
@@ -21,7 +18,7 @@ namespace JWActions {
         }
 
         public override bool PostExecute() {
-            return DatabaseConfig.DB_CONNECTION.jQuery<bool>(db => {
+            return JDataBase.Resolve<SqlConnection>().jQuery<bool>(db => {
                 return db.Delete<WEATHER_FORECAST>(_removeObj) > 0;
             });
         }
