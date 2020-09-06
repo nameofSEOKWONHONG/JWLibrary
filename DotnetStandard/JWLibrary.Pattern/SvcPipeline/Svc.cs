@@ -1,21 +1,16 @@
 ﻿using JCoreSvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Transactions;
 
 namespace JWLibrary.Pattern {
+
     public class Request<TDto>
         where TDto : class, new() {
-
     }
 
     public class SvcBase : ISvcBase {
-
     }
 
     public interface ISvcBase {
-
     }
 
     public class SvcCore<TOwner, TRequest, TReturn> : SvcBase, ISvcCore
@@ -30,19 +25,18 @@ namespace JWLibrary.Pattern {
     }
 
     public interface ISvcCore : ISvcBase {
-
     }
 
     public class SvcImpl<TOwner, TRequst, TReturn> : SvcCore<TOwner, TRequst, TReturn>
         where TOwner : class
         where TRequst : class, new() {
-        PipeLine _pipeLine = null;
+        private PipeLine _pipeLine = null;
 
         public SvcImpl() {
             this.Setup();
         }
-        private void Setup() {
 
+        private void Setup() {
         }
 
         protected PipeLine CreatePipeLine(TransactionScopeOption transactionScopeOption) {
@@ -62,9 +56,6 @@ namespace JWLibrary.Pattern {
     //    public void Main() {
     //        SvcImpl svcImpl = new SvcImpl();
 
-
     //    }
     //}
-
-
 }

@@ -3,34 +3,28 @@ using System.IO;
 using System.Xml.Serialization;
 
 namespace JWLibrary.Utils {
+
     // T는 [Serializable]을 가져야 함
     public static class XmlLoader<T>
-        where T : class
-    {
-        public static T LoadFromXml(string filename)
-        {
+        where T : class {
+
+        public static T LoadFromXml(string filename) {
             T settings = null;
             if (false == File.Exists(filename)) return null;
             FileStream fs = null;
             XmlSerializer xs = null;
 
-            try
-            {
+            try {
                 xs = new XmlSerializer(typeof(T));
-            }
-            catch (System.Exception e)
-            {
+            } catch (System.Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
 
-            try
-            {
+            try {
                 fs = new FileStream(filename, FileMode.Open);
                 settings = (T)xs.Deserialize(fs);
-            }
-            catch (System.Exception e)
-            {
+            } catch (System.Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
@@ -39,38 +33,28 @@ namespace JWLibrary.Utils {
             return settings;
         }
 
-        public static bool Save2Xml(string filename, T settings)
-        {
-            if (null == filename || string.Empty == Path.GetFileName(filename))
-            {
+        public static bool Save2Xml(string filename, T settings) {
+            if (null == filename || string.Empty == Path.GetFileName(filename)) {
                 return false;
             }
             TextWriter tw = null;
             XmlSerializer xs = null;
 
-            try
-            {
+            try {
                 xs = new XmlSerializer(typeof(T));
-            }
-            catch (System.Exception e)
-            {
+            } catch (System.Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
 
-            try
-            {
+            try {
                 tw = new StreamWriter(filename);
                 xs.Serialize(tw, settings);
-            }
-            catch (System.Exception e)
-            {
+            } catch (System.Exception e) {
                 Debug.Assert(false);
                 e.ToString();
                 return false;
-            }
-            finally
-            {
+            } finally {
                 if (null != tw) tw.Close();
             }
             return true;

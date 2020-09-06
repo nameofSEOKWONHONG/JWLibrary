@@ -10,11 +10,12 @@ using System.Linq;
 using System.Windows.Forms;
 using static JWLibrary.Winform.DataGridViewControls.SearchForm;
 
-namespace JWLibrary.Winform.DataViewControls
-{
-    public class JWDataGridView : DataGridView
-    {
+namespace JWLibrary.Winform.DataViewControls {
+
+    public class JWDataGridView : DataGridView {
+
         #region member variable
+
         private int _checkCnt = 0;
         private bool _isCheckBoxHeaderVisible = false;
         private string _new_value;
@@ -23,24 +24,20 @@ namespace JWLibrary.Winform.DataViewControls
         private Dictionary<string, string> _inputValue = new Dictionary<string, string>();
         private bool isAsc = false;
         private bool _isLineColor = true;
-        #endregion
+
+        #endregion member variable
 
         #region property
-        public int SelectedRowCount
-        {
-            get
-            {
+
+        public int SelectedRowCount {
+            get {
                 int row = this.RowCount;
                 int idx = 0;
 
-                for(int i = row - 1; i>=0; i--)
-                {
-                    if(this["CHK", i] != null)
-                    {
-                        if(this["CHK", i].Value != null)
-                        {
-                            if(this["CHK", i].Value.ToString() == "True")
-                            {
+                for (int i = row - 1; i >= 0; i--) {
+                    if (this["CHK", i] != null) {
+                        if (this["CHK", i].Value != null) {
+                            if (this["CHK", i].Value.ToString() == "True") {
                                 idx++;
                             }
                         }
@@ -51,22 +48,16 @@ namespace JWLibrary.Winform.DataViewControls
             }
         }
 
-        public List<object> SelectedItem
-        {
-            get
-            {
+        public List<object> SelectedItem {
+            get {
                 List<object> retObjs = new List<object>();
 
                 int row = this.RowCount;
 
-                for (int i = row - 1; i >= 0; i--)
-                {
-                    if (this["CHK", i] != null)
-                    {
-                        if (this["CHK", i].Value != null)
-                        {
-                            if (this["CHK", i].Value.ToString() == "True")
-                            {
+                for (int i = row - 1; i >= 0; i--) {
+                    if (this["CHK", i] != null) {
+                        if (this["CHK", i].Value != null) {
+                            if (this["CHK", i].Value.ToString() == "True") {
                                 retObjs.Add(this.Rows[i].DataBoundItem);
                             }
                         }
@@ -76,16 +67,16 @@ namespace JWLibrary.Winform.DataViewControls
                 return retObjs;
             }
         }
-        #endregion
+
+        #endregion property
 
         #region construct
-        public JWDataGridView()
-        {
+
+        public JWDataGridView() {
             Initialize();
         }
 
-        private void Initialize()
-        {
+        private void Initialize() {
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             //
@@ -109,41 +100,30 @@ namespace JWLibrary.Winform.DataViewControls
             this.CellMouseUp += JWDataGridView_CellMouseUp;
             this.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             this.AutoSize = false;
-
         }
 
-        void JWDataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
+        private void JWDataGridView_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e) {
             if (this.Columns[e.ColumnIndex].Name == "index") return;
 
-            try
-            {
-                if (!isAsc)
-                {
+            try {
+                if (!isAsc) {
                     this.Sort(this.Columns[e.ColumnIndex], System.ComponentModel.ListSortDirection.Ascending);
                     isAsc = true;
-                }
-                else
-                {
+                } else {
                     this.Sort(this.Columns[e.ColumnIndex], System.ComponentModel.ListSortDirection.Descending);
                     isAsc = false;
                 }
-            }
-            catch
-            {
-
+            } catch {
             }
         }
 
-        void JWDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
+        private void JWDataGridView_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e) {
             if (this[e.ColumnIndex, e.RowIndex].Value == null) return;
 
             _old_value = this[e.ColumnIndex, e.RowIndex].Value.ToString();
         }
 
-        void JWDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
+        private void JWDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e) {
             if (this[e.ColumnIndex, e.RowIndex].Value == null) return;
 
             _new_value = this[e.ColumnIndex, e.RowIndex].Value.ToString();
@@ -166,10 +146,8 @@ namespace JWLibrary.Winform.DataViewControls
             //}
         }
 
-        void JWDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex > 1)
-            {
+        private void JWDataGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.ColumnIndex > 1) {
                 /*if (_helpTexts != null && this.TextItem != null)
                 {
                     try
@@ -184,44 +162,33 @@ namespace JWLibrary.Winform.DataViewControls
             }
         }
 
-        void JWDataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            if (this.Columns[0].Visible)
-            {
-                foreach (DataGridViewRow r in this.Rows)
-                {
-                    try
-                    {
+        private void JWDataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) {
+            if (this.Columns[0].Visible) {
+                foreach (DataGridViewRow r in this.Rows) {
+                    try {
                         r.Cells["index"].Value = r.Index + 1;
 
-                        if (_isLineColor)
-                        {
-                            if ((r.Index + 1) % 2 == 0)
-                            {
+                        if (_isLineColor) {
+                            if ((r.Index + 1) % 2 == 0) {
                                 r.DefaultCellStyle.BackColor = Color.FromArgb(233, 238, 240);
-                            }
-                            else
-                            {
+                            } else {
                                 r.DefaultCellStyle.BackColor = Color.White;
                             }
                         }
-                    }
-                    catch { /*dt바인딩시 오류 처리*/ }
-
+                    } catch { /*dt바인딩시 오류 처리*/ }
                 }
             }
         }
-        #endregion
+
+        #endregion construct
 
         #region control event
-        void JWDataGridView_RowHeadersWidthChanged(object sender, EventArgs e)
-        {
-            if (_isCheckBoxHeaderVisible)
-            {
+
+        private void JWDataGridView_RowHeadersWidthChanged(object sender, EventArgs e) {
+            if (_isCheckBoxHeaderVisible) {
                 Control[] controls = this.Controls.Find("CHK", true);
 
-                if (controls != null && controls.Count() > 0)
-                {
+                if (controls != null && controls.Count() > 0) {
                     Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
                     Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
                     rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
@@ -232,23 +199,18 @@ namespace JWLibrary.Winform.DataViewControls
             }
         }
 
-        void JWDataGridView_ColumnHeadersHeightChanged(object sender, EventArgs e)
-        {
-
+        private void JWDataGridView_ColumnHeadersHeightChanged(object sender, EventArgs e) {
         }
 
-        void JWDataGridView_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Control && (e.KeyCode == Keys.F))
-            {
+        private void JWDataGridView_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Control && (e.KeyCode == Keys.F)) {
                 List<SearchCondition> list = new List<SearchCondition>();
 
-                for (int i = 0; i < this.Columns.Count; i++)
-                {
-					if (this.Columns[i].Visible) {
-						if (!string.IsNullOrEmpty(this.Columns[i].HeaderText) && this.Columns[i].HeaderText != "순번")
-							list.Add(new SearchCondition() { Name = this.Columns[i].HeaderText, Value = this.Columns[i].DataPropertyName });
-					}
+                for (int i = 0; i < this.Columns.Count; i++) {
+                    if (this.Columns[i].Visible) {
+                        if (!string.IsNullOrEmpty(this.Columns[i].HeaderText) && this.Columns[i].HeaderText != "순번")
+                            list.Add(new SearchCondition() { Name = this.Columns[i].HeaderText, Value = this.Columns[i].DataPropertyName });
+                    }
                 }
 
                 SearchForm form = new SearchForm(list, this);
@@ -259,24 +221,18 @@ namespace JWLibrary.Winform.DataViewControls
                 form.BringToFront();
             }
 
-            if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left || e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
-            {
+            if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Left || e.KeyCode == Keys.Up || e.KeyCode == Keys.Down) {
                 DataGridView grid = (DataGridView)sender;
 
-                if (grid != null)
-                {
-                    try
-                    {
+                if (grid != null) {
+                    try {
                         int row = grid.SelectedCells[0].RowIndex;
                         int col = grid.SelectedCells[0].ColumnIndex;
 
                         DataGridViewCellEventArgs args = new DataGridViewCellEventArgs(col, row);
 
                         this.OnCellClick(args);
-                    }
-                    catch
-                    {
-
+                    } catch {
                     }
                 }
             }
@@ -285,14 +241,11 @@ namespace JWLibrary.Winform.DataViewControls
                 Clipboard.SetDataObject(this.GetClipboardContent().GetText());
         }
 
-        void JWDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
+        private void JWDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e) {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right) {
                 DataGridView grid = (DataGridView)sender;
 
-                if (grid != null)
-                {
+                if (grid != null) {
                     ContextMenuStrip menu = new ContextMenuStrip();
                     menu.Items.Add("EXCEL 출력", null, new EventHandler(itemCsv_Click));
                     Point pt = grid.PointToClient(Control.MousePosition);
@@ -301,12 +254,10 @@ namespace JWLibrary.Winform.DataViewControls
             }
         }
 
-        void chkHeader_CheckedChanged(object sender, EventArgs e)
-        {
+        private void chkHeader_CheckedChanged(object sender, EventArgs e) {
             int chkCnt = 0;
 
-            for (int i = 0; i < this.RowCount; i++)
-            {
+            for (int i = 0; i < this.RowCount; i++) {
                 this[0, i].Value = ((CheckBox)this.Controls.Find("CHK", true)[0]).Checked;
 
                 if (this[0, i].Value.Equals(true)) chkCnt++;
@@ -317,25 +268,20 @@ namespace JWLibrary.Winform.DataViewControls
             this.EndEdit();
         }
 
-        public void ExportExcel(string fileName)
-        {
+        public void ExportExcel(string fileName) {
             DataTable dt = GetDataTableFromDGV();
 
-            if (dt != null)
-            {
+            if (dt != null) {
                 //ExcelExport.CreateExcelDocument(dt, fileName);
             }
         }
 
-        private DataTable GetDataTableFromDGV()
-        {
+        private DataTable GetDataTableFromDGV() {
             var dt = new DataTable();
             int columnCount = 0;
 
-            foreach (DataGridViewColumn column in this.Columns)
-            {
-                if (column.Visible)
-                {
+            foreach (DataGridViewColumn column in this.Columns) {
+                if (column.Visible) {
                     // You could potentially name the column based on the DGV column name (beware of dupes)
                     // or assign a type based on the data type of the data bound to this DGV column.
                     dt.Columns.Add(column.HeaderText);
@@ -345,10 +291,8 @@ namespace JWLibrary.Winform.DataViewControls
 
             List<object> cellValues = new List<object>();
 
-            foreach (DataGridViewRow row in this.Rows)
-            {
-                for (int i = 0; i < row.Cells.Count; i++)
-                {
+            foreach (DataGridViewRow row in this.Rows) {
+                for (int i = 0; i < row.Cells.Count; i++) {
                     if (this.Columns[i].Visible)
                         cellValues.Add(row.Cells[i].Value);
                 }
@@ -360,18 +304,13 @@ namespace JWLibrary.Winform.DataViewControls
             return dt;
         }
 
-        public void ExportCsv(string fileName)
-        {
-            if (this.RowCount > 0)
-            {
+        public void ExportCsv(string fileName) {
+            if (this.RowCount > 0) {
                 StreamWriter pFilerWriter = new StreamWriter(fileName, false, System.Text.Encoding.Default);
 
-                for (int i = 0; i < this.Columns.Count; i++)
-                {
-                    if (this.Columns[i].Visible)
-                    {
-                        if (i > 0)
-                        {
+                for (int i = 0; i < this.Columns.Count; i++) {
+                    if (this.Columns[i].Visible) {
+                        if (i > 0) {
                             pFilerWriter.Write(",");
                         }
 
@@ -383,11 +322,9 @@ namespace JWLibrary.Winform.DataViewControls
 
                 // DataGridView의 각행을 읽어 CSV로 변환
                 // pFileWrite가 CSV 파일 핸들
-                foreach (DataGridViewRow row in this.Rows)
-                {
+                foreach (DataGridViewRow row in this.Rows) {
                     bool bIsFirstValue = true;
-                    foreach (DataGridViewCell cell in row.Cells)
-                    {
+                    foreach (DataGridViewCell cell in row.Cells) {
                         // 첫번째 셀 값이 없다면 이 행은 무시한다
                         if (bIsFirstValue && null == cell.FormattedValue)
                             break;
@@ -397,7 +334,7 @@ namespace JWLibrary.Winform.DataViewControls
                             continue;
 
                         if (cell.ColumnIndex > 0)
-                            if(!cell.Visible)
+                            if (!cell.Visible)
                                 continue;
 
                         if (!bIsFirstValue)
@@ -411,17 +348,13 @@ namespace JWLibrary.Winform.DataViewControls
                 }
 
                 pFilerWriter.Close();
-            }
-            else
-            {
+            } else {
                 MessageBox.Show("출력할 내용이 없습니다.");
             }
         }
 
-        void ItemExcel_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog dlg = new SaveFileDialog())
-            {
+        private void ItemExcel_Click(object sender, EventArgs e) {
+            using (SaveFileDialog dlg = new SaveFileDialog()) {
                 //dlg.InitialDirectory = @"C:\";
                 dlg.Title = "EXCEL 저장";
                 dlg.DefaultExt = "xlsx";
@@ -429,17 +362,14 @@ namespace JWLibrary.Winform.DataViewControls
                 dlg.FilterIndex = 0;
                 dlg.RestoreDirectory = true;
 
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
+                if (dlg.ShowDialog() == DialogResult.OK) {
                     this.ExportExcel(dlg.FileName);
                 }
             }
         }
 
-        void itemCsv_Click(object sender, EventArgs e)
-        {
-            using (SaveFileDialog dlg = new SaveFileDialog())
-            {
+        private void itemCsv_Click(object sender, EventArgs e) {
+            using (SaveFileDialog dlg = new SaveFileDialog()) {
                 //dlg.InitialDirectory = @"C:\";
                 dlg.Title = "CSV 저장";
                 dlg.DefaultExt = "csv";
@@ -447,53 +377,42 @@ namespace JWLibrary.Winform.DataViewControls
                 dlg.FilterIndex = 0;
                 dlg.RestoreDirectory = true;
 
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
+                if (dlg.ShowDialog() == DialogResult.OK) {
                     this.ExportCsv(dlg.FileName);
                 }
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == Keys.Enter)
-            {
-                if (CurrentCell != null)
-                {
-                    if (this.CurrentCell.Visible)
-                    {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == Keys.Enter) {
+                if (CurrentCell != null) {
+                    if (this.CurrentCell.Visible) {
                         int icolumn = this.CurrentCell.ColumnIndex;
                         int irow = this.CurrentCell.RowIndex;
 
-                        if (icolumn == this.Columns.Count - 2)
-                        {
+                        if (icolumn == this.Columns.Count - 2) {
                             if (irow == this.Rows.Count - 1) return true;
 
                             this.CurrentCell = this[0, irow + 1];
-                        }
-                        else
-                        {
-							for (int i = icolumn + 1; i < this.Columns.Count; i++)
-                            {
-                                if (this[i, irow].Visible)
-                                {
+                        } else {
+                            for (int i = icolumn + 1; i < this.Columns.Count; i++) {
+                                if (this[i, irow].Visible) {
                                     this.CurrentCell = this[i, irow];
                                     break;
                                 }
                             }
-
-
                         }
                     }
                 }
                 return true;
-            }
-            else
+            } else
                 return base.ProcessCmdKey(ref msg, keyData);
         }
-        #endregion
+
+        #endregion control event
 
         #region setting function
+
         public void SetGrid(
                    bool isCheckBoxHeaderVisible,
                    bool isImageColumnVisible,
@@ -511,9 +430,10 @@ namespace JWLibrary.Winform.DataViewControls
                    int[] displayIndexs,
                    DataGridViewContentAlignment[] rowCellStyleAlignments,
                    DataGridViewContentAlignment[] headerAlingments,
-                   bool isDebugVisible = false)
-        {
+                   bool isDebugVisible = false) {
+
             #region 기본설정
+
             //다중 선택을 위한 체크박스 활성화
             this._isCheckBoxHeaderVisible = isCheckBoxHeaderVisible;
 
@@ -529,10 +449,8 @@ namespace JWLibrary.Winform.DataViewControls
 
             this.ColumnCount = columnCnt;
             int isdf = 0;
-            try
-            {
-                for (int i = 0; i < columnCnt; i++)
-                {
+            try {
+                for (int i = 0; i < columnCnt; i++) {
                     isdf = i;
                     /*if (i == 0)
                     {
@@ -547,21 +465,20 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Columns[i].Visible = isCheckBoxHeaderVisible;
                         this.Columns[i].Width = 40;                        */
 
-                        /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
-                        Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
-                        rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
-                        rect.Y = (rect.Height / 4);// +(rect.Height / 4);
+                    /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
+                    Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
+                    rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
+                    rect.Y = (rect.Height / 4);// +(rect.Height / 4);
 
-                        CheckBox chkHeader = new CheckBox();
-                        chkHeader.Name = "chkHeader";
-                        chkHeader.Size = s;
-                        chkHeader.Location = rect.Location;
-                        chkHeader.CheckedChanged += chkHeader_CheckedChanged;
-                        this.Controls.Add(chkHeader);
-                        this.Columns[0].ReadOnly = false;*/
+                    CheckBox chkHeader = new CheckBox();
+                    chkHeader.Name = "chkHeader";
+                    chkHeader.Size = s;
+                    chkHeader.Location = rect.Location;
+                    chkHeader.CheckedChanged += chkHeader_CheckedChanged;
+                    this.Controls.Add(chkHeader);
+                    this.Columns[0].ReadOnly = false;*/
                     //}
-                    if (i == 0)
-                    {
+                    if (i == 0) {
                         this.Columns[i].Name = "index";
                         this.Columns[i].HeaderText = "순번";
                         this.Columns[i].Visible = isIndexColumnVisible;
@@ -569,19 +486,15 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Columns[i].ReadOnly = true;
                         this.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-                        if(isIndexColumnVisible)
+                        if (isIndexColumnVisible)
                             this.DataBindingComplete -= JWDataGridView_DataBindingComplete;
-                    }
-                    else if (i == this.ColumnCount - 1)
-                    {
+                    } else if (i == this.ColumnCount - 1) {
                         this.Columns[i].Name = "EDITOBJECT"; //컬럼 이름
                         this.Columns[i].HeaderText = "EDITOBJECT"; //표시될 TEXT
                         this.Columns[i].DataPropertyName = "EDITOBJECT"; //바인딩될 이름 (컬럼명과 동일설정)
                         this.Columns[i].Width = 100; //컬럼 폭
                         this.Columns[i].Visible = isDebugVisible;
-                    }
-                    else
-                    {
+                    } else {
                         //기본설정
                         this.Columns[i].Name = colNames[i - 1];
                         this.Columns[i].HeaderText = colHeaderTexts[i - 1];
@@ -652,92 +565,84 @@ namespace JWLibrary.Winform.DataViewControls
                 this.MultiSelect = isMultiSelect;
                 this.BackgroundColor = Color.White;
 
-            #endregion
+                #endregion 기본설정
 
-            #region 체크박스 컬럼 생성 시 수행
-            if (isCheckBoxHeaderVisible)
-            {
-                DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
-                chkColumn.Name = "CHK";
-                chkColumn.HeaderText = "";
-                chkColumn.Width = 30;
-                chkColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.Columns.Insert(0, chkColumn);
+                #region 체크박스 컬럼 생성 시 수행
 
-                /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
-                Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
-                rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
-                rect.Y = (rect.Height / 4);// +(rect.Height / 4);
+                if (isCheckBoxHeaderVisible) {
+                    DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
+                    chkColumn.Name = "CHK";
+                    chkColumn.HeaderText = "";
+                    chkColumn.Width = 30;
+                    chkColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    this.Columns.Insert(0, chkColumn);
 
-                CheckBox chkHeader = new CheckBox();
-                chkHeader.Name = "chkHeader";
-                chkHeader.Size = s;
-                chkHeader.Location = rect.Location;
-                chkHeader.CheckedChanged += chkHeader_CheckedChanged;
-                this.Controls.Add(chkHeader);
-                this.Columns[0].ReadOnly = false;*/
-            }
-            #endregion
+                    /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
+                    Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
+                    rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
+                    rect.Y = (rect.Height / 4);// +(rect.Height / 4);
 
-            #region 이미지 컬럼 생성시 수행
-            if (isImageColumnVisible)
-            {
-                DataGridViewColumn column = null;
+                    CheckBox chkHeader = new CheckBox();
+                    chkHeader.Name = "chkHeader";
+                    chkHeader.Size = s;
+                    chkHeader.Location = rect.Location;
+                    chkHeader.CheckedChanged += chkHeader_CheckedChanged;
+                    this.Controls.Add(chkHeader);
+                    this.Columns[0].ReadOnly = false;*/
+                }
 
-                if (isCheckBoxHeaderVisible) column = this.Columns[1];
-                else column = this.Columns[0];
+                #endregion 체크박스 컬럼 생성 시 수행
 
-                if (column != null)
-                {
-                    DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+                #region 이미지 컬럼 생성시 수행
 
-                    imgCol.Name = column.Name;
-                    imgCol.HeaderText = column.HeaderText;
-                    imgCol.SortMode = DataGridViewColumnSortMode.NotSortable;
-                    imgCol.Tag = column.Tag;
-                    imgCol.DataPropertyName = column.DataPropertyName;
-                    imgCol.ReadOnly = column.ReadOnly;
-                    imgCol.Visible = column.Visible;
-                    imgCol.Width = column.Width;
-                    imgCol.MinimumWidth = column.MinimumWidth;
-                    imgCol.ValueType = column.ValueType;
-                    imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
-                    imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
+                if (isImageColumnVisible) {
+                    DataGridViewColumn column = null;
 
-                    if (isCheckBoxHeaderVisible)
-                    {
-                        this.Columns.RemoveAt(1);
-                        this.Columns.Insert(1, imgCol);
-                    }
-                    else
-                    {
-                        this.Columns.RemoveAt(0);
-                        this.Columns.Insert(0, imgCol);
+                    if (isCheckBoxHeaderVisible) column = this.Columns[1];
+                    else column = this.Columns[0];
+
+                    if (column != null) {
+                        DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+
+                        imgCol.Name = column.Name;
+                        imgCol.HeaderText = column.HeaderText;
+                        imgCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+                        imgCol.Tag = column.Tag;
+                        imgCol.DataPropertyName = column.DataPropertyName;
+                        imgCol.ReadOnly = column.ReadOnly;
+                        imgCol.Visible = column.Visible;
+                        imgCol.Width = column.Width;
+                        imgCol.MinimumWidth = column.MinimumWidth;
+                        imgCol.ValueType = column.ValueType;
+                        imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
+                        imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
+
+                        if (isCheckBoxHeaderVisible) {
+                            this.Columns.RemoveAt(1);
+                            this.Columns.Insert(1, imgCol);
+                        } else {
+                            this.Columns.RemoveAt(0);
+                            this.Columns.Insert(0, imgCol);
+                        }
                     }
                 }
-            }
 
-            #endregion
+                #endregion 이미지 컬럼 생성시 수행
 
-            if (isContextMenuVisible)
-            {
-                this.CellMouseUp += JWDataGridView_CellMouseUp;
-            }
+                if (isContextMenuVisible) {
+                    this.CellMouseUp += JWDataGridView_CellMouseUp;
+                }
 
-            this.MultiSelect = isMultiSelect;
+                this.MultiSelect = isMultiSelect;
 
-            if (isSearchViewEnable)
-            {
-                this.KeyUp += JWDataGridView_KeyUp;
-            }
+                if (isSearchViewEnable) {
+                    this.KeyUp += JWDataGridView_KeyUp;
+                }
 
-            this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.ScrollBars = ScrollBars.Both;
-            this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-
-            }
-            catch (Exception e)
-            {
+                this.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                this.ScrollBars = ScrollBars.Both;
+                this.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            } catch (Exception e) {
                 Debug.WriteLine("grid settng exception : " + e.Message);
             }
 
@@ -766,9 +671,10 @@ namespace JWLibrary.Winform.DataViewControls
                    int[] displayIndexs,
                    DataGridViewContentAlignment[] rowCellStyleAlignments,
                    DataGridViewContentAlignment[] headerAlingments,
-                   bool isDebugVisible = false)
-        {
+                   bool isDebugVisible = false) {
+
             #region 기본설정
+
             //다중 선택을 위한 체크박스 활성화
             this._isCheckBoxHeaderVisible = isCheckBoxHeaderVisible;
 
@@ -784,10 +690,8 @@ namespace JWLibrary.Winform.DataViewControls
 
             this.ColumnCount = columnCnt;
             int isdf = 0;
-            try
-            {
-                for (int i = 0; i < columnCnt; i++)
-                {
+            try {
+                for (int i = 0; i < columnCnt; i++) {
                     isdf = i;
                     /*if (i == 0)
                     {
@@ -802,38 +706,33 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Columns[i].Visible = isCheckBoxHeaderVisible;
                         this.Columns[i].Width = 40;                        */
 
-                        /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
-                        Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
-                        rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
-                        rect.Y = (rect.Height / 4);// +(rect.Height / 4);
+                    /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
+                    Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
+                    rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
+                    rect.Y = (rect.Height / 4);// +(rect.Height / 4);
 
-                        CheckBox chkHeader = new CheckBox();
-                        chkHeader.Name = "chkHeader";
-                        chkHeader.Size = s;
-                        chkHeader.Location = rect.Location;
-                        chkHeader.CheckedChanged += chkHeader_CheckedChanged;
-                        this.Controls.Add(chkHeader);
-                        this.Columns[0].ReadOnly = false;*/
+                    CheckBox chkHeader = new CheckBox();
+                    chkHeader.Name = "chkHeader";
+                    chkHeader.Size = s;
+                    chkHeader.Location = rect.Location;
+                    chkHeader.CheckedChanged += chkHeader_CheckedChanged;
+                    this.Controls.Add(chkHeader);
+                    this.Columns[0].ReadOnly = false;*/
                     //}
-                    if (i == 0)
-                    {
+                    if (i == 0) {
                         this.Columns[i].Name = "index";
                         this.Columns[i].HeaderText = "순번";
                         this.Columns[i].Visible = isIndexColumnVisible;
                         this.Columns[i].Width = 40;
                         this.Columns[i].ReadOnly = true;
                         this.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                    }
-                    else if (i == this.ColumnCount - 1)
-                    {
+                    } else if (i == this.ColumnCount - 1) {
                         this.Columns[i].Name = "EDITOBJECT"; //컬럼 이름
                         this.Columns[i].HeaderText = "EDITOBJECT"; //표시될 TEXT
                         this.Columns[i].DataPropertyName = "EDITOBJECT"; //바인딩될 이름 (컬럼명과 동일설정)
                         this.Columns[i].Width = 100; //컬럼 폭
                         this.Columns[i].Visible = isDebugVisible;
-                    }
-                    else
-                    {
+                    } else {
                         //기본설정
                         this.Columns[i].Name = colNames[i - 1];
                         this.Columns[i].HeaderText = colHeaderTexts[i - 1];
@@ -904,97 +803,88 @@ namespace JWLibrary.Winform.DataViewControls
                 this.MultiSelect = isMultiSelect;
                 this.BackgroundColor = Color.White;
 
-            #endregion
+                #endregion 기본설정
 
-            #region 체크박스 컬럼 생성 시 수행
-            if (isCheckBoxHeaderVisible)
-            {
-                DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
-                chkColumn.Name = "CHK";
-                chkColumn.HeaderText = "";
-                chkColumn.Width = 30;
-                chkColumn.DataPropertyName = "CHK";
-                chkColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                this.Columns.Insert(0, chkColumn);
-                this.Columns[0].ReadOnly = false;
-                chkColumn.TrueValue = true;
-                chkColumn.FalseValue = false;
-                //chkColumn.change += chkHeader_CheckedChanged;
+                #region 체크박스 컬럼 생성 시 수행
 
+                if (isCheckBoxHeaderVisible) {
+                    DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
+                    chkColumn.Name = "CHK";
+                    chkColumn.HeaderText = "";
+                    chkColumn.Width = 30;
+                    chkColumn.DataPropertyName = "CHK";
+                    chkColumn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    this.Columns.Insert(0, chkColumn);
+                    this.Columns[0].ReadOnly = false;
+                    chkColumn.TrueValue = true;
+                    chkColumn.FalseValue = false;
+                    //chkColumn.change += chkHeader_CheckedChanged;
 
-                /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
-                Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
-                rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
-                rect.Y = (rect.Height / 4);// +(rect.Height / 4);
+                    /*Rectangle rect = this.GetCellDisplayRectangle(0, -1, true);
+                    Size s = new System.Drawing.Size(rect.Width / 2, rect.Height / 2 + 2);
+                    rect.X = (rect.Width / 4) + 3; //- rect //rect.Location.X + (rect.Width  / 4);
+                    rect.Y = (rect.Height / 4);// +(rect.Height / 4);
 
-                CheckBox chkHeader = new CheckBox();
-                chkHeader.Name = "chkHeader";
-                chkHeader.Size = s;
-                chkHeader.Location = rect.Location;
-                chkHeader.CheckedChanged += chkHeader_CheckedChanged;
-                this.Controls.Add(chkHeader);
-                this.Columns[0].ReadOnly = false;*/
-            }
-            #endregion
+                    CheckBox chkHeader = new CheckBox();
+                    chkHeader.Name = "chkHeader";
+                    chkHeader.Size = s;
+                    chkHeader.Location = rect.Location;
+                    chkHeader.CheckedChanged += chkHeader_CheckedChanged;
+                    this.Controls.Add(chkHeader);
+                    this.Columns[0].ReadOnly = false;*/
+                }
 
-            #region 이미지 컬럼 생성시 수행
-            if (isImageColumnVisible)
-            {
-                DataGridViewColumn column = null;
+                #endregion 체크박스 컬럼 생성 시 수행
 
-                if (isCheckBoxHeaderVisible) column = this.Columns[1];
-                else column = this.Columns[0];
+                #region 이미지 컬럼 생성시 수행
 
-                if (column != null)
-                {
-                    DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+                if (isImageColumnVisible) {
+                    DataGridViewColumn column = null;
 
-                    imgCol.Name = column.Name;
-                    imgCol.HeaderText = column.HeaderText;
-                    imgCol.SortMode = DataGridViewColumnSortMode.NotSortable;
-                    imgCol.Tag = column.Tag;
-                    imgCol.DataPropertyName = column.DataPropertyName;
-                    imgCol.ReadOnly = column.ReadOnly;
-                    imgCol.Visible = column.Visible;
-                    imgCol.Width = column.Width;
-                    imgCol.MinimumWidth = column.MinimumWidth;
-                    imgCol.ValueType = column.ValueType;
-                    imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
-                    imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
+                    if (isCheckBoxHeaderVisible) column = this.Columns[1];
+                    else column = this.Columns[0];
 
-                    if (isCheckBoxHeaderVisible)
-                    {
-                        this.Columns.RemoveAt(1);
-                        this.Columns.Insert(1, imgCol);
-                    }
-                    else
-                    {
-                        this.Columns.RemoveAt(0);
-                        this.Columns.Insert(0, imgCol);
+                    if (column != null) {
+                        DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
+
+                        imgCol.Name = column.Name;
+                        imgCol.HeaderText = column.HeaderText;
+                        imgCol.SortMode = DataGridViewColumnSortMode.NotSortable;
+                        imgCol.Tag = column.Tag;
+                        imgCol.DataPropertyName = column.DataPropertyName;
+                        imgCol.ReadOnly = column.ReadOnly;
+                        imgCol.Visible = column.Visible;
+                        imgCol.Width = column.Width;
+                        imgCol.MinimumWidth = column.MinimumWidth;
+                        imgCol.ValueType = column.ValueType;
+                        imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
+                        imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
+
+                        if (isCheckBoxHeaderVisible) {
+                            this.Columns.RemoveAt(1);
+                            this.Columns.Insert(1, imgCol);
+                        } else {
+                            this.Columns.RemoveAt(0);
+                            this.Columns.Insert(0, imgCol);
+                        }
                     }
                 }
-            }
 
-            #endregion
+                #endregion 이미지 컬럼 생성시 수행
 
-            if (isContextMenuVisible)
-            {
-                this.CellMouseUp += JWDataGridView_CellMouseUp;
-            }
+                if (isContextMenuVisible) {
+                    this.CellMouseUp += JWDataGridView_CellMouseUp;
+                }
 
-            this.MultiSelect = isMultiSelect;
+                this.MultiSelect = isMultiSelect;
 
-            if (isSearchViewEnable)
-            {
-                this.KeyUp += JWDataGridView_KeyUp;
-            }
+                if (isSearchViewEnable) {
+                    this.KeyUp += JWDataGridView_KeyUp;
+                }
 
-            this.SelectionMode = selectMode;
-            this.ScrollBars = ScrollBars.Both;
-
-            }
-            catch (Exception e)
-            {
+                this.SelectionMode = selectMode;
+                this.ScrollBars = ScrollBars.Both;
+            } catch (Exception e) {
                 Debug.WriteLine("grid settng exception : " + e.Message);
             }
 
@@ -1026,9 +916,10 @@ namespace JWLibrary.Winform.DataViewControls
                    int[] displayIndexs,
                    DataGridViewContentAlignment[] rowCellStyleAlignments,
                    DataGridViewContentAlignment[] headerAlingments,
-                   bool isDebugVisible = false)
-        {
+                   bool isDebugVisible = false) {
+
             #region 기본설정
+
             //다중 선택을 위한 체크박스 활성화
             this._isCheckBoxHeaderVisible = isCheckBoxHeaderVisible;
 
@@ -1044,12 +935,9 @@ namespace JWLibrary.Winform.DataViewControls
 
             this.ColumnCount = columnCnt;
             int isdf = 0;
-            try
-            {
-                try
-                {
-                    for (int i = 0; i < columnCnt; i++)
-                    {
+            try {
+                try {
+                    for (int i = 0; i < columnCnt; i++) {
                         isdf = i;
                         /*if (i == 0)
                         {
@@ -1077,25 +965,20 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Controls.Add(chkHeader);
                         this.Columns[0].ReadOnly = false;*/
                         //}
-                        if (i == 0)
-                        {
+                        if (i == 0) {
                             this.Columns[i].Name = "index";
                             this.Columns[i].HeaderText = "순번";
                             this.Columns[i].Visible = isIndexColumnVisible;
                             this.Columns[i].Width = 40;
                             this.Columns[i].ReadOnly = true;
                             this.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        }
-                        else if (i == this.ColumnCount - 1)
-                        {
+                        } else if (i == this.ColumnCount - 1) {
                             this.Columns[i].Name = "EDITOBJECT"; //컬럼 이름
                             this.Columns[i].HeaderText = "EDITOBJECT"; //표시될 TEXT
                             this.Columns[i].DataPropertyName = "EDITOBJECT"; //바인딩될 이름 (컬럼명과 동일설정)
                             this.Columns[i].Width = 100; //컬럼 폭
                             this.Columns[i].Visible = isDebugVisible;
-                        }
-                        else
-                        {
+                        } else {
                             //기본설정
                             this.Columns[i].Name = colNames[i - 1];
                             this.Columns[i].HeaderText = colHeaderTexts[i - 1];
@@ -1141,9 +1024,7 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Columns[i].Frozen = false;
                         //this.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                     }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     Console.WriteLine(" Excetopn SetGrid : " + ex.Message);
                 }
 
@@ -1171,11 +1052,11 @@ namespace JWLibrary.Winform.DataViewControls
                 this.MultiSelect = isMultiSelect;
                 this.BackgroundColor = Color.White;
 
-            #endregion
+                #endregion 기본설정
 
                 #region 체크박스 컬럼 생성 시 수행
-                if (isCheckBoxHeaderVisible)
-                {
+
+                if (isCheckBoxHeaderVisible) {
                     DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
                     chkColumn.Name = "CHK";
                     chkColumn.HeaderText = "";
@@ -1198,18 +1079,18 @@ namespace JWLibrary.Winform.DataViewControls
                     this.Controls.Add(chkHeader);
                     this.Columns[0].ReadOnly = false;*/
                 }
-                #endregion
+
+                #endregion 체크박스 컬럼 생성 시 수행
 
                 #region 이미지 컬럼 생성시 수행
-                if (isImageColumnVisible)
-                {
+
+                if (isImageColumnVisible) {
                     DataGridViewColumn column = null;
 
                     if (isCheckBoxHeaderVisible) column = this.Columns[1];
                     else column = this.Columns[0];
 
-                    if (column != null)
-                    {
+                    if (column != null) {
                         DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
 
                         imgCol.Name = column.Name;
@@ -1225,35 +1106,29 @@ namespace JWLibrary.Winform.DataViewControls
                         imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
                         imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
 
-                        if (isCheckBoxHeaderVisible)
-                        {
+                        if (isCheckBoxHeaderVisible) {
                             this.Columns.RemoveAt(1);
                             this.Columns.Insert(1, imgCol);
-                        }
-                        else
-                        {
+                        } else {
                             this.Columns.RemoveAt(0);
                             this.Columns.Insert(0, imgCol);
                         }
                     }
                 }
 
-                #endregion
+                #endregion 이미지 컬럼 생성시 수행
 
-                if (isContextMenuVisible)
-                {
+                if (isContextMenuVisible) {
                     this.CellMouseUp += JWDataGridView_CellMouseUp;
                 }
 
                 this.MultiSelect = isMultiSelect;
 
-                if (isSearchViewEnable)
-                {
+                if (isSearchViewEnable) {
                     this.KeyUp += JWDataGridView_KeyUp;
                 }
 
-                foreach(string item in comboBoxColumn)
-                {
+                foreach (string item in comboBoxColumn) {
                     int n = this.Columns.IndexOf(this.Columns[item]);
 
                     DataGridViewComboBoxColumn cmb = new DataGridViewComboBoxColumn();
@@ -1287,10 +1162,7 @@ namespace JWLibrary.Winform.DataViewControls
 
                 this.SelectionMode = selectMode;
                 this.ScrollBars = ScrollBars.Both;
-
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Console.WriteLine("grid settng exception : " + e.Message);
             }
 
@@ -1323,9 +1195,10 @@ namespace JWLibrary.Winform.DataViewControls
                    DataGridViewContentAlignment[] rowCellStyleAlignments,
                    DataGridViewContentAlignment[] headerAlingments,
                    bool isDebugVisible = false,
-                   bool isLineColor = false)
-        {
+                   bool isLineColor = false) {
+
             #region 기본설정
+
             //다중 선택을 위한 체크박스 활성화
             this._isCheckBoxHeaderVisible = isCheckBoxHeaderVisible;
 
@@ -1343,12 +1216,9 @@ namespace JWLibrary.Winform.DataViewControls
 
             this.ColumnCount = columnCnt;
             int isdf = 0;
-            try
-            {
-                try
-                {
-                    for (int i = 0; i < columnCnt; i++)
-                    {
+            try {
+                try {
+                    for (int i = 0; i < columnCnt; i++) {
                         isdf = i;
                         /*if (i == 0)
                         {
@@ -1376,25 +1246,20 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Controls.Add(chkHeader);
                         this.Columns[0].ReadOnly = false;*/
                         //}
-                        if (i == 0)
-                        {
+                        if (i == 0) {
                             this.Columns[i].Name = "index";
                             this.Columns[i].HeaderText = "순번";
                             this.Columns[i].Visible = isIndexColumnVisible;
                             this.Columns[i].Width = 40;
                             this.Columns[i].ReadOnly = true;
                             this.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                        }
-                        else if (i == this.ColumnCount - 1)
-                        {
+                        } else if (i == this.ColumnCount - 1) {
                             this.Columns[i].Name = "EDITOBJECT"; //컬럼 이름
                             this.Columns[i].HeaderText = "EDITOBJECT"; //표시될 TEXT
                             this.Columns[i].DataPropertyName = "EDITOBJECT"; //바인딩될 이름 (컬럼명과 동일설정)
                             this.Columns[i].Width = 100; //컬럼 폭
                             this.Columns[i].Visible = isDebugVisible;
-                        }
-                        else
-                        {
+                        } else {
                             //기본설정
                             this.Columns[i].Name = colNames[i - 1];
                             this.Columns[i].HeaderText = colHeaderTexts[i - 1];
@@ -1440,9 +1305,7 @@ namespace JWLibrary.Winform.DataViewControls
                         this.Columns[i].Frozen = false;
                         //this.Columns[i].SortMode = DataGridViewColumnSortMode.Programmatic;
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     Console.WriteLine(" Excetopn SetGrid : " + ex.Message);
                 }
 
@@ -1470,11 +1333,11 @@ namespace JWLibrary.Winform.DataViewControls
                 this.MultiSelect = isMultiSelect;
                 this.BackgroundColor = Color.White;
 
-            #endregion
+                #endregion 기본설정
 
                 #region 체크박스 컬럼 생성 시 수행
-                if (isCheckBoxHeaderVisible)
-                {
+
+                if (isCheckBoxHeaderVisible) {
                     DataGridViewCheckBoxColumn chkColumn = new DataGridViewCheckBoxColumn();
                     chkColumn.Name = "CHK";
                     chkColumn.HeaderText = "";
@@ -1497,18 +1360,18 @@ namespace JWLibrary.Winform.DataViewControls
                     this.Controls.Add(chkHeader);
                     this.Columns[0].ReadOnly = false;*/
                 }
-                #endregion
+
+                #endregion 체크박스 컬럼 생성 시 수행
 
                 #region 이미지 컬럼 생성시 수행
-                if (isImageColumnVisible)
-                {
+
+                if (isImageColumnVisible) {
                     DataGridViewColumn column = null;
 
                     if (isCheckBoxHeaderVisible) column = this.Columns[1];
                     else column = this.Columns[0];
 
-                    if (column != null)
-                    {
+                    if (column != null) {
                         DataGridViewImageColumn imgCol = new DataGridViewImageColumn();
 
                         imgCol.Name = column.Name;
@@ -1524,35 +1387,29 @@ namespace JWLibrary.Winform.DataViewControls
                         imgCol.DefaultCellStyle.Alignment = column.DefaultCellStyle.Alignment;
                         imgCol.HeaderCell.Style.Alignment = column.HeaderCell.Style.Alignment;
 
-                        if (isCheckBoxHeaderVisible)
-                        {
+                        if (isCheckBoxHeaderVisible) {
                             this.Columns.RemoveAt(1);
                             this.Columns.Insert(1, imgCol);
-                        }
-                        else
-                        {
+                        } else {
                             this.Columns.RemoveAt(0);
                             this.Columns.Insert(0, imgCol);
                         }
                     }
                 }
 
-                #endregion
+                #endregion 이미지 컬럼 생성시 수행
 
-                if (isContextMenuVisible)
-                {
+                if (isContextMenuVisible) {
                     this.CellMouseUp += JWDataGridView_CellMouseUp;
                 }
 
                 this.MultiSelect = isMultiSelect;
 
-                if (isSearchViewEnable)
-                {
+                if (isSearchViewEnable) {
                     this.KeyUp += JWDataGridView_KeyUp;
                 }
 
-                foreach (string item in comboBoxColumn)
-                {
+                foreach (string item in comboBoxColumn) {
                     int n = this.Columns.IndexOf(this.Columns[item]);
 
                     DataGridViewComboBoxColumn cmb = new DataGridViewComboBoxColumn();
@@ -1586,10 +1443,7 @@ namespace JWLibrary.Winform.DataViewControls
 
                 this.SelectionMode = selectMode;
                 this.ScrollBars = ScrollBars.Both;
-
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Console.WriteLine("grid settng exception : " + e.Message);
             }
 
@@ -1600,10 +1454,9 @@ namespace JWLibrary.Winform.DataViewControls
             this.AllowUserToResizeRows = false;
         }
 
-        #endregion
+        #endregion setting function
 
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             this.SuspendLayout();
             //
@@ -1616,7 +1469,6 @@ namespace JWLibrary.Winform.DataViewControls
             this.RowTemplate.Height = 23;
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
             this.ResumeLayout(false);
-
         }
     }
 }

@@ -4,121 +4,123 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace JWLibrary.Core.NetFramework.Cryption.Str
-{
-    public class CryptorEngineAES256 : ICrypto
-    {
-		#region low speed and random value, so return value is not match. single string only
-		public string Encrypt(string plainText, string password) {
-			if (plainText == null) {
-				return null;
-			}
+namespace JWLibrary.Core.NetFramework.Cryption.Str {
 
-			if (password == null) {
-				password = String.Empty;
-			}
+    public class CryptorEngineAES256 : ICrypto {
 
-			System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
+        #region low speed and random value, so return value is not match. single string only
 
-			if (string.IsNullOrEmpty(password))
-				password = (string)settingsReader.GetValue("SecurityKey", typeof(String));
+        public string Encrypt(string plainText, string password) {
+            if (plainText == null) {
+                return null;
+            }
 
-			// Get the bytes of the string
-			var bytesToBeEncrypted = Encoding.UTF8.GetBytes(plainText);
-			var passwordBytes = Encoding.UTF8.GetBytes(password);
+            if (password == null) {
+                password = String.Empty;
+            }
 
-			// Hash the password with SHA256
-			passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+            System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
 
-			var bytesEncrypted = Encrypt(bytesToBeEncrypted, passwordBytes);
+            if (string.IsNullOrEmpty(password))
+                password = (string)settingsReader.GetValue("SecurityKey", typeof(String));
 
-			return Convert.ToBase64String(bytesEncrypted);
-		}
+            // Get the bytes of the string
+            var bytesToBeEncrypted = Encoding.UTF8.GetBytes(plainText);
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
 
-		public string Decrypt(string encryptedText, string password) {
-			if (encryptedText == null) {
-				return null;
-			}
+            // Hash the password with SHA256
+            passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
 
-			if (password == null) {
-				password = String.Empty;
-			}
+            var bytesEncrypted = Encrypt(bytesToBeEncrypted, passwordBytes);
 
-			System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
+            return Convert.ToBase64String(bytesEncrypted);
+        }
 
-			if (string.IsNullOrEmpty(password))
-				password = (string)settingsReader.GetValue("SecurityKey", typeof(String));
+        public string Decrypt(string encryptedText, string password) {
+            if (encryptedText == null) {
+                return null;
+            }
 
-			// Get the bytes of the string
-			var bytesToBeDecrypted = Convert.FromBase64String(encryptedText);
-			var passwordBytes = Encoding.UTF8.GetBytes(password);
+            if (password == null) {
+                password = String.Empty;
+            }
 
-			passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
+            System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
 
-			var bytesDecrypted = Decrypt(bytesToBeDecrypted, passwordBytes);
+            if (string.IsNullOrEmpty(password))
+                password = (string)settingsReader.GetValue("SecurityKey", typeof(String));
 
-			return Encoding.UTF8.GetString(bytesDecrypted);
-		}
+            // Get the bytes of the string
+            var bytesToBeDecrypted = Convert.FromBase64String(encryptedText);
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
 
-		private byte[] Encrypt(byte[] bytesToBeEncrypted, byte[] passwordBytes) {
-			byte[] encryptedBytes = null;
+            passwordBytes = SHA256.Create().ComputeHash(passwordBytes);
 
-			// Set your salt here, change it to meet your flavor:
-			// The salt bytes must be at least 8 bytes.
-			var saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+            var bytesDecrypted = Decrypt(bytesToBeDecrypted, passwordBytes);
 
-			using (MemoryStream ms = new MemoryStream()) {
-				using (RijndaelManaged AES = new RijndaelManaged()) {
-					var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
+            return Encoding.UTF8.GetString(bytesDecrypted);
+        }
 
-					AES.KeySize = 256;
-					AES.BlockSize = 128;
-					AES.Key = key.GetBytes(AES.KeySize / 8);
-					AES.IV = key.GetBytes(AES.BlockSize / 8);
+        private byte[] Encrypt(byte[] bytesToBeEncrypted, byte[] passwordBytes) {
+            byte[] encryptedBytes = null;
 
-					AES.Mode = CipherMode.CBC;
+            // Set your salt here, change it to meet your flavor:
+            // The salt bytes must be at least 8 bytes.
+            var saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-					using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write)) {
-						cs.Write(bytesToBeEncrypted, 0, bytesToBeEncrypted.Length);
-						cs.Close();
-					}
+            using (MemoryStream ms = new MemoryStream()) {
+                using (RijndaelManaged AES = new RijndaelManaged()) {
+                    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
 
-					encryptedBytes = ms.ToArray();
-				}
-			}
+                    AES.KeySize = 256;
+                    AES.BlockSize = 128;
+                    AES.Key = key.GetBytes(AES.KeySize / 8);
+                    AES.IV = key.GetBytes(AES.BlockSize / 8);
 
-			return encryptedBytes;
-		}
+                    AES.Mode = CipherMode.CBC;
 
-		private byte[] Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes) {
-			byte[] decryptedBytes = null;
+                    using (var cs = new CryptoStream(ms, AES.CreateEncryptor(), CryptoStreamMode.Write)) {
+                        cs.Write(bytesToBeEncrypted, 0, bytesToBeEncrypted.Length);
+                        cs.Close();
+                    }
 
-			// Set your salt here, change it to meet your flavor:
-			// The salt bytes must be at least 8 bytes.
-			var saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
+                    encryptedBytes = ms.ToArray();
+                }
+            }
 
-			using (MemoryStream ms = new MemoryStream()) {
-				using (RijndaelManaged AES = new RijndaelManaged()) {
-					var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
+            return encryptedBytes;
+        }
 
-					AES.KeySize = 256;
-					AES.BlockSize = 128;
-					AES.Key = key.GetBytes(AES.KeySize / 8);
-					AES.IV = key.GetBytes(AES.BlockSize / 8);
-					AES.Mode = CipherMode.CBC;
+        private byte[] Decrypt(byte[] bytesToBeDecrypted, byte[] passwordBytes) {
+            byte[] decryptedBytes = null;
 
-					using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write)) {
-						cs.Write(bytesToBeDecrypted, 0, bytesToBeDecrypted.Length);
-						cs.Close();
-					}
+            // Set your salt here, change it to meet your flavor:
+            // The salt bytes must be at least 8 bytes.
+            var saltBytes = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 };
 
-					decryptedBytes = ms.ToArray();
-				}
-			}
+            using (MemoryStream ms = new MemoryStream()) {
+                using (RijndaelManaged AES = new RijndaelManaged()) {
+                    var key = new Rfc2898DeriveBytes(passwordBytes, saltBytes, 1000);
 
-			return decryptedBytes;
-		}
-        #endregion
+                    AES.KeySize = 256;
+                    AES.BlockSize = 128;
+                    AES.Key = key.GetBytes(AES.KeySize / 8);
+                    AES.IV = key.GetBytes(AES.BlockSize / 8);
+                    AES.Mode = CipherMode.CBC;
+
+                    using (var cs = new CryptoStream(ms, AES.CreateDecryptor(), CryptoStreamMode.Write)) {
+                        cs.Write(bytesToBeDecrypted, 0, bytesToBeDecrypted.Length);
+                        cs.Close();
+                    }
+
+                    decryptedBytes = ms.ToArray();
+                }
+            }
+
+            return decryptedBytes;
+        }
+
+        #endregion low speed and random value, so return value is not match. single string only
 
         /// <summary>
         /// AES256 Encrypt
@@ -128,41 +130,41 @@ namespace JWLibrary.Core.NetFramework.Cryption.Str
         /// <param name="useHashing">not use</param>
         /// <returns></returns>
         public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
-			RijndaelManaged RijndaelCipher = new RijndaelManaged();
+            RijndaelManaged RijndaelCipher = new RijndaelManaged();
 
-			// 입력받은 문자열을 바이트 배열로 변환  
-			byte[] PlainText = System.Text.Encoding.Unicode.GetBytes(encryptText);
+            // 입력받은 문자열을 바이트 배열로 변환
+            byte[] PlainText = System.Text.Encoding.Unicode.GetBytes(encryptText);
 
-			// 딕셔너리 공격을 대비해서 키를 더 풀기 어렵게 만들기 위해서   
-			// Salt를 사용한다.  
-			byte[] Salt = Encoding.ASCII.GetBytes(encryptKey.Length.ToString());
+            // 딕셔너리 공격을 대비해서 키를 더 풀기 어렵게 만들기 위해서
+            // Salt를 사용한다.
+            byte[] Salt = Encoding.ASCII.GetBytes(encryptKey.Length.ToString());
 
-			PasswordDeriveBytes SecretKey = new PasswordDeriveBytes(encryptKey, Salt);
+            PasswordDeriveBytes SecretKey = new PasswordDeriveBytes(encryptKey, Salt);
 
-			// Create a encryptor from the existing SecretKey bytes.  
-			// encryptor 객체를 SecretKey로부터 만든다.  
-			// Secret Key에는 32바이트  
-			// Initialization Vector로 16바이트를 사용  
-			ICryptoTransform Encryptor = RijndaelCipher.CreateEncryptor(SecretKey.GetBytes(32), SecretKey.GetBytes(16));
+            // Create a encryptor from the existing SecretKey bytes.
+            // encryptor 객체를 SecretKey로부터 만든다.
+            // Secret Key에는 32바이트
+            // Initialization Vector로 16바이트를 사용
+            ICryptoTransform Encryptor = RijndaelCipher.CreateEncryptor(SecretKey.GetBytes(32), SecretKey.GetBytes(16));
 
-			MemoryStream memoryStream = new MemoryStream();
+            MemoryStream memoryStream = new MemoryStream();
 
-			// CryptoStream객체를 암호화된 데이터를 쓰기 위한 용도로 선언  
-			CryptoStream cryptoStream = new CryptoStream(memoryStream, Encryptor, CryptoStreamMode.Write);
+            // CryptoStream객체를 암호화된 데이터를 쓰기 위한 용도로 선언
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, Encryptor, CryptoStreamMode.Write);
 
-			cryptoStream.Write(PlainText, 0, PlainText.Length);
+            cryptoStream.Write(PlainText, 0, PlainText.Length);
 
-			cryptoStream.FlushFinalBlock();
+            cryptoStream.FlushFinalBlock();
 
-			byte[] CipherBytes = memoryStream.ToArray();
+            byte[] CipherBytes = memoryStream.ToArray();
 
-			memoryStream.Close();
-			cryptoStream.Close();
+            memoryStream.Close();
+            cryptoStream.Close();
 
-			string EncryptedData = Convert.ToBase64String(CipherBytes);
+            string EncryptedData = Convert.ToBase64String(CipherBytes);
 
-			return EncryptedData;
-		}
+            return EncryptedData;
+        }
 
         /// <summary>
         /// AES256 Decrypt
@@ -172,32 +174,32 @@ namespace JWLibrary.Core.NetFramework.Cryption.Str
         /// <param name="useHashing">not use</param>
         /// <returns></returns>
 		public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
-			RijndaelManaged RijndaelCipher = new RijndaelManaged();
+            RijndaelManaged RijndaelCipher = new RijndaelManaged();
 
-			byte[] EncryptedData = Convert.FromBase64String(decryptText);
-			byte[] Salt = Encoding.ASCII.GetBytes(decryptKey.Length.ToString());
+            byte[] EncryptedData = Convert.FromBase64String(decryptText);
+            byte[] Salt = Encoding.ASCII.GetBytes(decryptKey.Length.ToString());
 
-			PasswordDeriveBytes SecretKey = new PasswordDeriveBytes(decryptKey, Salt);
+            PasswordDeriveBytes SecretKey = new PasswordDeriveBytes(decryptKey, Salt);
 
-			// Decryptor 객체를 만든다.  
-			ICryptoTransform Decryptor = RijndaelCipher.CreateDecryptor(SecretKey.GetBytes(32), SecretKey.GetBytes(16));
+            // Decryptor 객체를 만든다.
+            ICryptoTransform Decryptor = RijndaelCipher.CreateDecryptor(SecretKey.GetBytes(32), SecretKey.GetBytes(16));
 
-			MemoryStream memoryStream = new MemoryStream(EncryptedData);
+            MemoryStream memoryStream = new MemoryStream(EncryptedData);
 
-			// 데이터 읽기 용도의 cryptoStream객체  
-			CryptoStream cryptoStream = new CryptoStream(memoryStream, Decryptor, CryptoStreamMode.Read);
+            // 데이터 읽기 용도의 cryptoStream객체
+            CryptoStream cryptoStream = new CryptoStream(memoryStream, Decryptor, CryptoStreamMode.Read);
 
-			// 복호화된 데이터를 담을 바이트 배열을 선언한다.  
-			byte[] PlainText = new byte[EncryptedData.Length];
+            // 복호화된 데이터를 담을 바이트 배열을 선언한다.
+            byte[] PlainText = new byte[EncryptedData.Length];
 
-			int DecryptedCount = cryptoStream.Read(PlainText, 0, PlainText.Length);
+            int DecryptedCount = cryptoStream.Read(PlainText, 0, PlainText.Length);
 
-			memoryStream.Close();
-			cryptoStream.Close();
+            memoryStream.Close();
+            cryptoStream.Close();
 
-			string DecryptedData = Encoding.Unicode.GetString(PlainText, 0, DecryptedCount);
+            string DecryptedData = Encoding.Unicode.GetString(PlainText, 0, DecryptedCount);
 
-			return DecryptedData;
-		}
-	}
+            return DecryptedData;
+        }
+    }
 }

@@ -7,59 +7,52 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Utils {
-	public static class CrytoFile
-	{
-		public static void EncryptFile(string inputFile, string outputFile, string sKey)
-		{
-			UnicodeEncoding UE = new UnicodeEncoding();
-			byte[] key = UE.GetBytes(sKey);
 
-			string cryptFile = outputFile;
+    public static class CrytoFile {
 
-			using (FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create))
-			{
-				RijndaelManaged RMCrypto = new RijndaelManaged();
+        public static void EncryptFile(string inputFile, string outputFile, string sKey) {
+            UnicodeEncoding UE = new UnicodeEncoding();
+            byte[] key = UE.GetBytes(sKey);
 
-				using (CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write))
-				{
-					using (FileStream fsIn = new FileStream(inputFile, FileMode.Open))
-					{
-						int data;
-						while ((data = fsIn.ReadByte()) != -1)
-							cs.WriteByte((byte)data);
+            string cryptFile = outputFile;
 
-						fsIn.Close();
-					}
-					cs.Close();
-				}
-				fsCrypt.Close();
-			}
-		}
+            using (FileStream fsCrypt = new FileStream(cryptFile, FileMode.Create)) {
+                RijndaelManaged RMCrypto = new RijndaelManaged();
 
-		public static void DecryptFile(string inputFile, string outputFile, string sKey)
-		{
-			UnicodeEncoding UE = new UnicodeEncoding();
-			byte[] key = UE.GetBytes(sKey);
+                using (CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateEncryptor(key, key), CryptoStreamMode.Write)) {
+                    using (FileStream fsIn = new FileStream(inputFile, FileMode.Open)) {
+                        int data;
+                        while ((data = fsIn.ReadByte()) != -1)
+                            cs.WriteByte((byte)data);
 
-			using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open))
-			{
-				RijndaelManaged RMCrypto = new RijndaelManaged();
+                        fsIn.Close();
+                    }
+                    cs.Close();
+                }
+                fsCrypt.Close();
+            }
+        }
 
-				using (CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(key, key), CryptoStreamMode.Read))
-				{
-					using (FileStream fsOut = new FileStream(outputFile, FileMode.Create))
-					{
-						int data;
-						while ((data = cs.ReadByte()) != -1)
-							fsOut.WriteByte((byte)data);
+        public static void DecryptFile(string inputFile, string outputFile, string sKey) {
+            UnicodeEncoding UE = new UnicodeEncoding();
+            byte[] key = UE.GetBytes(sKey);
 
-						fsOut.Close();
-					}
+            using (FileStream fsCrypt = new FileStream(inputFile, FileMode.Open)) {
+                RijndaelManaged RMCrypto = new RijndaelManaged();
 
-					cs.Close();
-				}
-				fsCrypt.Close();
-			}
-		}
-	}
+                using (CryptoStream cs = new CryptoStream(fsCrypt, RMCrypto.CreateDecryptor(key, key), CryptoStreamMode.Read)) {
+                    using (FileStream fsOut = new FileStream(outputFile, FileMode.Create)) {
+                        int data;
+                        while ((data = cs.ReadByte()) != -1)
+                            fsOut.WriteByte((byte)data);
+
+                        fsOut.Close();
+                    }
+
+                    cs.Close();
+                }
+                fsCrypt.Close();
+            }
+        }
+    }
 }

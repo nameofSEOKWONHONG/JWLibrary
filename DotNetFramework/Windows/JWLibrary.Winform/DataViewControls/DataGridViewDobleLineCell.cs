@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
-namespace JWLibrary.Winform.DataViewControls
-{
-    public class DataGridViewDoubleLineCellValue
-    {
+namespace JWLibrary.Winform.DataViewControls {
+
+    public class DataGridViewDoubleLineCellValue {
         public string UpperLabelText;
         public string UpperValueText;
         public string LowerLabelText;
@@ -18,9 +13,9 @@ namespace JWLibrary.Winform.DataViewControls
     //하나의 셀을 아래위로 2줄로 나누어 정보를 표시하는 셀
     // 표시 형식:
     // 글자 [공백] 글자
-    // 글자 [공백] 그림    
-    public class DataGridViewDobleLineCell : DataGridViewTextBoxCell
-    {
+    // 글자 [공백] 그림
+    public class DataGridViewDobleLineCell : DataGridViewTextBoxCell {
+
         protected override void Paint(
                                  Graphics graphics,
                                  Rectangle clipBounds,
@@ -32,8 +27,7 @@ namespace JWLibrary.Winform.DataViewControls
                                  string errorText,
                                  DataGridViewCellStyle cellStyle,
                                  DataGridViewAdvancedBorderStyle advancedBorderStyle,
-                                 DataGridViewPaintParts paintParts)
-        {
+                                 DataGridViewPaintParts paintParts) {
             string upperLabelText = "";
             string upperValueText = "";
             string lowerLabelText = "";
@@ -41,8 +35,7 @@ namespace JWLibrary.Winform.DataViewControls
 
             DataGridViewDoubleLineCellValue cellValue =
                 formattedValue as DataGridViewDoubleLineCellValue;
-            if (null != cellValue)
-            {
+            if (null != cellValue) {
                 upperLabelText = cellValue.UpperLabelText;
                 upperValueText = cellValue.UpperValueText;
                 lowerLabelText = cellValue.LowerLabelText;
@@ -55,9 +48,9 @@ namespace JWLibrary.Winform.DataViewControls
                         advancedBorderStyle, paintParts);
 
             const int HORSPACE = 32;             // 높이
-            const int HORITEMSPACE = 10;         // 아이템 끝나는 좌표 y 
+            const int HORITEMSPACE = 10;         // 아이템 끝나는 좌표 y
             const int COLNAMESPACE = 46;         // 칼럼 이름 시작 좌표 x
-            const int COLITTEMSPACE = 350;       // 아이템 끝나는 좌표 x 
+            const int COLITTEMSPACE = 350;       // 아이템 끝나는 좌표 x
 
             const int ADDCOLITEMSPACE = 50;      // 아이템 추가되는 좌표 X
 
@@ -74,25 +67,19 @@ namespace JWLibrary.Winform.DataViewControls
             Font fnt = parent.InheritedStyle.Font;
             Font cellfnt = cellStyle.Font;
 
-            if (lowerValueImg != null)
-            {
+            if (lowerValueImg != null) {
                 RectangleF newRect = RectangleF.Empty;
 
                 int addItemspace = 0;
 
-                for (int i = 0; i < lowerValueImg.Length; i++)
-                {
-                    if (i == 0)
-                    {
+                for (int i = 0; i < lowerValueImg.Length; i++) {
+                    if (i == 0) {
                         newRect = new RectangleF(
                                              cellBounds.Left + 315,
                                              cellBounds.Y + (HORSPACE) + HORITEMSPACE,
                                              ICONHOR,
                                              ICONVER);
-
-                    }
-                    else
-                    {
+                    } else {
                         addItemspace += ADDCOLITEMSPACE;
 
                         newRect = new RectangleF(
@@ -127,8 +114,7 @@ namespace JWLibrary.Winform.DataViewControls
 
             Color textColor = parent.InheritedStyle.ForeColor;
             if ((cellState & DataGridViewElementStates.Selected) ==
-            DataGridViewElementStates.Selected)
-            {
+            DataGridViewElementStates.Selected) {
                 textColor = parent.InheritedStyle.SelectionForeColor;
             }
 
@@ -143,16 +129,15 @@ namespace JWLibrary.Winform.DataViewControls
             graphics.DrawLine(myPen, second1pt, second2pt);
 
             // Draw the text:
-            using (SolidBrush brush = new SolidBrush(textColor))
-            {
+            using (SolidBrush brush = new SolidBrush(textColor)) {
                 graphics.DrawString(
-                    upperLabelText, //parent.TransLang(parent.str2ColName), 
+                    upperLabelText, //parent.TransLang(parent.str2ColName),
                     fnt,
                     brush,
                     cellBounds.X + COLNAMESPACE,
                     cellBounds.Y + HORITEMSPACE);
                 graphics.DrawString(
-                    upperValueText, //parent.str2Value, 
+                    upperValueText, //parent.str2Value,
                     cellfnt,
                     brush,
                     cellBounds.Left + COLITTEMSPACE + ICONVER,
@@ -160,7 +145,7 @@ namespace JWLibrary.Winform.DataViewControls
                     format);
 
                 graphics.DrawString(
-                    lowerLabelText, //parent.TransLang(parent.str3ColName), 
+                    lowerLabelText, //parent.TransLang(parent.str3ColName),
                     fnt,
                     brush,
                     cellBounds.X + COLNAMESPACE,

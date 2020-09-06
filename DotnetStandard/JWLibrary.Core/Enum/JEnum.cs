@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 
-namespace JWLibrary.Core
-{
-    public static class JEnum
-    {
-        public static T ToEnum<T>(this string value, T defaultValue) where T : struct
-        {
-            if (value.jIsNullOrEmpty())
-            {
+namespace JWLibrary.Core {
+
+    public static class JEnum {
+
+        public static T ToEnum<T>(this string value, T defaultValue) where T : struct {
+            if (value.jIsNullOrEmpty()) {
                 return defaultValue;
             }
 
@@ -18,11 +14,9 @@ namespace JWLibrary.Core
             return Enum.TryParse<T>(value, true, out result) ? result : defaultValue;
         }
 
-        public static string jToEnumString(this Enum value)
-        {
+        public static string jToEnumString(this Enum value) {
             var da = (DescriptionAttribute[])(value.GetType().GetField(value.ToString())).GetCustomAttributes(typeof(DescriptionAttribute), false);
             return da.Length > 0 ? da[0].Description : value.ToString();
         }
-
     }
 }

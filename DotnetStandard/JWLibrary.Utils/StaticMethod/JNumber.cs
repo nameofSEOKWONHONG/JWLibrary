@@ -1,17 +1,12 @@
 ﻿using JWLibrary.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace JWLibrary.StaticMethod
-{
-    public static class JNumber
-    {
-        public static string jToFormatNumber<T>(this T val, ENUM_NUMBER_FORMAT_TYPE type, ENUM_GET_ALLOW_TYPE allow)
-        {
+namespace JWLibrary.StaticMethod {
+
+    public static class JNumber {
+
+        public static string jToFormatNumber<T>(this T val, ENUM_NUMBER_FORMAT_TYPE type, ENUM_GET_ALLOW_TYPE allow) {
             if (val.GetType() == typeof(DateTime)) throw new NotSupportedException("DateTime is not support.");
             if (val.GetType() == typeof(float)) throw new NotSupportedException("float is not support.");
 
@@ -20,13 +15,13 @@ namespace JWLibrary.StaticMethod
                 ENUM_NUMBER_FORMAT_TYPE.Comma => string.Format("{0:#,###}", val),
                 ENUM_NUMBER_FORMAT_TYPE.Rate => string.Format("{0:##.##}", val),
                 ENUM_NUMBER_FORMAT_TYPE.Mobile => allow switch
-                    {
-                        ENUM_GET_ALLOW_TYPE.Allow => string.Format("{0}-{1}-{2}", val.ToString().jFirstGetByLength(3),
-                            val.ToString().jMiddleGetByLength(3, 4),
-                            val.ToString().jLastGetByLength(4)),
-                        _ => string.Format("{0}-{1}-****", val.ToString().jFirstGetByLength(3),
-                            val.ToString().jMiddleGetByLength(3, 4)),
-                    },
+                {
+                    ENUM_GET_ALLOW_TYPE.Allow => string.Format("{0}-{1}-{2}", val.ToString().jFirstGetByLength(3),
+                        val.ToString().jMiddleGetByLength(3, 4),
+                        val.ToString().jLastGetByLength(4)),
+                    _ => string.Format("{0}-{1}-****", val.ToString().jFirstGetByLength(3),
+                        val.ToString().jMiddleGetByLength(3, 4)),
+                },
                 ENUM_NUMBER_FORMAT_TYPE.Phone => MakePhoneString(val, allow),
                 ENUM_NUMBER_FORMAT_TYPE.RRN => MakeRRNString(val, allow),
                 ENUM_NUMBER_FORMAT_TYPE.CofficePrice => string.Format("{0}.{1}", val.ToString().jFirstGetByLength(1),
@@ -37,99 +32,70 @@ namespace JWLibrary.StaticMethod
             return result;
         }
 
-        private static string MakePhoneString<T>(T val, ENUM_GET_ALLOW_TYPE allow)
-        {
-            if (allow == ENUM_GET_ALLOW_TYPE.Allow)
-            {
+        private static string MakePhoneString<T>(T val, ENUM_GET_ALLOW_TYPE allow) {
+            if (allow == ENUM_GET_ALLOW_TYPE.Allow) {
                 var temp = val.ToString();
-                if (temp.jFirstGetByLength(2) == "02")
-                {
-                    if (temp.Length == 10)
-                    {
+                if (temp.jFirstGetByLength(2) == "02") {
+                    if (temp.Length == 10) {
                         return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 4),
                             temp.jLastGetByLength(4));
-                    }
-                    else
-                    {
+                    } else {
                         return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 3),
                             temp.jLastGetByLength(4));
                     }
-                }
-                else
-                {
-                    if (temp.Length == 11)
-                    {
+                } else {
+                    if (temp.Length == 11) {
                         return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
                             temp.jMiddleGetByLength(3, 4),
                             temp.jLastGetByLength(4));
-                    }
-                    else
-                    {
+                    } else {
                         return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
                             temp.jMiddleGetByLength(3, 3),
                             temp.jLastGetByLength(4));
                     }
                 }
-            }
-            else
-            {
+            } else {
                 var temp = val.ToString();
-                if (temp.jFirstGetByLength(2) == "02")
-                {
-                    if (temp.Length == 10)
-                    {
+                if (temp.jFirstGetByLength(2) == "02") {
+                    if (temp.Length == 10) {
                         return string.Format("{0}-{1}-****", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 4));
-                    }
-                    else
-                    {
+                    } else {
                         return string.Format("{0}-{1}-****", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 3));
                     }
-                }
-                else
-                {
-                    if (temp.Length == 11)
-                    {
+                } else {
+                    if (temp.Length == 11) {
                         return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
                             temp.jMiddleGetByLength(3, 4));
-                    }
-                    else
-                    {
+                    } else {
                         return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
                             temp.jMiddleGetByLength(3, 3));
                     }
                 }
             }
         }
-        private static string MakeRRNString<T>(T val, ENUM_GET_ALLOW_TYPE allow)
-        {
-            if (allow == ENUM_GET_ALLOW_TYPE.Allow)
-            {
+
+        private static string MakeRRNString<T>(T val, ENUM_GET_ALLOW_TYPE allow) {
+            if (allow == ENUM_GET_ALLOW_TYPE.Allow) {
                 return string.Format("{0}-{1}", val.ToString().jFirstGetByLength(6),
                     val.ToString().jLastGetByLength(7));
-            }
-            else
-            {
+            } else {
                 return string.Format("{0}-*******", val.ToString().jFirstGetByLength(6));
             }
         }
 
-
-        public static string jMiddleGetByLength(this string value, int fromLen, int getLen)
-        {
+        public static string jMiddleGetByLength(this string value, int fromLen, int getLen) {
             return value.Substring(fromLen, getLen);
         }
 
-        public static string jFirstGetByLength(this string value, int length)
-        {
+        public static string jFirstGetByLength(this string value, int length) {
             return value.Substring(0, length);
         }
 
-        public static string jLastGetByLength(this string value, int length)
-        {
+        public static string jLastGetByLength(this string value, int length) {
             return value.Substring(value.Length - length, length);
         }
 
@@ -157,14 +123,13 @@ namespace JWLibrary.StaticMethod
             return regex.Match(str).Success;
         }
     }
-    public enum ENUM_GET_ALLOW_TYPE
-    {
+
+    public enum ENUM_GET_ALLOW_TYPE {
         Allow,
         NotAllow
     }
 
-    public enum ENUM_NUMBER_FORMAT_TYPE
-    {
+    public enum ENUM_NUMBER_FORMAT_TYPE {
         Comma,
         Rate,
         Mobile,

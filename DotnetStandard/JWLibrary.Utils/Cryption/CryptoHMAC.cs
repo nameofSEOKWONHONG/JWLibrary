@@ -3,16 +3,15 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace JWLibrary.Utils {
-    public static class CryptoHMAC
-    {
-        public static string ToHMACString(this string encData, string encKey, DeconvertCipherFormat deconvertCipherFormat)
-        {
+
+    public static class CryptoHMAC {
+
+        public static string ToHMACString(this string encData, string encKey, DeconvertCipherFormat deconvertCipherFormat) {
             UTF8Encoding encoding = new UTF8Encoding();
             byte[] keyBuff = encoding.GetBytes(encKey);
             byte[] hashMessage = null;
 
-            using(var hmacsha256 = new HMACSHA256(keyBuff))
-            {
+            using (var hmacsha256 = new HMACSHA256(keyBuff)) {
                 byte[] dataBytes = encoding.GetBytes(encData);
                 hashMessage = hmacsha256.ComputeHash(dataBytes);
             }
@@ -26,9 +25,11 @@ namespace JWLibrary.Utils {
                 case DeconvertCipherFormat.HEX:
                     decodeText = jToByte(cipherText);
                     break;
+
                 case DeconvertCipherFormat.Base64:
                     decodeText = Convert.FromBase64String(cipherText);
                     break;
+
                 default:
                     throw new Exception("not implement exception.");
             }

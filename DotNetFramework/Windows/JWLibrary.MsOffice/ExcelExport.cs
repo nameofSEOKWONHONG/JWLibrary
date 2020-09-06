@@ -1,26 +1,21 @@
-﻿using DocumentFormat.OpenXml;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Spreadsheet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace JWLibrary.MsOffice
-{
-    public sealed class ExcelExport
-    {
-        public static bool CreateExcelDocument<T>(List<T> list, string[] colNames, string xlsxFilePath)
-        {
+namespace JWLibrary.MsOffice {
+
+    public sealed class ExcelExport {
+
+        public static bool CreateExcelDocument<T>(List<T> list, string[] colNames, string xlsxFilePath) {
             DataSet ds = new DataSet();
             ds.Tables.Add(ListToDataTable(list));
 
             return CreateExcelDocument(ds, xlsxFilePath);
         }
 
-        public static bool CreateExcelDocument<T>(List<T> list, string xlsxFilePath)
-        {
+        public static bool CreateExcelDocument<T>(List<T> list, string xlsxFilePath) {
             DataSet ds = new DataSet();
             ds.Tables.Add(ListToDataTable(list));
 
@@ -34,8 +29,7 @@ namespace JWLibrary.MsOffice
         /// <param name="list"></param>
         /// <param name="xlsxFilePath"></param>
         /// <returns></returns>
-        public static bool CreateExcelDocumentByModelDisplsyName<T>(List<T> list, string xlsxFilePath)
-        {
+        public static bool CreateExcelDocumentByModelDisplsyName<T>(List<T> list, string xlsxFilePath) {
             DataSet ds = new DataSet();
             ds.Tables.Add(ListToDataTableByModelDisplayName(list));
 
@@ -44,24 +38,20 @@ namespace JWLibrary.MsOffice
 
         #region HELPER_FUNCTIONS
 
-        public static DataTable ListToDataTable<T>(List<T> list, string[] colNames)
-        {
+        public static DataTable ListToDataTable<T>(List<T> list, string[] colNames) {
             DataTable dt = new DataTable();
             int idx = 0;
 
             string displayName = string.Empty;
-            foreach (PropertyInfo info in typeof(T).GetProperties())
-            {
+            foreach (PropertyInfo info in typeof(T).GetProperties()) {
                 object[] objs = info.GetCustomAttributes(true);
 
                 dt.Columns.Add(new DataColumn(colNames[idx], GetNullableType(info.PropertyType)));
                 idx++;
             }
-            foreach (T t in list)
-            {
+            foreach (T t in list) {
                 DataRow row = dt.NewRow();
-                foreach (PropertyInfo info in typeof(T).GetProperties())
-                {
+                foreach (PropertyInfo info in typeof(T).GetProperties()) {
                     if (!IsNullableType(info.PropertyType))
                         row[info.Name] = info.GetValue(t, null);
                     else
@@ -74,19 +64,15 @@ namespace JWLibrary.MsOffice
 
         //  This function is adapated from: http://www.codeguru.com/forum/showthread.php?t=450171
         //  My thanks to Carl Quirion, for making it "nullable-friendly".
-        public static DataTable ListToDataTable<T>(List<T> list)
-        {
+        public static DataTable ListToDataTable<T>(List<T> list) {
             DataTable dt = new DataTable();
 
-            foreach (PropertyInfo info in typeof(T).GetProperties())
-            {
+            foreach (PropertyInfo info in typeof(T).GetProperties()) {
                 dt.Columns.Add(new DataColumn(info.Name, GetNullableType(info.PropertyType)));
             }
-            foreach (T t in list)
-            {
+            foreach (T t in list) {
                 DataRow row = dt.NewRow();
-                foreach (PropertyInfo info in typeof(T).GetProperties())
-                {
+                foreach (PropertyInfo info in typeof(T).GetProperties()) {
                     if (!IsNullableType(info.PropertyType))
                         row[info.Name] = info.GetValue(t, null);
                     else
@@ -97,26 +83,21 @@ namespace JWLibrary.MsOffice
             return dt;
         }
 
-        public static DataTable ListToDataTableByModelDisplayName<T>(List<T> list)
-        {
+        public static DataTable ListToDataTableByModelDisplayName<T>(List<T> list) {
             DataTable dt = new DataTable();
 
             object[] objs = null;
             string displayName = string.Empty;
 
-            foreach (PropertyInfo info in typeof(T).GetProperties())
-            {
+            foreach (PropertyInfo info in typeof(T).GetProperties()) {
                 objs = info.GetCustomAttributes(true);
                 displayName = string.Empty;
 
-                foreach (object item in objs)
-                {
-                    if (item is System.ComponentModel.DisplayNameAttribute)
-                    {
+                foreach (object item in objs) {
+                    if (item is System.ComponentModel.DisplayNameAttribute) {
                         System.ComponentModel.DisplayNameAttribute displayNameAttr = (System.ComponentModel.DisplayNameAttribute)item;
 
-                        if (displayNameAttr != null)
-                        {
+                        if (displayNameAttr != null) {
                             displayName = displayNameAttr.DisplayName;
                             break;
                         }
@@ -128,22 +109,17 @@ namespace JWLibrary.MsOffice
 
             displayName = string.Empty;
 
-            foreach (T t in list)
-            {
+            foreach (T t in list) {
                 DataRow row = dt.NewRow();
-                foreach (PropertyInfo info in typeof(T).GetProperties())
-                {
+                foreach (PropertyInfo info in typeof(T).GetProperties()) {
                     objs = info.GetCustomAttributes(true);
                     displayName = string.Empty;
 
-                    foreach (object item in objs)
-                    {
-                        if (item is System.ComponentModel.DisplayNameAttribute)
-                        {
+                    foreach (object item in objs) {
+                        if (item is System.ComponentModel.DisplayNameAttribute) {
                             System.ComponentModel.DisplayNameAttribute displayNameAttr = (System.ComponentModel.DisplayNameAttribute)item;
 
-                            if (displayNameAttr != null)
-                            {
+                            if (displayNameAttr != null) {
                                 displayName = displayNameAttr.DisplayName;
                                 break;
                             }
@@ -160,26 +136,22 @@ namespace JWLibrary.MsOffice
             return dt;
         }
 
-        private static Type GetNullableType(Type t)
-        {
+        private static Type GetNullableType(Type t) {
             Type returnType = t;
-            if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
-            {
+            if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>))) {
                 returnType = Nullable.GetUnderlyingType(t);
             }
             return returnType;
         }
 
-        private static bool IsNullableType(Type type)
-        {
+        private static bool IsNullableType(Type type) {
             return (type == typeof(string) ||
                     type.IsArray ||
                     (type.IsGenericType &&
                      type.GetGenericTypeDefinition().Equals(typeof(Nullable<>))));
         }
 
-        public static bool CreateExcelDocument(DataTable dt, string xlsxFilePath)
-        {
+        public static bool CreateExcelDocument(DataTable dt, string xlsxFilePath) {
             DataSet ds = new DataSet();
             ds.Tables.Add(dt);
             bool result = CreateExcelDocument(ds, xlsxFilePath);
@@ -283,26 +255,20 @@ namespace JWLibrary.MsOffice
         /// <param name="ds">DataSet containing the data to be written to the Excel.</param>
         /// <param name="excelFilename">Name of file to be written.</param>
         /// <returns>True if successful, false if something went wrong.</returns>
-        public static bool CreateExcelDocument(DataSet ds, string excelFilename)
-        {
-            try
-            {
-                using (SpreadsheetDocument document = SpreadsheetDocument.Create(excelFilename, SpreadsheetDocumentType.Workbook))
-                {
+        public static bool CreateExcelDocument(DataSet ds, string excelFilename) {
+            try {
+                using (SpreadsheetDocument document = SpreadsheetDocument.Create(excelFilename, SpreadsheetDocumentType.Workbook)) {
                     WriteExcelFile(ds, document);
                 }
                 Trace.WriteLine("Successfully created: " + excelFilename);
                 return true;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 Trace.WriteLine("Failed, exception thrown: " + ex.Message);
                 return false;
             }
         }
 
-        private static void WriteExcelFile(DataSet ds, SpreadsheetDocument spreadsheet)
-        {
+        private static void WriteExcelFile(DataSet ds, SpreadsheetDocument spreadsheet) {
             //  Create the Excel file contents.  This function is used when creating an Excel file either writing
             //  to a file, or writing to a MemoryStream.
             spreadsheet.AddWorkbookPart();
@@ -318,8 +284,7 @@ namespace JWLibrary.MsOffice
 
             //  Loop through each of the DataTables in our DataSet, and create a new Excel Worksheet for each.
             uint worksheetNumber = 1;
-            foreach (DataTable dt in ds.Tables)
-            {
+            foreach (DataTable dt in ds.Tables) {
                 //  For each worksheet you want to create
                 string workSheetID = "rId" + worksheetNumber.ToString();
                 string worksheetName = dt.TableName;
@@ -338,8 +303,7 @@ namespace JWLibrary.MsOffice
                 if (worksheetNumber == 1)
                     spreadsheet.WorkbookPart.Workbook.AppendChild(new DocumentFormat.OpenXml.Spreadsheet.Sheets());
 
-                spreadsheet.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>().AppendChild(new DocumentFormat.OpenXml.Spreadsheet.Sheet()
-                {
+                spreadsheet.WorkbookPart.Workbook.GetFirstChild<DocumentFormat.OpenXml.Spreadsheet.Sheets>().AppendChild(new DocumentFormat.OpenXml.Spreadsheet.Sheet() {
                     Id = spreadsheet.WorkbookPart.GetIdOfPart(newWorksheetPart),
                     SheetId = (uint)worksheetNumber,
                     Name = dt.TableName
@@ -351,8 +315,7 @@ namespace JWLibrary.MsOffice
             spreadsheet.WorkbookPart.Workbook.Save();
         }
 
-        private static void WriteDataTableToExcelWorksheet(DataTable dt, WorksheetPart worksheetPart)
-        {
+        private static void WriteDataTableToExcelWorksheet(DataTable dt, WorksheetPart worksheetPart) {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();
 
@@ -377,8 +340,7 @@ namespace JWLibrary.MsOffice
             var headerRow = new Row { RowIndex = rowIndex };  // add a row at the top of spreadsheet
             sheetData.Append(headerRow);
 
-            for (int colInx = 0; colInx < numberOfColumns; colInx++)
-            {
+            for (int colInx = 0; colInx < numberOfColumns; colInx++) {
                 DataColumn col = dt.Columns[colInx];
                 AppendTextCell(excelColumnNames[colInx] + "1", col.ColumnName, headerRow);
                 IsNumericColumn[colInx] = (col.DataType.FullName == "System.Decimal") || (col.DataType.FullName == "System.Int32");
@@ -388,32 +350,26 @@ namespace JWLibrary.MsOffice
             //  Now, step through each row of data in our DataTable...
             //
             double cellNumericValue = 0;
-            foreach (DataRow dr in dt.Rows)
-            {
+            foreach (DataRow dr in dt.Rows) {
                 // ...create a new row, and append a set of this row's data to it.
                 ++rowIndex;
                 var newExcelRow = new Row { RowIndex = rowIndex };  // add a row at the top of spreadsheet
                 sheetData.Append(newExcelRow);
 
-                for (int colInx = 0; colInx < numberOfColumns; colInx++)
-                {
+                for (int colInx = 0; colInx < numberOfColumns; colInx++) {
                     cellValue = dr.ItemArray[colInx].ToString();
                     double outvalue = 0.0;
 
                     // Create cell with data
-                    if (double.TryParse(dr.ItemArray[colInx].ToString(), out outvalue))
-                    {
+                    if (double.TryParse(dr.ItemArray[colInx].ToString(), out outvalue)) {
                         //  For numeric cells, make sure our input data IS a number, then write it out to the Excel file.
                         //  If this numeric value is NULL, then don't write anything to the Excel file.
                         cellNumericValue = 0;
-                        if (double.TryParse(cellValue, out cellNumericValue))
-                        {
+                        if (double.TryParse(cellValue, out cellNumericValue)) {
                             cellValue = cellNumericValue.ToString();
                             AppendNumericCell(excelColumnNames[colInx] + rowIndex.ToString(), cellValue, newExcelRow);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         //  For text cells, just write the input data straight out to the Excel file.
                         AppendTextCell(excelColumnNames[colInx] + rowIndex.ToString(), cellValue, newExcelRow);
                     }
@@ -421,8 +377,7 @@ namespace JWLibrary.MsOffice
             }
         }
 
-        private static void AppendTextCell(string cellReference, string cellStringValue, Row excelRow)
-        {
+        private static void AppendTextCell(string cellReference, string cellStringValue, Row excelRow) {
             //  Add a new Excel Cell to our Row
             Cell cell = new Cell() { CellReference = cellReference, DataType = CellValues.String };
             CellValue cellValue = new CellValue();
@@ -431,8 +386,7 @@ namespace JWLibrary.MsOffice
             excelRow.Append(cell);
         }
 
-        private static void AppendNumericCell(string cellReference, string cellStringValue, Row excelRow)
-        {
+        private static void AppendNumericCell(string cellReference, string cellStringValue, Row excelRow) {
             //  Add a new Excel Cell to our Row
             Cell cell = new Cell() { CellReference = cellReference };
             CellValue cellValue = new CellValue();
@@ -441,8 +395,7 @@ namespace JWLibrary.MsOffice
             excelRow.Append(cell);
         }
 
-        private static string GetExcelColumnName(int columnIndex)
-        {
+        private static string GetExcelColumnName(int columnIndex) {
             //  Convert a zero-based column index into an Excel column reference  (A, B, C.. Y, Y, AA, AB, AC... AY, AZ, B1, B2..)
             //
             //  eg  GetExcelColumnName(0) should return "A"

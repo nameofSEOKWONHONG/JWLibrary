@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace JCoreSvc
-{
+namespace JCoreSvc {
+
     public interface ICoreSvcBase {
+
         Task<bool> OnExecuting(IContext context);
+
         Task<bool> OnExecuted(IContext context);
     }
 
     public interface ICoreSvc<TRequest, TResult> : ICoreSvcBase {
         TRequest Request { get; set; }
         TResult Result { get; set; }
+
         Task<TResult> OnExecute(IContext context);
     }
 

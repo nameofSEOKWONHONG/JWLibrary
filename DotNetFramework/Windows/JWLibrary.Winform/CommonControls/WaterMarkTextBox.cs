@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JWLibrary.Winform.CommonControls
-{
-    public class JWaterMarkTextBox : JWTextBox
-    {
+namespace JWLibrary.Winform.CommonControls {
+
+    public class JWaterMarkTextBox : JWTextBox {
+
         #region Fields
 
         #region Protected Fields
@@ -19,7 +15,7 @@ namespace JWLibrary.Winform.CommonControls
         protected Color _waterMarkColor; //Color of the watermark when the control does not have focus
         protected Color _waterMarkActiveColor; //Color of the watermark when the control has focus
 
-        #endregion
+        #endregion Protected Fields
 
         #region Private Fields
 
@@ -27,26 +23,24 @@ namespace JWLibrary.Winform.CommonControls
         private Font waterMarkFont; //Font of the watermark
         private SolidBrush waterMarkBrush; //Brush for the watermark
 
-        #endregion
+        #endregion Private Fields
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
-        public JWaterMarkTextBox()
-        {
+        public JWaterMarkTextBox() {
             Initialize();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Private Methods
 
         /// <summary>
         /// Initializes watermark properties and adds CtextBox events
         /// </summary>
-        private void Initialize()
-        {
+        private void Initialize() {
             //Sets some default values to the watermark properties
             _waterMarkColor = Color.LightGray;
             _waterMarkActiveColor = Color.Gray;
@@ -67,10 +61,8 @@ namespace JWLibrary.Winform.CommonControls
         /// <summary>
         /// Removes the watermark if it should
         /// </summary>
-        private void RemoveWaterMark()
-        {
-            if (waterMarkContainer != null)
-            {
+        private void RemoveWaterMark() {
+            if (waterMarkContainer != null) {
                 this.Controls.Remove(waterMarkContainer);
                 waterMarkContainer = null;
             }
@@ -79,10 +71,8 @@ namespace JWLibrary.Winform.CommonControls
         /// <summary>
         /// Draws the watermark if the text length is 0
         /// </summary>
-        private void DrawWaterMark()
-        {
-            if (this.waterMarkContainer == null && this.TextLength <= 0)
-            {
+        private void DrawWaterMark() {
+            if (this.waterMarkContainer == null && this.TextLength <= 0) {
                 waterMarkContainer = new Panel(); // Creates the new panel instance
                 waterMarkContainer.Paint += new PaintEventHandler(waterMarkContainer_Paint);
                 waterMarkContainer.Invalidate();
@@ -91,35 +81,27 @@ namespace JWLibrary.Winform.CommonControls
             }
         }
 
-        #endregion
+        #endregion Private Methods
 
         #region Eventhandlers
 
         #region WaterMark Events
 
-        private void waterMarkContainer_Click(object sender, EventArgs e)
-        {
+        private void waterMarkContainer_Click(object sender, EventArgs e) {
             this.Focus(); //Makes sure you can click wherever you want on the control to gain focus
         }
 
-        private void waterMarkContainer_Paint(object sender, PaintEventArgs e)
-        {
+        private void waterMarkContainer_Paint(object sender, PaintEventArgs e) {
             //Setting the watermark container up
             waterMarkContainer.Location = new Point(2, 0); // sets the location
             waterMarkContainer.Height = this.Height; // Height should be the same as its parent
             waterMarkContainer.Width = this.Width; // same goes for width and the parent
             waterMarkContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right; // makes sure that it resizes with the parent control
 
-
-
-            if (this.ContainsFocus)
-            {
+            if (this.ContainsFocus) {
                 //if focused use normal color
                 waterMarkBrush = new SolidBrush(this._waterMarkActiveColor);
-            }
-
-            else
-            {
+            } else {
                 //if not focused use not active color
                 waterMarkBrush = new SolidBrush(this._waterMarkColor);
             }
@@ -129,51 +111,40 @@ namespace JWLibrary.Winform.CommonControls
             g.DrawString(this._waterMarkText, waterMarkFont, waterMarkBrush, new PointF(-2f, 1f));//Take a look at that point
             //The reason I'm using the panel at all, is because of this feature, that it has no limits
             //I started out with a label but that looked very very bad because of its paddings
-
         }
 
-        #endregion
+        #endregion WaterMark Events
 
         #region CTextBox Events
 
-        private void ThisHasFocus(object sender, EventArgs e)
-        {
+        private void ThisHasFocus(object sender, EventArgs e) {
             //if focused use focus color
             waterMarkBrush = new SolidBrush(this._waterMarkActiveColor);
 
             //The watermark should not be drawn if the user has already written some text
-            if (this.TextLength <= 0)
-            {
+            if (this.TextLength <= 0) {
                 RemoveWaterMark();
                 DrawWaterMark();
             }
         }
 
-        private void ThisWasLeaved(object sender, EventArgs e)
-        {
+        private void ThisWasLeaved(object sender, EventArgs e) {
             //if the user has written something and left the control
-            if (this.TextLength > 0)
-            {
+            if (this.TextLength > 0) {
                 //Remove the watermark
                 RemoveWaterMark();
-            }
-            else
-            {
+            } else {
                 //But if the user didn't write anything, Then redraw the control.
                 this.Invalidate();
             }
         }
 
-        private void ThisTextChanged(object sender, EventArgs e)
-        {
+        private void ThisTextChanged(object sender, EventArgs e) {
             //If the text of the textbox is not empty
-            if (this.TextLength > 0)
-            {
+            if (this.TextLength > 0) {
                 //Remove the watermark
                 RemoveWaterMark();
-            }
-            else
-            {
+            } else {
                 //But if the text is empty, draw the watermark again.
                 DrawWaterMark();
             }
@@ -181,15 +152,13 @@ namespace JWLibrary.Winform.CommonControls
 
         #region Overrided Events
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
+        protected override void OnPaint(PaintEventArgs e) {
             base.OnPaint(e);
             //Draw the watermark even in design time
             DrawWaterMark();
         }
 
-        protected override void OnInvalidated(InvalidateEventArgs e)
-        {
+        protected override void OnInvalidated(InvalidateEventArgs e) {
             base.OnInvalidated(e);
             //Check if there is a watermark
             if (waterMarkContainer != null)
@@ -197,20 +166,19 @@ namespace JWLibrary.Winform.CommonControls
                 waterMarkContainer.Invalidate();
         }
 
-        #endregion
+        #endregion Overrided Events
 
-        #endregion
+        #endregion CTextBox Events
 
-        #endregion
+        #endregion Eventhandlers
 
         #region Properties
+
         [Category("Watermark attribtues")]
         [Description("Sets the text of the watermark")]
-        public string WaterMark
-        {
+        public string WaterMark {
             get { return this._waterMarkText; }
-            set
-            {
+            set {
                 this._waterMarkText = value;
                 this.Invalidate();
             }
@@ -218,12 +186,10 @@ namespace JWLibrary.Winform.CommonControls
 
         [Category("Watermark attribtues")]
         [Description("When the control gaines focus, this color will be used as the watermark's forecolor")]
-        public Color WaterMarkActiveForeColor
-        {
+        public Color WaterMarkActiveForeColor {
             get { return this._waterMarkActiveColor; }
 
-            set
-            {
+            set {
                 this._waterMarkActiveColor = value;
                 this.Invalidate();
             }
@@ -231,12 +197,10 @@ namespace JWLibrary.Winform.CommonControls
 
         [Category("Watermark attribtues")]
         [Description("When the control looses focus, this color will be used as the watermark's forecolor")]
-        public Color WaterMarkForeColor
-        {
+        public Color WaterMarkForeColor {
             get { return this._waterMarkColor; }
 
-            set
-            {
+            set {
                 this._waterMarkColor = value;
                 this.Invalidate();
             }
@@ -244,20 +208,17 @@ namespace JWLibrary.Winform.CommonControls
 
         [Category("Watermark attribtues")]
         [Description("The font used on the watermark. Default is the same as the control")]
-        public Font WaterMarkFont
-        {
-            get
-            {
+        public Font WaterMarkFont {
+            get {
                 return this.waterMarkFont;
             }
 
-            set
-            {
+            set {
                 this.waterMarkFont = value;
                 this.Invalidate();
             }
         }
 
-        #endregion
+        #endregion Properties
     }
 }

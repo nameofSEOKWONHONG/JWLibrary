@@ -1,47 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
-namespace JWLibrary.Core.NetFramework.GZip
-{
-	public sealed class GZipCompressFactory<T>  where T : ICompress {		
-		public static string Compress (string param) {
-			string ret = string.Empty;
+namespace JWLibrary.Core.NetFramework.GZip {
 
-			var type = typeof(T);
+    public sealed class GZipCompressFactory<T> where T : ICompress {
 
-			ICompress compress = (ICompress)Activator.CreateInstance(type);
+        public static string Compress(string param) {
+            string ret = string.Empty;
 
-			if (compress != null) {
-				ret = compress.Compress(param);
-				IDisposable dispose = compress as IDisposable;
-				if (dispose != null) {
-					dispose.Dispose();
-				}
-			}
+            var type = typeof(T);
 
-			return ret;
-		}
+            ICompress compress = (ICompress)Activator.CreateInstance(type);
 
-		public static string DeCompress (string param) {
-			string ret = string.Empty;
+            if (compress != null) {
+                ret = compress.Compress(param);
+                IDisposable dispose = compress as IDisposable;
+                if (dispose != null) {
+                    dispose.Dispose();
+                }
+            }
 
-			var type = typeof(T);
+            return ret;
+        }
 
-			ICompress compress = (ICompress)Activator.CreateInstance(type);
+        public static string DeCompress(string param) {
+            string ret = string.Empty;
 
-			if (compress != null) {
-				ret = compress.Decompress(param);
-				IDisposable dispose = compress as IDisposable;
-				if (dispose != null) {
-					dispose.Dispose();
-				}
-			}
+            var type = typeof(T);
 
-			return ret;
-		}
-	}
+            ICompress compress = (ICompress)Activator.CreateInstance(type);
+
+            if (compress != null) {
+                ret = compress.Decompress(param);
+                IDisposable dispose = compress as IDisposable;
+                if (dispose != null) {
+                    dispose.Dispose();
+                }
+            }
+
+            return ret;
+        }
+    }
 }

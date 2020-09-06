@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-#if NETFX_40
+﻿#if NETFX_40
 using System.Dynamic;
 #endif
 
@@ -105,7 +100,7 @@ namespace JWLibrary.DB.MYSQL.Module {
 			catch (Exception) {
 				result = null;
 				return false;
-			}			
+			}
 		}
 
 		public override bool TryGetMember(GetMemberBinder binder, out object result) {

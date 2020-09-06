@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 using System.Text.RegularExpressions;
 
-namespace JWLibrary.StaticMethod
-{
-    public static class JPath
-    {
+namespace JWLibrary.StaticMethod {
+
+    public static class JPath {
+
         /// <summary>
         /// executable app root path
         /// c:\development\MyApp
@@ -16,8 +13,7 @@ namespace JWLibrary.StaticMethod
         /// </summary>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static string jToAppPath(this string fileName, string addPath = null)
-        {
+        public static string jToAppPath(this string fileName, string addPath = null) {
             var exePath = Path.GetDirectoryName(System.Reflection
                                 .Assembly.GetExecutingAssembly().CodeBase);
             Regex appPathMatcher = new Regex(@"(?<!fil)[A-Za-z]:\\+[\S\s]*?(?=\\+bin)");

@@ -1,82 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
+﻿namespace JWLibrary.DB.SQLite {
 
-namespace JWLibrary.DB.SQLite
-{
-  public interface IDacHelper
-  {
-    #region SelectSingleEntity
+    public interface IDacHelper {
 
-    object SelectSingleEntity(string query, params DbParameter[] dbParams);
+        #region SelectSingleEntity
 
-    object SelectSingleEntity(CommandType cmdType, string query, params DbParameter[] dbParams);
+        object SelectSingleEntity(string query, params DbParameter[] dbParams);
 
-    T SelectSingleEntity<T>(Type type, string query, params DbParameter[] dbParams);
+        object SelectSingleEntity(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    T SelectSingleEntity<T>(Type type, CommandType cmdType, string query, params DbParameter[] dbParams);
+        T SelectSingleEntity<T>(Type type, string query, params DbParameter[] dbParams);
 
-    #endregion
+        T SelectSingleEntity<T>(Type type, CommandType cmdType, string query, params DbParameter[] dbParams);
 
+        #endregion SelectSingleEntity
 
-    #region SelectMultipleEntities
+        #region SelectMultipleEntities
 
-    object SelectMultipleEntities(string query, params DbParameter[] dbParams);
+        object SelectMultipleEntities(string query, params DbParameter[] dbParams);
 
-    object SelectMultipleEntities(CommandType cmdType, string query, params DbParameter[] dbParams);
+        object SelectMultipleEntities(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    object SelectMultipleEntities(CommandType cmdType, string query, int startIndex, int length, params DbParameter[] dbParams);
+        object SelectMultipleEntities(CommandType cmdType, string query, int startIndex, int length, params DbParameter[] dbParams);
 
-    List<T> SelectMultipleEntities<T>(Type type, string query, params DbParameter[] dbParams);
+        List<T> SelectMultipleEntities<T>(Type type, string query, params DbParameter[] dbParams);
 
-    List<T> SelectMultipleEntities<T>(Type type, CommandType cmdType, string query, params DbParameter[] dbParams);
+        List<T> SelectMultipleEntities<T>(Type type, CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    List<T> SelectMultipleEntities<T>(Type type, CommandType cmdType, string query, int startIndex, int legnth, params DbParameter[] dbParams);
+        List<T> SelectMultipleEntities<T>(Type type, CommandType cmdType, string query, int startIndex, int legnth, params DbParameter[] dbParams);
 
-    DataTable SelectDataTable(string query, params DbParameter[] dbParams);
+        DataTable SelectDataTable(string query, params DbParameter[] dbParams);
 
-	DataTable SelectDataTable(CommandType cmdType, string query, params DbParameter[] dbParams);
+        DataTable SelectDataTable(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-	DataSet SelectDataSet(string query, params DbParameter[] dbParams);
+        DataSet SelectDataSet(string query, params DbParameter[] dbParams);
 
-	DataSet SelectDataSet(CommandType cmdType, string query, params DbParameter[] dbParams);
+        DataSet SelectDataSet(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    #endregion
+        #endregion SelectMultipleEntities
 
+        #region SelectScalar
 
-    #region SelectScalar
+        object SelectScalar(string query, params DbParameter[] dbParams);
 
-    object SelectScalar(string query, params DbParameter[] dbParams);
+        object SelectScalar(string query, object dbNullDefault, object nullDefault, params DbParameter[] dbParams);
 
-    object SelectScalar(string query, object dbNullDefault, object nullDefault, params DbParameter[] dbParams);
+        object SelectScalar(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    object SelectScalar(CommandType cmdType, string query, params DbParameter[] dbParams);
+        object SelectScalar(CommandType cmdType, string query, object dbNullDefault, object nullDefault, params DbParameter[] dbParams);
 
-    object SelectScalar(CommandType cmdType, string query, object dbNullDefault, object nullDefault, params DbParameter[] dbParams);
+        #endregion SelectScalar
 
-    #endregion
+        #region Execute
 
+        int Execute(string query, params DbParameter[] dbParams);
 
-    #region Execute
+        int Execute(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    int Execute(string query, params DbParameter[] dbParams);
+        int ExecuteNonQuery(string query, params DbParameter[] dbParams);
 
-    int Execute(CommandType cmdType, string query, params DbParameter[] dbParams);
+        int ExecuteNonQuery(CommandType cmdType, string query, params DbParameter[] dbParams);
 
-    int ExecuteNonQuery(string query, params DbParameter[] dbParams);
+        #endregion Execute
 
-    int ExecuteNonQuery(CommandType cmdType, string query, params DbParameter[] dbParams);
+        #region Date
 
-    #endregion
+        DateTime GetDate();
 
+        DateTime GetUtcDate();
 
-    #region Date
-
-    DateTime GetDate();
-
-    DateTime GetUtcDate();
-
-    #endregion
-  }
+        #endregion Date
+    }
 }

@@ -1,90 +1,88 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-namespace JWLibrary.Core.NetFramework.GZip
-{
-	public class GZipStringCompress : ICompress, IDisposable {		
-		public string Compress (string param) {
-			if (param.Length <= 0) return string.Empty;
+namespace JWLibrary.Core.NetFramework.GZip {
 
-			var rowData = Encoding.UTF8.GetBytes(param);
-			byte[] compressed = null;
-			using (var outStream = new MemoryStream()) {
-				using (var hgs = new GZipStream(outStream, CompressionMode.Compress)) {
-					hgs.Write(rowData, 0, rowData.Length);
-				}
-				compressed = outStream.ToArray();
-			}
+    public class GZipStringCompress : ICompress, IDisposable {
 
-			return Convert.ToBase64String(compressed);
-		}
+        public string Compress(string param) {
+            if (param.Length <= 0) return string.Empty;
 
-		public string Decompress(string param) {
-			if (param.Length <= 0) return string.Empty;
+            var rowData = Encoding.UTF8.GetBytes(param);
+            byte[] compressed = null;
+            using (var outStream = new MemoryStream()) {
+                using (var hgs = new GZipStream(outStream, CompressionMode.Compress)) {
+                    hgs.Write(rowData, 0, rowData.Length);
+                }
+                compressed = outStream.ToArray();
+            }
 
-			byte[] cmpData = Convert.FromBase64String(param);
-			string output = null;
-			using (var decomStream = new MemoryStream(cmpData)) {
-				using (var hgs = new GZipStream(decomStream, CompressionMode.Decompress)) {
-					//decomStream에 압축 헤제된 데이타를 저장한다.
-					using (var reader = new StreamReader(hgs)) {
-						output = reader.ReadToEnd();
-					}
-				}
-			}
+            return Convert.ToBase64String(compressed);
+        }
 
-			return output;
-		}
+        public string Decompress(string param) {
+            if (param.Length <= 0) return string.Empty;
 
+            byte[] cmpData = Convert.FromBase64String(param);
+            string output = null;
+            using (var decomStream = new MemoryStream(cmpData)) {
+                using (var hgs = new GZipStream(decomStream, CompressionMode.Decompress)) {
+                    //decomStream에 압축 헤제된 데이타를 저장한다.
+                    using (var reader = new StreamReader(hgs)) {
+                        output = reader.ReadToEnd();
+                    }
+                }
+            }
 
-		#region IDisposable Members
+            return output;
+        }
 
-		/// <summary>
-		/// Internal variable which checks if Dispose has already been called
-		/// </summary>
-		private Boolean disposed;
+        #region IDisposable Members
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose (Boolean disposing) {
-			if (disposed) {
-				return;
-			}
+        /// <summary>
+        /// Internal variable which checks if Dispose has already been called
+        /// </summary>
+        private Boolean disposed;
 
-			if (disposing) {
-				//TODO: Managed cleanup code here, while managed refs still valid
-			}
-			//TODO: Unmanaged cleanup code here
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(Boolean disposing) {
+            if (disposed) {
+                return;
+            }
 
-			disposed = true;
-		}
+            if (disposing) {
+                //TODO: Managed cleanup code here, while managed refs still valid
+            }
+            //TODO: Unmanaged cleanup code here
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose () {
-			// Call the private Dispose(bool) helper and indicate
-			// that we are explicitly disposing
-			this.Dispose(true);
+            disposed = true;
+        }
 
-			// Tell the garbage collector that the object doesn't require any
-			// cleanup when collected since Dispose was called explicitly.
-			GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose() {
+            // Call the private Dispose(bool) helper and indicate
+            // that we are explicitly disposing
+            this.Dispose(true);
 
-		/// <summary>
-		/// The destructor for the class.
-		/// </summary>
-		~GZipStringCompress () {
-			this.Dispose(false);
-		}
+            // Tell the garbage collector that the object doesn't require any
+            // cleanup when collected since Dispose was called explicitly.
+            GC.SuppressFinalize(this);
+        }
 
+        /// <summary>
+        /// The destructor for the class.
+        /// </summary>
+        ~GZipStringCompress() {
+            this.Dispose(false);
+        }
 
-		#endregion
-	}
+        #endregion IDisposable Members
+    }
 }

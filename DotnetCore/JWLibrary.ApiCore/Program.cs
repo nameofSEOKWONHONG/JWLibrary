@@ -1,25 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace JWLibrary.ApiCore
-{
+namespace JWLibrary.ApiCore {
+    /// <summary>
+    /// program
+    /// </summary>
+#pragma warning disable RCS1102 // Make class static.
+
     public class Program
+#pragma warning restore RCS1102 // Make class static.
     {
-        public static void Main(string[] args)
-        {
+        /// <summary>
+        /// program main
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Main(string[] args) {
             CreateHostBuilder(args).Build().Run();
         }
 
+        /// <summary>
+        /// create host builder
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
+                .ConfigureWebHostDefaults(webBuilder => {
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -1,4 +1,5 @@
 ﻿namespace JWActions.WeatherForecast {
+
     using Dapper;
     using JWLibrary.Core;
     using JWLibrary.Database;
@@ -6,7 +7,8 @@
     using System.Data.SqlClient;
 
     public class DeleteWeatherForecastAction : ActionBase<WeatherForecastRequestDto, bool>, IDeleteWeatherForecastAction {
-        WEATHER_FORECAST _removeObj = null;
+        private WEATHER_FORECAST _removeObj = null;
+
         public override bool Executed() {
             using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
                 action.Request = new WeatherForecastRequestDto() {

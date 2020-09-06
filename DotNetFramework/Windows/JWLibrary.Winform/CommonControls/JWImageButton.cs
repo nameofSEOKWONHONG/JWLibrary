@@ -1,107 +1,80 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JWLibrary.Winform.CommonControls
-{
-    public class JWImageButton : Control
-    {
-        Image backgroundImage, pressedImage, hoverImage, disableImage, selectImage;
-        bool pressed = false;
-        bool hover = false;
-        bool btnselect = false;
+namespace JWLibrary.Winform.CommonControls {
 
-        DialogResult dialogResult;
-        public DialogResult DialgResult
-        {
-            get
-            {
+    public class JWImageButton : Control {
+        private Image backgroundImage, pressedImage, hoverImage, disableImage, selectImage;
+        private bool pressed = false;
+        private bool hover = false;
+        private bool btnselect = false;
+
+        private DialogResult dialogResult;
+
+        public DialogResult DialgResult {
+            get {
                 return this.dialogResult;
             }
-            set
-            {
+            set {
                 this.dialogResult = value;
             }
         }
 
-        public bool Btnselectbtn
-        {
-            get
-            {
+        public bool Btnselectbtn {
+            get {
                 return this.btnselect;
             }
-            set
-            {
+            set {
                 this.Invalidate();
                 this.btnselect = value;
             }
         }
 
-        public Image SelectImage
-        {
-            get
-            {
+        public Image SelectImage {
+            get {
                 return this.selectImage;
             }
-            set
-            {
+            set {
                 this.selectImage = value;
             }
         }
 
-
-        public Image DisableImage
-        {
-            get
-            {
+        public Image DisableImage {
+            get {
                 return this.disableImage;
             }
-            set
-            {
+            set {
                 this.disableImage = value;
             }
         }
 
-
         // Property for the background image to be drawn behind the button text.
-        public Image BackgroundImage
-        {
-            get
-            {
+        public Image BackgroundImage {
+            get {
                 return this.backgroundImage;
             }
-            set
-            {
+            set {
                 this.backgroundImage = value;
             }
         }
 
         // Property for the background image to be drawn behind the button text when
         // the button is pressed.
-        public Image PressedImage
-        {
-            get
-            {
+        public Image PressedImage {
+            get {
                 return this.pressedImage;
             }
-            set
-            {
+            set {
                 this.pressedImage = value;
             }
         }
 
-        public Image HoverImage
-        {
-            get
-            {
+        public Image HoverImage {
+            get {
                 return this.hoverImage;
             }
-            set
-            {
+            set {
                 this.hoverImage = value;
             }
         }
@@ -109,8 +82,7 @@ namespace JWLibrary.Winform.CommonControls
         // When the mouse button is pressed, set the "pressed" flag to true
         // and invalidate the form to cause a repaint.  The .NET Compact Framework
         // sets the mouse capture automatically.
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
+        protected override void OnMouseDown(MouseEventArgs e) {
             //this.btnselect = true;
 
             this.pressed = false;
@@ -121,21 +93,16 @@ namespace JWLibrary.Winform.CommonControls
             base.OnMouseDown(e);
         }
 
-        public void selectbtn(bool bResult)
-        {
+        public void selectbtn(bool bResult) {
             this.btnselect = bResult;
             this.DoubleBuffered = true;
             //          this.Invalidate();
         }
 
-        protected override void OnMouseClick(MouseEventArgs e)
-        {
-            if (dialogResult == DialogResult.OK)
-            {
+        protected override void OnMouseClick(MouseEventArgs e) {
+            if (dialogResult == DialogResult.OK) {
                 this.FindForm().DialogResult = dialogResult;
-            }
-            else if (dialogResult == DialogResult.Cancel)
-            {
+            } else if (dialogResult == DialogResult.Cancel) {
                 this.FindForm().DialogResult = dialogResult;
             }
             base.OnMouseClick(e);
@@ -143,8 +110,7 @@ namespace JWLibrary.Winform.CommonControls
 
         // When the mouse is released, reset the "pressed" flag
         // and invalidate to redraw the button in the unpressed state.
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
+        protected override void OnMouseUp(MouseEventArgs e) {
             this.pressed = true;
 
             this.btnselect = false;
@@ -155,8 +121,7 @@ namespace JWLibrary.Winform.CommonControls
             base.OnMouseUp(e);
         }
 
-        protected override void OnMouseHover(EventArgs e)
-        {
+        protected override void OnMouseHover(EventArgs e) {
             this.hover = true;
 
             this.DoubleBuffered = true;
@@ -164,8 +129,7 @@ namespace JWLibrary.Winform.CommonControls
             base.OnMouseHover(e);
         }
 
-        protected override void OnMouseLeave(EventArgs e)
-        {
+        protected override void OnMouseLeave(EventArgs e) {
             this.hover = false;
             this.btnselect = false;
             this.pressed = false;
@@ -176,8 +140,7 @@ namespace JWLibrary.Winform.CommonControls
         }
 
         // Override the OnPaint method to draw the background image and the text.
-        protected override void OnPaint(PaintEventArgs e)
-        {
+        protected override void OnPaint(PaintEventArgs e) {
             if (!this.hover && !this.pressed && !this.btnselect && this.Enabled && this.backgroundImage != null) //state normal
             {
                 e.Graphics.DrawImage(this.backgroundImage, 0, 0, this.backgroundImage.Width, this.backgroundImage.Height);

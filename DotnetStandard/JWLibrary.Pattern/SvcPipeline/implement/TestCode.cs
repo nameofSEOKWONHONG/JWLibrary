@@ -6,7 +6,6 @@
 //namespace JCoreSvc {
 //    public interface ITestSvc : ICoreSvc<TestRequstModel, int> { }
 //    public class TestRequstModel {
-
 //    }
 
 //    public class MainSvc : CoreSvc<MainSvc, TestRequstModel, int> {
@@ -27,7 +26,6 @@
 //            return base.OnExecuting(context);
 //        }
 //    }
-
 
 //    public class TestSvc : CoreSvc<TestSvc, TestRequstModel, int>, ITestSvc {
 //        public override Task<bool> OnExecuted(IContext context) {

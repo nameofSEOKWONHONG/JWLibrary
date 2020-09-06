@@ -1,17 +1,8 @@
-﻿using GSCoreLibray.DB.MsSql;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-#if NETFX_40
+﻿#if NETFX_40
 using System.Dynamic;
 #endif
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace JWLibrary.DB.SQLite.Module {
-
 #if NETFX_40
 	public class DynamicDataReader : DynamicEnumerableDataObjectWrapper<DbDataReader> {
 		public DynamicDataReader(DbDataReader reader)
@@ -109,7 +100,7 @@ namespace JWLibrary.DB.SQLite.Module {
 			catch (Exception) {
 				result = null;
 				return false;
-			}			
+			}
 		}
 
 		public override bool TryGetMember(GetMemberBinder binder, out object result) {

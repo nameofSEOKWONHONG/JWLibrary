@@ -3,66 +3,64 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace JWLibrary.Core.NetFramework.Cryption.Str
-{
-    public class CryptorEngineMD5 : ICrypto
-    {
-		public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
-			byte[] keyArray;
-			byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(encryptText);
+namespace JWLibrary.Core.NetFramework.Cryption.Str {
 
-			System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
+    public class CryptorEngineMD5 : ICrypto {
 
-			if (string.IsNullOrEmpty(encryptKey))
-				encryptKey = (string)settingsReader.GetValue("SecurityKey", typeof(string));
+        public string Encrypt(string encryptText, string encryptKey = null, bool useHashing = false) {
+            byte[] keyArray;
+            byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(encryptText);
 
-			if (useHashing) {
-				MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-				keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(encryptKey));
-				hashmd5.Clear();
-			}
-			else
-				keyArray = UTF8Encoding.UTF8.GetBytes(encryptKey);
+            System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
 
-			TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-			tdes.Key = keyArray;
-			tdes.Mode = CipherMode.ECB;
-			tdes.Padding = PaddingMode.PKCS7;
+            if (string.IsNullOrEmpty(encryptKey))
+                encryptKey = (string)settingsReader.GetValue("SecurityKey", typeof(string));
 
-			ICryptoTransform cTransform = tdes.CreateEncryptor();
-			byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
-			tdes.Clear();
-			return Convert.ToBase64String(resultArray, 0, resultArray.Length);
-		}
+            if (useHashing) {
+                MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
+                keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(encryptKey));
+                hashmd5.Clear();
+            } else
+                keyArray = UTF8Encoding.UTF8.GetBytes(encryptKey);
 
-		public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
-			byte[] keyArray;
-			byte[] toEncryptArray = Convert.FromBase64String(decryptText);
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+            tdes.Key = keyArray;
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
 
-			System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
+            ICryptoTransform cTransform = tdes.CreateEncryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            tdes.Clear();
+            return Convert.ToBase64String(resultArray, 0, resultArray.Length);
+        }
 
-			if (string.IsNullOrEmpty(decryptKey)) {
-				decryptKey = (string)settingsReader.GetValue("SecurityKey", typeof(string));
-			}
+        public string Decrypt(string decryptText, string decryptKey = null, bool useHashing = false) {
+            byte[] keyArray;
+            byte[] toEncryptArray = Convert.FromBase64String(decryptText);
 
-			if (useHashing) {
-				MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
-				keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(decryptKey));
-				hashmd5.Clear();
-			}
-			else
-				keyArray = UTF8Encoding.UTF8.GetBytes(decryptKey);
+            System.Configuration.AppSettingsReader settingsReader = new AppSettingsReader();
 
-			TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
-			tdes.Key = keyArray;
-			tdes.Mode = CipherMode.ECB;
-			tdes.Padding = PaddingMode.PKCS7;
+            if (string.IsNullOrEmpty(decryptKey)) {
+                decryptKey = (string)settingsReader.GetValue("SecurityKey", typeof(string));
+            }
 
-			ICryptoTransform cTransform = tdes.CreateDecryptor();
-			byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+            if (useHashing) {
+                MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
+                keyArray = hashmd5.ComputeHash(UTF8Encoding.UTF8.GetBytes(decryptKey));
+                hashmd5.Clear();
+            } else
+                keyArray = UTF8Encoding.UTF8.GetBytes(decryptKey);
 
-			tdes.Clear();
-			return UTF8Encoding.UTF8.GetString(resultArray);
-		}
-	}
+            TripleDESCryptoServiceProvider tdes = new TripleDESCryptoServiceProvider();
+            tdes.Key = keyArray;
+            tdes.Mode = CipherMode.ECB;
+            tdes.Padding = PaddingMode.PKCS7;
+
+            ICryptoTransform cTransform = tdes.CreateDecryptor();
+            byte[] resultArray = cTransform.TransformFinalBlock(toEncryptArray, 0, toEncryptArray.Length);
+
+            tdes.Clear();
+            return UTF8Encoding.UTF8.GetString(resultArray);
+        }
+    }
 }

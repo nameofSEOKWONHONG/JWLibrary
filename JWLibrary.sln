@@ -57,7 +57,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Database", "Dotne
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWLibrary.Pattern", "DotnetStandard\JWLibrary.Pattern\JWLibrary.Pattern.csproj", "{8450E2A6-8950-415B-9C79-BA0B32666CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWActions", "DotnetStandard\JWActions\JWActions.csproj", "{2860D48C-C481-46F5-ADA7-377753D24D7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWActions", "DotnetStandard\JWActions\JWActions.csproj", "{2860D48C-C481-46F5-ADA7-377753D24D7E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{439EE2A3-E28D-42C9-8716-2D352E32C9E1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

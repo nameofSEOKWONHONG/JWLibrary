@@ -2,50 +2,41 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace JWLibrary.FFmpeg.Test
-{
-    public partial class Form1 : Form
-    {
-        JWLibrary.FFmpeg.FFMpegCaptureAV _ffmpegCav
+namespace JWLibrary.FFmpeg.Test {
+
+    public partial class Form1 : Form {
+
+        private JWLibrary.FFmpeg.FFMpegCaptureAV _ffmpegCav
             = new FFmpeg.FFMpegCaptureAV();
 
-        public Form1()
-        {
+        public Form1() {
             InitializeComponent();
 
-            _ffmpegCav.FFmpegDataReceived += (s, e) =>
-            {
+            _ffmpegCav.FFmpegDataReceived += (s, e) => {
                 this.Invoke(
-                    new MethodInvoker(delegate ()
-                    {
+                    new MethodInvoker(delegate () {
                         lblFps.Text = e.Fps;
                         lblFrame.Text = e.Frame;
                         lblTime.Text = e.Time;
-                    })                  
+                    })
                 );
             };
 
-            _ffmpegCav.FrameDroped += (s, e) =>
-            {
+            _ffmpegCav.FrameDroped += (s, e) => {
                 Console.WriteLine("Frame drop!!!");
             };
 
-            _ffmpegCav.ErrorOccured += (s, e) =>
-            {
+            _ffmpegCav.ErrorOccured += (s, e) => {
                 MessageBox.Show("Error Occured!");
             };
         }
 
-        private void btnRecStart_Click(object sender, EventArgs e)
-        {
-            if (!_ffmpegCav.IsRunning)
-            {
-                if (_ffmpegCav.Initialize())
-                {
+        private void btnRecStart_Click(object sender, EventArgs e) {
+            if (!_ffmpegCav.IsRunning) {
+                if (_ffmpegCav.Initialize()) {
                     _ffmpegCav.Register();
 
-                    JWLibrary.FFmpeg.FFmpegCommandModel model = new FFmpeg.FFmpegCommandModel
-                    {
+                    JWLibrary.FFmpeg.FFmpegCommandModel model = new FFmpeg.FFmpegCommandModel {
                         AudioQuality = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportAudioQuality()[0],
                         Format = "mp4",
                         FrameRate = JWLibrary.FFmpeg.FFmpegCommandParameterSupport.GetSupportFrameRate()[0],
@@ -62,16 +53,13 @@ namespace JWLibrary.FFmpeg.Test
             }
         }
 
-        private void btnRecStop_Click(object sender, EventArgs e)
-        {
+        private void btnRecStop_Click(object sender, EventArgs e) {
             _ffmpegCav.RecordingStop();
             _ffmpegCav.UnRegister();
         }
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            if (_ffmpegCav != null)
-            {
+        protected override void OnClosing(CancelEventArgs e) {
+            if (_ffmpegCav != null) {
                 _ffmpegCav.Dispose();
             }
 

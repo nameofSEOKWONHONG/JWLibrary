@@ -6,6 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>H:\workspace\JWLibrary\DotnetCore\JWLibrary.ApiCore\JWLibrary.ApiCore.xml</DocumentationFile>
+    <NoWarn>1701;1702;1591;1570;RSC1102;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,7 @@
-﻿
-namespace JWLibrary.DB.MYSQL {
-	public interface IDataBinder<T> {
-		T DataBind();
-	}
+﻿namespace JWLibrary.DB.MYSQL {
+
+    public interface IDataBinder<T> {
+
+        T DataBind();
+    }
 }

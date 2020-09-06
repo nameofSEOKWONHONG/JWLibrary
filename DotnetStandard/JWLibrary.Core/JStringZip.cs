@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Text;
 
 namespace JWLibrary.Core {
+
     public static class JStringZip {
+
         private static void jCopyTo(Stream src, Stream dest) {
             byte[] bytes = new byte[4096];
 

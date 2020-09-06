@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace JWLibrary.FFmpeg
-{
-    public class RecCmdParameters
-    {
-        public static List<string> GetSupportFPS()
-        {
+namespace JWLibrary.FFmpeg {
+
+    public class RecCmdParameters {
+
+        public static List<string> GetSupportFPS() {
             List<string> sfps = new List<string>();
             sfps.Add("10");
             sfps.Add("20");
@@ -14,8 +13,7 @@ namespace JWLibrary.FFmpeg
             return sfps;
         }
 
-        public static List<string> GetSupportFrameRate()
-        {
+        public static List<string> GetSupportFrameRate() {
             List<string> sfr = new List<string>();
             sfr.Add("10");
             sfr.Add("20");
@@ -28,8 +26,7 @@ namespace JWLibrary.FFmpeg
             return sfr;
         }
 
-        public static List<string> GetSupportAudioQuality()
-        {
+        public static List<string> GetSupportAudioQuality() {
             List<string> saq = new List<string>();
             saq.Add("11025");
             saq.Add("22050");
@@ -38,8 +35,7 @@ namespace JWLibrary.FFmpeg
             return saq;
         }
 
-        public static List<string> GetSupportPreset()
-        {
+        public static List<string> GetSupportPreset() {
             List<string> srs = new List<string>();
             srs.Add("ultrafast");
             srs.Add("fast");
@@ -49,7 +45,5 @@ namespace JWLibrary.FFmpeg
 
             return srs;
         }
-
     }
-
 }

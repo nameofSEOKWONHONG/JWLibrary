@@ -1,18 +1,17 @@
 ﻿namespace JWActions.WeatherForecast {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
 
-    using JWLibrary.Pattern.TaskAction;
-    using JWLibrary.Database;
-
-    using SqlKata;
     using JWLibrary.Core;
+    using JWLibrary.Database;
+    using JWLibrary.Pattern.TaskAction;
+    using SqlKata;
     using System.Data.SqlClient;
+
     public class GetWeatherForecastAction : ActionBase<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastAction {
+
         public override bool PostExecute() {
             return true;
         }
+
         public override WEATHER_FORECAST Executed() {
             //use sqlkata
             var query = new Query("WEATHER_FORECAST").Where("ID", this.Request.ID).Select("*");

@@ -2,51 +2,41 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
-{
-    public class Stack<T> : IEnumerable<T>, IEnumerable, ICollection
-    {
+namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic {
+
+    public class Stack<T> : IEnumerable<T>, IEnumerable, ICollection {
         private CNode<T> head;
         public int Count { get; private set; }
         private readonly object syncRoot = new object();
-        public object SyncRoot
-        {
-            get
-            {
+
+        public object SyncRoot {
+            get {
                 return this;
             }
         }
 
-        public bool IsSynchronized
-        {
-            get
-            {
+        public bool IsSynchronized {
+            get {
                 return true;
             }
         }
 
-        public Stack()
-        {
+        public Stack() {
             //head = new CNode<T>();
             //head.Link = null;
         }
 
-        ~Stack()
-        {
+        ~Stack() {
             head = null;
         }
 
-        public void Push(T entity)
-        {
+        public void Push(T entity) {
             CNode<T> node = new CNode<T>();
             node.Item = entity;
 
-            if (head == null)
-            {
+            if (head == null) {
                 head = node;
-            }
-            else
-            {
+            } else {
                 node.Link = head.Link;
                 head.Link = node;
             }
@@ -54,8 +44,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             Count++;
         }
 
-        public T Pop()
-        {
+        public T Pop() {
             if (Count <= 0) return default(T);
 
             CNode<T> node = head;
@@ -66,13 +55,11 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             return item;
         }
 
-        public T GetItem(int index)
-        {
+        public T GetItem(int index) {
             CNode<T> node = head;
 
             int cnt = 0;
-            for (; node != null; node = node.Link)
-            {
+            for (; node != null; node = node.Link) {
                 if (index == cnt) return node.Item;
                 cnt++;
             }
@@ -80,19 +67,16 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             return default(T);
         }
 
-        public T Peek()
-        {
+        public T Peek() {
             return head.Link.Item;
         }
 
-        public T[] ToArray()
-        {
+        public T[] ToArray() {
             T[] Items = new T[Count];
 
             CNode<T> node = head;
 
-            for (int i = 0; i < Count; i++)
-            {
+            for (int i = 0; i < Count; i++) {
                 Items[i] = node.Item;
                 node = node.Link;
             }
@@ -100,8 +84,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             return Items;
         }
 
-        public int Length()
-        {
+        public int Length() {
             int cnt = 0;
             CNode<T> node = head;
 
@@ -111,36 +94,30 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             return cnt;
         }
 
-        public void Clear()
-        {
+        public void Clear() {
             head = null;
             Count = 0;
 
             GC.Collect();
         }
 
-        public IEnumerator<T> GetEnumerator()
-        {
+        public IEnumerator<T> GetEnumerator() {
             List<T> list = new List<T>();
 
             CNode<T> node = head;
-            for (; node != null; node = node.Link)
-            {
+            for (; node != null; node = node.Link) {
                 list.Add(node.Item);
             }
 
             return list.GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
+        IEnumerator IEnumerable.GetEnumerator() {
             return this.GetEnumerator();
         }
 
-        public void CopyTo(Array array, int index)
-        {
-            for (int i = index; i < array.Length; i++)
-            {
+        public void CopyTo(Array array, int index) {
+            for (int i = index; i < array.Length; i++) {
                 T t = (T)array.GetValue(i);
 
                 if (t != null)
@@ -148,8 +125,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure.Collections.Generic
             }
         }
 
-        public class CNode<T>
-        {
+        public class CNode<T> {
             public T Item { get; set; }
             public CNode<T> Link { get; set; }
         }

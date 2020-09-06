@@ -2,24 +2,20 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace JWLibrary.Core.NetFramework.FileIdentify
-{
-    public class FileUniqueId
-    {
-        public ulong ApproachB(string fileName)
-        {
+namespace JWLibrary.Core.NetFramework.FileIdentify {
+
+    public class FileUniqueId {
+
+        public ulong ApproachB(string fileName) {
             Win32.BY_HANDLE_FILE_INFORMATION objectFileInfo = new Win32.BY_HANDLE_FILE_INFORMATION();
 
             FileInfo fi = new FileInfo(fileName);
 
             ulong fileIndex = 0;
 
-            try
-            {
-                if (fi.Exists)
-                {
-                    using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
+            try {
+                if (fi.Exists) {
+                    using (FileStream fs = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read)) {
                         Win32.GetFileInformationByHandle(fs.Handle, out objectFileInfo);
 
                         fs.Close();
@@ -27,9 +23,7 @@ namespace JWLibrary.Core.NetFramework.FileIdentify
                         fileIndex = ((ulong)objectFileInfo.FileIndexHigh << 32) + (ulong)objectFileInfo.FileIndexLow;
                     }
                 }
-            }
-            catch
-            {
+            } catch {
                 throw;
             }
 
@@ -39,24 +33,22 @@ namespace JWLibrary.Core.NetFramework.FileIdentify
         }
     }
 
-    class Win32
-    {
+    internal class Win32 {
+
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern IntPtr NtQueryInformationFile(IntPtr fileHandle, ref IO_STATUS_BLOCK IoStatusBlock, IntPtr pInfoBlock, uint length, FILE_INFORMATION_CLASS fileInformation);
 
-        public struct IO_STATUS_BLOCK
-        {
-            uint status;
-            ulong information;
+        public struct IO_STATUS_BLOCK {
+            private uint status;
+            private ulong information;
         }
-        public struct _FILE_INTERNAL_INFORMATION
-        {
+
+        public struct _FILE_INTERNAL_INFORMATION {
             public ulong IndexNumber;
         }
 
         // Abbreviated, there are more values than shown
-        public enum FILE_INFORMATION_CLASS
-        {
+        public enum FILE_INFORMATION_CLASS {
             FileDirectoryInformation = 1,     // 1
             FileFullDirectoryInformation,     // 2
             FileBothDirectoryInformation,     // 3
@@ -68,8 +60,7 @@ namespace JWLibrary.Core.NetFramework.FileIdentify
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool GetFileInformationByHandle(IntPtr hFile, out BY_HANDLE_FILE_INFORMATION lpFileInformation);
 
-        public struct BY_HANDLE_FILE_INFORMATION
-        {
+        public struct BY_HANDLE_FILE_INFORMATION {
             public uint FileAttributes;
             public FILETIME CreationTime;
             public FILETIME LastAccessTime;

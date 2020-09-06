@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace JWLibrary.Core.NetFramework.DataStructure
-{
-    public class SortableBindingList<T> : BindingList<T> where T : class
-    {
+namespace JWLibrary.Core.NetFramework.DataStructure {
+
+    public class SortableBindingList<T> : BindingList<T> where T : class {
         private bool _isSorted;
         private ListSortDirection _sortDirection = ListSortDirection.Ascending;
         private PropertyDescriptor _sortProperty;
@@ -13,8 +12,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure
         /// <summary>
         /// Initializes a new instance of the <see cref="SortableBindingList{T}"/> class.
         /// </summary>
-        public SortableBindingList()
-        {
+        public SortableBindingList() {
         }
 
         /// <summary>
@@ -22,47 +20,41 @@ namespace JWLibrary.Core.NetFramework.DataStructure
         /// </summary>
         /// <param name="list">An <see cref="T:System.Collections.Generic.IList`1" /> of items to be contained in the <see cref="T:System.ComponentModel.BindingList`1" />.</param>
         public SortableBindingList(IList<T> list)
-            : base(list)
-        {
+            : base(list) {
         }
 
         /// <summary>
         /// Gets a value indicating whether the list supports sorting.
         /// </summary>
-        protected override bool SupportsSortingCore
-        {
+        protected override bool SupportsSortingCore {
             get { return true; }
         }
 
         /// <summary>
         /// Gets a value indicating whether the list is sorted.
         /// </summary>
-        protected override bool IsSortedCore
-        {
+        protected override bool IsSortedCore {
             get { return _isSorted; }
         }
 
         /// <summary>
         /// Gets the direction the list is sorted.
         /// </summary>
-        protected override ListSortDirection SortDirectionCore
-        {
+        protected override ListSortDirection SortDirectionCore {
             get { return _sortDirection; }
         }
 
         /// <summary>
         /// Gets the property descriptor that is used for sorting the list if sorting is implemented in a derived class; otherwise, returns null
         /// </summary>
-        protected override PropertyDescriptor SortPropertyCore
-        {
+        protected override PropertyDescriptor SortPropertyCore {
             get { return _sortProperty; }
         }
 
         /// <summary>
         /// Removes any sort applied with ApplySortCore if sorting is implemented
         /// </summary>
-        protected override void RemoveSortCore()
-        {
+        protected override void RemoveSortCore() {
             _sortDirection = ListSortDirection.Ascending;
             _sortProperty = null;
             _isSorted = false; //thanks Luca
@@ -73,8 +65,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure
         /// </summary>
         /// <param name="prop"></param>
         /// <param name="direction"></param>
-        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction)
-        {
+        protected override void ApplySortCore(PropertyDescriptor prop, ListSortDirection direction) {
             _sortProperty = prop;
             _sortDirection = direction;
 
@@ -88,9 +79,7 @@ namespace JWLibrary.Core.NetFramework.DataStructure
             OnListChanged(new ListChangedEventArgs(ListChangedType.Reset, -1));
         }
 
-
-        private int Compare(T lhs, T rhs)
-        {
+        private int Compare(T lhs, T rhs) {
             var result = OnComparison(lhs, rhs);
             //invert if descending
             if (_sortDirection == ListSortDirection.Descending)
@@ -98,24 +87,19 @@ namespace JWLibrary.Core.NetFramework.DataStructure
             return result;
         }
 
-        private int OnComparison(T lhs, T rhs)
-        {
+        private int OnComparison(T lhs, T rhs) {
             object lhsValue = lhs == null ? null : _sortProperty.GetValue(lhs);
             object rhsValue = rhs == null ? null : _sortProperty.GetValue(rhs);
-            if (lhsValue == null)
-            {
+            if (lhsValue == null) {
                 return (rhsValue == null) ? 0 : -1; //nulls are equal
             }
-            if (rhsValue == null)
-            {
+            if (rhsValue == null) {
                 return 1; //first has value, second doesn't
             }
-            if (lhsValue is IComparable)
-            {
+            if (lhsValue is IComparable) {
                 return ((IComparable)lhsValue).CompareTo(rhsValue);
             }
-            if (lhsValue.Equals(rhsValue))
-            {
+            if (lhsValue.Equals(rhsValue)) {
                 return 0; //both are the same
             }
             //not comparable, compare ToString

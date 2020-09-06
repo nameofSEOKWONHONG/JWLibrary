@@ -2,10 +2,11 @@
 using System;
 
 namespace JWLibrary.Core {
+
     public class RequestDto<TDto>
         where TDto : class, new() {
-        public RequestDto() {
 
+        public RequestDto() {
         }
 
         [JsonProperty("dto")]

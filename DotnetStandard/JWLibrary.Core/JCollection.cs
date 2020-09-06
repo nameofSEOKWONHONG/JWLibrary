@@ -4,12 +4,12 @@ using System.Data;
 using System.Linq;
 
 namespace JWLibrary.Core {
-    public static class JCollection
-    {
+
+    public static class JCollection {
 
         #region [count & length method]
-        public static int jCount<T>(this IEnumerable<T> collection)
-        {
+
+        public static int jCount<T>(this IEnumerable<T> collection) {
             if (collection.jIsNull()) return 0;
             int result = 0;
             using (IEnumerator<T> enumerator = collection.GetEnumerator()) {
@@ -18,9 +18,10 @@ namespace JWLibrary.Core {
             }
             return result;
         }
-        #endregion
 
-        #region  [for & foreach]
+        #endregion [count & length method]
+
+        #region [for & foreach]
 
         /// <summary>
         /// use struct, no break
@@ -75,8 +76,7 @@ namespace JWLibrary.Core {
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, bool> func)
-            where T : class
-        {
+            where T : class {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
                 System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
             }
@@ -100,8 +100,7 @@ namespace JWLibrary.Core {
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, int, bool> func)
-            where T : class
-        {
+            where T : class {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
                 System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
             }
@@ -117,24 +116,22 @@ namespace JWLibrary.Core {
                 index++;
             });
         }
-        #endregion
 
-        #region  [object deep copay]
+        #endregion [for & foreach]
+
+        #region [object deep copay]
+
         public static TDest jToCopy<TSrc, TDest>(this TSrc src)
             where TSrc : class, new()
-            where TDest : class, new()
-        {
+            where TDest : class, new() {
             var tdest = new TDest();
 
             var tsrcProperties = src.GetType().GetProperties();
             var tdestProperties = tdest.GetType().GetProperties();
 
-            foreach (var srcProperty in tsrcProperties)
-            {
-                foreach (var tdestProperty in tdestProperties)
-                {
-                    if (srcProperty.Name == tdestProperty.Name && srcProperty.PropertyType == tdestProperty.PropertyType)
-                    {
+            foreach (var srcProperty in tsrcProperties) {
+                foreach (var tdestProperty in tdestProperties) {
+                    if (srcProperty.Name == tdestProperty.Name && srcProperty.PropertyType == tdestProperty.PropertyType) {
                         tdestProperty.SetValue(tdest, srcProperty.GetValue(src));
                         break;
                     }
@@ -143,25 +140,25 @@ namespace JWLibrary.Core {
 
             return tdest;
         }
-        #endregion
 
-
+        #endregion [object deep copay]
 
         #region [Datatable & DataReader]
+
         public static DataTable jToDataTable<T>(this IEnumerable<T> entities)
             where T : class, new() {
             var entity = new T();
             var properties = entity.GetType().GetProperties();
 
             DataTable dt = new DataTable();
-            foreach(var property in properties) {
+            foreach (var property in properties) {
                 dt.Columns.Add(property.Name, property.PropertyType);
             }
 
             entities.jForEach(item => {
                 var itemProperty = item.GetType().GetProperties();
                 var row = dt.NewRow();
-                foreach(var property in itemProperty) {
+                foreach (var property in itemProperty) {
                     row[property.Name] = property.GetValue(item);
                 }
                 dt.Rows.Add(row);
@@ -190,6 +187,7 @@ namespace JWLibrary.Core {
 
             return newItem;
         }
-        #endregion
+
+        #endregion [Datatable & DataReader]
     }
 }

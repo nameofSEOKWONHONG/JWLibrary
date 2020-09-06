@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Dapper.SimpleCRUD" Version="2.2.0.1" />
     <PackageReference Include="HigLabo.Mapper" Version="3.0.0.10" />
     <PackageReference Include="SqlKata" Version="2.2.0" />

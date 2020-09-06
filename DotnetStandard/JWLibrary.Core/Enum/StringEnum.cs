@@ -3,6 +3,7 @@ using System.Collections;
 using System.Reflection;
 
 namespace JWLibrary.Core {
+
     #region Class StringEnum
 
     /// <summary>
@@ -196,6 +197,7 @@ namespace JWLibrary.Core {
 
         #endregion Static implementation
     }
+
     #endregion Class StringEnum
 
     #region Class StringValueAttribute

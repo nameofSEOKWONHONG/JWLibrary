@@ -1,87 +1,65 @@
 ﻿using JWLibrary.Winform.Abstract;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace JWLibrary.Winform.Container
-{
-    public class JWPanel : Panel
-    {
+namespace JWLibrary.Winform.Container {
+
+    public class JWPanel : Panel {
         private IList<Control> _addedControls = new List<Control>();
         private object _dataSource;
-        public object DataSource
-        {
-            get
-            {
+
+        public object DataSource {
+            get {
                 return _dataSource;
             }
-            set
-            {
+            set {
                 this._dataSource = value;
 
-                if (value != null)
-                {
+                if (value != null) {
                     SetMatchControlById();
                     this.Enabled = true;
-                }
-                else
-                {
+                } else {
                     this.Clear();
                     this.Enabled = false;
                 }
             }
         }
 
-        public Control FirstControl
-        {
-            get
-            {
+        public Control FirstControl {
+            get {
                 return _addedControls[0];
             }
         }
 
-        public Control LastControl
-        {
-            get
-            {
+        public Control LastControl {
+            get {
                 return _addedControls[_addedControls.Count - 1];
             }
         }
 
-        public JWPanel()
-        {
+        public JWPanel() {
             this.ControlAdded += JWFlowLayoutPanel_ControlAdded;
         }
 
-        private void JWFlowLayoutPanel_ControlAdded(object sender, ControlEventArgs e)
-        {
-            if (e.Control is TextBox || e.Control is DateTimePicker || e.Control is ComboBox || e.Control is Label)
-            {
+        private void JWFlowLayoutPanel_ControlAdded(object sender, ControlEventArgs e) {
+            if (e.Control is TextBox || e.Control is DateTimePicker || e.Control is ComboBox || e.Control is Label) {
                 e.Control.TabIndex = _addedControls.Count + 1;
                 _addedControls.Add(e.Control);
             }
         }
 
-        public bool LockControl
-        {
-            set
-            {
-                if (value)
-                {
+        public bool LockControl {
+            set {
+                if (value) {
                     LockControlValues(this);
                 }
             }
         }
 
-        private void LockControlValues(System.Windows.Forms.Control Container)
-        {
-            try
-            {
-                foreach (Control ctrl in _addedControls)
-                {
+        private void LockControlValues(System.Windows.Forms.Control Container) {
+            try {
+                foreach (Control ctrl in _addedControls) {
                     if (ctrl.GetType() == typeof(TextBox))
                         ((TextBox)ctrl).ReadOnly = true;
                     if (ctrl.GetType() == typeof(ComboBox))
@@ -95,18 +73,14 @@ namespace JWLibrary.Winform.Container
                     if (ctrl.Controls.Count > 0)
                         LockControlValues(ctrl);
                 }
-            }
-            catch {
+            } catch {
                 throw;
             }
         }
 
-        private void SetMatchControlById()
-        {
-            for (int i = 0; i < _addedControls.Count; i++)
-            {
-                if (_addedControls[i] is Control)
-                {
+        private void SetMatchControlById() {
+            for (int i = 0; i < _addedControls.Count; i++) {
+                if (_addedControls[i] is Control) {
                     (_addedControls[i]).DataBindings.Clear();
 
                     if (((IBindingObject)_addedControls[i]).BindingName == "NONE") continue;
@@ -120,10 +94,8 @@ namespace JWLibrary.Winform.Container
             }
         }
 
-        public void Clear()
-        {
-            for (int i = 0; i < _addedControls.Count; i++)
-            {
+        public void Clear() {
+            for (int i = 0; i < _addedControls.Count; i++) {
                 if (_addedControls[i] is TextBox) ((TextBox)_addedControls[i]).Text = string.Empty;
                 else if (_addedControls[i] is ComboBox) ((ComboBox)_addedControls[i]).Text = string.Empty;
                 else if (_addedControls[i] is DateTimePicker) ((DateTimePicker)_addedControls[i]).Value = DateTime.Now;
@@ -131,8 +103,7 @@ namespace JWLibrary.Winform.Container
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             MessageBox.Show("ProcessCmdKey");
             return base.ProcessCmdKey(ref msg, keyData);
         }

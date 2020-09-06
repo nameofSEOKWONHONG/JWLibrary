@@ -1,4 +1,5 @@
 namespace JWLibrary.ApiCore {
+
     using JWLibrary.ApiCore.Config;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -6,19 +7,17 @@ namespace JWLibrary.ApiCore {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
 
-    public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
+    public class Startup {
+
+        public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            SwaggerConfig.ConfigureServices(services);
+        public void ConfigureServices(IServiceCollection services) {
+            services.SwaggerConfigureServices();
             services.AddControllers()
                 .AddNewtonsoftJson(options => {
                     options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
@@ -27,10 +26,8 @@ namespace JWLibrary.ApiCore {
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) {
+            if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
             }
 
@@ -40,17 +37,16 @@ namespace JWLibrary.ApiCore {
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
+            app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
 
-            SwaggerConfig.Configure(app);
-            //Database.DatabaseConfig.Configure();
+            app.SwaggerConfigure();
         }
     }
 
     public class LowercaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
+
         protected override string ResolvePropertyName(string propertyName) {
             return propertyName.ToLower();
         }

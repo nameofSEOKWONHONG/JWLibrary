@@ -1,89 +1,90 @@
 ﻿using System;
 using System.Timers;
 
-namespace JWLibrary.FFmpeg
-{
-    class FrameDropChecker : IDisposable
-    {
+namespace JWLibrary.FFmpeg {
+
+    internal class FrameDropChecker : IDisposable {
+
         #region delegate events
+
         public event EventHandler<EventArgs> FrameDroped;
-        protected virtual void OnFrameDroped(object sender, EventArgs e)
-        {
-            if (FrameDroped != null)
-            {
+
+        protected virtual void OnFrameDroped(object sender, EventArgs e) {
+            if (FrameDroped != null) {
                 FrameDroped(this, e);
             }
         }
-        #endregion
+
+        #endregion delegate events
 
         #region variable
+
         public int FrameDropCount { get; set; }
         public bool IsLimit { get; set; }
         private const int FRAME_LIMIT_COUNT = 50;
         private Timer _timer;
         private int _timerElapsedCount;
-        #endregion
+
+        #endregion variable
 
         #region constructor
-        public FrameDropChecker()
-        {
+
+        public FrameDropChecker() {
             _timer = new Timer();
             _timer.Interval = 500;
             _timer.Elapsed += _timer_Elapsed;
         }
 
-        public FrameDropChecker(double chkTime)
-        {
+        public FrameDropChecker(double chkTime) {
             _timer = new Timer();
             _timer.Interval = chkTime;
             _timer.Elapsed += _timer_Elapsed;
         }
-        #endregion
+
+        #endregion constructor
 
         #region funtions
-        public void FrameDropCheckStart()
-        {
+
+        public void FrameDropCheckStart() {
             _timerElapsedCount = 0;
             FrameDropCount = 0;
             IsLimit = false;
             _timer.Start();
         }
 
-        public void FrameDropCheckStop()
-        {
+        public void FrameDropCheckStop() {
             _timer.Enabled = false;
             _timer.Stop();
         }
-        #endregion
+
+        #endregion funtions
 
         #region event
-        private void _timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            if (FRAME_LIMIT_COUNT < FrameDropCount)
-            {
+
+        private void _timer_Elapsed(object sender, ElapsedEventArgs e) {
+            if (FRAME_LIMIT_COUNT < FrameDropCount) {
                 IsLimit = true;
                 OnFrameDroped(this, new EventArgs());
-            }
-            else
-            {
+            } else {
                 if (_timerElapsedCount == FRAME_LIMIT_COUNT)
                     _timerElapsedCount = 0;
             }
 
             _timerElapsedCount++;
         }
-        #endregion
+
+        #endregion event
 
         #region dispose
-        public void Dispose()
-        {
-            if (_timer != null)
-            {
+
+        public void Dispose() {
+            if (_timer != null) {
                 _timer.Stop();
                 _timer.Dispose();
                 _timer = null;
             }
         }
-        #endregion
+
+        #endregion dispose
     }
 }

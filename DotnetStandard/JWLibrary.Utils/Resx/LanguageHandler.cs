@@ -7,16 +7,15 @@ using System.Linq;
 using System.Threading;
 
 namespace JWLibrary.Utils {
+
     public class LanguageHandler<T>
-        where T : class, new()
-    {
+        where T : class, new() {
+
         private static readonly Lazy<LanguageHandler<T>> _instance =
             new Lazy<LanguageHandler<T>>(() => new LanguageHandler<T>());
 
-        public static LanguageHandler<T> Instance
-        {
-            get
-            {
+        public static LanguageHandler<T> Instance {
+            get {
                 return _instance.Value;
             }
         }
@@ -25,12 +24,9 @@ namespace JWLibrary.Utils {
 
         private T _languageResource;
 
-        public T LanguageResource
-        {
-            get
-            {
-                if (this._languageResource == null)
-                {
+        public T LanguageResource {
+            get {
+                if (this._languageResource == null) {
                     this._languageResource = _languageResources[Thread.CurrentThread.CurrentCulture.Name];
                 }
 
@@ -38,20 +34,15 @@ namespace JWLibrary.Utils {
             }
         }
 
-        public T this[string lang]
-        {
-            get
-            {
+        public T this[string lang] {
+            get {
                 this._languageResource = _languageResources[lang];
                 return this._languageResource;
             }
         }
 
-
-        private LanguageHandler()
-        {
-            if (_languageResources.Count <= 0)
-            {
+        private LanguageHandler() {
+            if (_languageResources.Count <= 0) {
                 _languageResources.Add("en-US", LoadLanguageSetting("en-US"));
                 _languageResources.Add("ko-KR", LoadLanguageSetting("ko-KR"));
             }
@@ -63,19 +54,16 @@ namespace JWLibrary.Utils {
             {"en-US",  "./Resource/Lang/en-US.json"}
         };
 
-        private T LoadLanguageSetting(string language)
-        {
+        private T LoadLanguageSetting(string language) {
             var resourceJson = string.Empty;
             var keyValue = _keyValues.Where(m => m.Key == language).FirstOrDefault();
             T langRes = null;
 
-            if (string.IsNullOrEmpty(keyValue.Key))
-            {
+            if (string.IsNullOrEmpty(keyValue.Key)) {
                 keyValue = _keyValues.Where(m => m.Key == "en-US").First();
             }
 
-            try
-            {
+            try {
                 resourceJson = File.ReadAllText(keyValue.Value);
 
                 langRes = JsonConvert.DeserializeObject<T>(resourceJson);
@@ -84,22 +72,17 @@ namespace JWLibrary.Utils {
                 CultureInfo cultureInfo = new CultureInfo(language);
                 cultureInfo.NumberFormat = numberFormatInfo;
 
-                if (language == "ko-KR")
-                {
+                if (language == "ko-KR") {
                     cultureInfo.DateTimeFormat.DateSeparator = "-";
                     cultureInfo.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
-                }
-                else
-                {
+                } else {
                     cultureInfo.DateTimeFormat.DateSeparator = "/";
                     cultureInfo.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
                 }
 
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
-            }
-            catch
-            {
+            } catch {
                 throw;
             }
 

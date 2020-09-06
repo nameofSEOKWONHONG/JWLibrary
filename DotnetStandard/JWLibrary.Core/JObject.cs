@@ -1,6 +1,7 @@
 namespace JWLibrary.Core {
-    public static class JObject
-    {
+
+    public static class JObject {
+
         public static bool jIsTrue(this bool obj) {
             return obj.Equals(true);
         }

@@ -1,17 +1,17 @@
-﻿using JCoreSvc;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.TaskAction {
+
     public class TaskAction<TIAction, TAction, TRequest, TResult> : IDisposable
         where TIAction : IActionBase<TRequest, TResult>
         where TAction : ActionBase<TRequest, TResult>, new()
         where TRequest : class {
         private IActionBase<TRequest, TResult> _action;
         public IActionBase<TRequest, TResult> Action { get { return _action; } }
-        public TRequest Request { set {
+
+        public TRequest Request {
+            set {
                 _action.Request = value;
             }
         }
@@ -32,7 +32,6 @@ namespace JWLibrary.Pattern.TaskAction {
         }
 
         public void Dispose() {
-
         }
     }
 }

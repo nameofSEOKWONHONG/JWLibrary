@@ -2,33 +2,33 @@
 using System.Reflection;
 
 namespace JWLibrary.DB.MYSQL.Module {
-	[AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-	public class MySqlDataBinderAttribute : Attribute, IDataBinderAttribute {
-		private string fieldName;
 
-		public MySqlDataBinderAttribute(string fieldName) {
-			this.fieldName = fieldName;
-		}
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
+    public class MySqlDataBinderAttribute : Attribute, IDataBinderAttribute {
+        private string fieldName;
 
-		public string FieldName {
-			get { return fieldName; }
-			set { fieldName = value; }
-		}
+        public MySqlDataBinderAttribute(string fieldName) {
+            this.fieldName = fieldName;
+        }
 
-		#region IDataBinderAttribute 멤버
+        public string FieldName {
+            get { return fieldName; }
+            set { fieldName = value; }
+        }
 
-		public IDataBinderAttribute CreateDataBinderAttribute(MemberInfo member) {
-			try {
-				object[] custAttrs = member.GetCustomAttributes(typeof(MySqlDataBinderAttribute), false);
+        #region IDataBinderAttribute 멤버
 
-				if (custAttrs != null && custAttrs.Length > 0)
-					return custAttrs[0] as IDataBinderAttribute;
-			}
-			catch {
-			}
-			return null;
-		}
+        public IDataBinderAttribute CreateDataBinderAttribute(MemberInfo member) {
+            try {
+                object[] custAttrs = member.GetCustomAttributes(typeof(MySqlDataBinderAttribute), false);
 
-		#endregion
-	}
+                if (custAttrs != null && custAttrs.Length > 0)
+                    return custAttrs[0] as IDataBinderAttribute;
+            } catch {
+            }
+            return null;
+        }
+
+        #endregion IDataBinderAttribute 멤버
+    }
 }

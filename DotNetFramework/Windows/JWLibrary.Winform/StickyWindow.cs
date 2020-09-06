@@ -4,7 +4,6 @@ StickyWindows
 
 Copyright(c) 2004 Corneliu I.Tusnea
 
-
 This software is provided 'as-is', without any express or implied warranty.
 
 In no event will the author be held liable for any damages arising from
@@ -23,32 +22,31 @@ using System;
 
 #region Blue.Win32Imports
 
-namespace Blue.Private.Win32Imports
-{
+namespace Blue.Private.Win32Imports {
+
     using System.Runtime.InteropServices;
 
     /// <summary>
     /// Win32 is just a placeholder for some Win32 imported definitions
     /// </summary>
-    public class Win32
-    {
+    public class Win32 {
+
         [DllImport("user32.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern short GetAsyncKeyState(int vKey);
+
         [DllImport("user32.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr GetDesktopWindow();
 
         /// <summary>
         /// VK is just a placeholder for VK (VirtualKey) general definitions
         /// </summary>
-        public class VK
-        {
+        public class VK {
             public const int VK_SHIFT = 0x10;
             public const int VK_CONTROL = 0x11;
             public const int VK_MENU = 0x12;
             public const int VK_ESCAPE = 0x1B;
 
-            public static bool IsKeyPressed(int KeyCode)
-            {
+            public static bool IsKeyPressed(int KeyCode) {
                 return (GetAsyncKeyState(KeyCode) & 0x0800) == 0;
             }
         }
@@ -56,8 +54,7 @@ namespace Blue.Private.Win32Imports
         /// <summary>
         /// WM is just a placeholder class for WM (WindowMessage) definitions
         /// </summary>
-        public class WM
-        {
+        public class WM {
             public const int WM_MOUSEMOVE = 0x0200;
             public const int WM_NCMOUSEMOVE = 0x00A0;
             public const int WM_NCLBUTTONDOWN = 0x00A1;
@@ -71,8 +68,7 @@ namespace Blue.Private.Win32Imports
         /// <summary>
         /// HT is just a placeholder for HT (HitTest) definitions
         /// </summary>
-        public class HT
-        {
+        public class HT {
             public const int HTERROR = (-2);
             public const int HTTRANSPARENT = (-1);
             public const int HTNOWHERE = 0;
@@ -105,83 +101,92 @@ namespace Blue.Private.Win32Imports
             public const int HTHELP = 21;
         }
 
-        public class Bit
-        {
-            public static int HiWord(int iValue)
-            {
+        public class Bit {
+
+            public static int HiWord(int iValue) {
                 return ((iValue >> 16) & 0xFFFF);
             }
-            public static int LoWord(int iValue)
-            {
+
+            public static int LoWord(int iValue) {
                 return (iValue & 0xFFFF);
             }
         }
     }
 }
-#endregion
 
+#endregion Blue.Win32Imports
 
-namespace Blue.Windows
-{
-    using System.Windows.Forms;
-    using System.Drawing;
-    using System.Collections;
+namespace Blue.Windows {
 
     using Blue.Private.Win32Imports;
+    using System.Collections;
+    using System.Drawing;
+    using System.Windows.Forms;
 
     /// <summary>
     /// A windows that Sticks to other windows of the same type when moved or resized.
     /// You get a nice way of organizing multiple top-level windows.
     /// Quite similar with WinAmp 2.x style of sticking the windows
     /// </summary>
-    public class StickyWindow : System.Windows.Forms.NativeWindow
-    {
+    public class StickyWindow : System.Windows.Forms.NativeWindow {
+
         /// <summary>
         /// Global List of registered StickyWindows
         /// </summary>
         private static ArrayList GlobalStickyWindows = new ArrayList();
 
         #region ResizeDir
-        private enum ResizeDir
-        {
+
+        private enum ResizeDir {
             Top = 2,
             Bottom = 4,
             Left = 8,
             Right = 16
         };
-        #endregion
+
+        #endregion ResizeDir
 
         #region Message Processor
+
         // Internal Message Processor
         private delegate bool ProcessMessage(ref Message m);
+
         private ProcessMessage MessageProcessor;
 
         // Messages processors based on type
         private ProcessMessage DefaultMessageProcessor;
+
         private ProcessMessage MoveMessageProcessor;
         private ProcessMessage ResizeMessageProcessor;
-        #endregion
+
+        #endregion Message Processor
 
         #region Internal properties
+
         // Move stuff
         private bool movingForm;
+
         private Point formOffsetPoint;  // calculated offset rect to be added !! (min distances in all directions!!)
         private Point offsetPoint;      // primary offset
 
         // Resize stuff
         private bool resizingForm;
+
         private ResizeDir resizeDirection;
         private Rectangle formOffsetRect;       // calculated rect to fix the size
         private Point mousePoint;           // mouse position
 
         // General Stuff
         private Form originalForm;      // the form
+
         private Rectangle formRect;         // form bounds
         private Rectangle formOriginalRect; // bounds before last operation started
-        #endregion
+
+        #endregion Internal properties
 
         // public properties
         private static int stickGap = 20;       // distance to stick
+
         private bool stickOnResize;
         private bool stickOnMove;
         private bool stickToScreen;
@@ -193,44 +198,43 @@ namespace Blue.Windows
         /// Distance in pixels betwen two forms or a form and the screen where the sticking should start
         /// Default value = 20
         /// </summary>
-        public int StickGap
-        {
+        public int StickGap {
             get { return stickGap; }
             set { stickGap = value; }
         }
+
         /// <summary>
         /// Allow the form to stick while resizing
         /// Default value = true
         /// </summary>
-        public bool StickOnResize
-        {
+        public bool StickOnResize {
             get { return stickOnResize; }
             set { stickOnResize = value; }
         }
+
         /// <summary>
         /// Allow the form to stick while moving
         /// Default value = true
         /// </summary>
-        public bool StickOnMove
-        {
+        public bool StickOnMove {
             get { return stickOnMove; }
             set { stickOnMove = value; }
         }
+
         /// <summary>
         /// Allow sticking to Screen Margins
         /// Default value = true
         /// </summary>
-        public bool StickToScreen
-        {
+        public bool StickToScreen {
             get { return stickToScreen; }
             set { stickToScreen = value; }
         }
+
         /// <summary>
         /// Allow sticking to other StickWindows
         /// Default value = true
         /// </summary>
-        public bool StickToOther
-        {
+        public bool StickToOther {
             get { return stickToOther; }
             set { stickToOther = value; }
         }
@@ -241,29 +245,28 @@ namespace Blue.Windows
         /// Use this to register your MainFrame so the child windows try to stick to it, when your MainFrame is NOT a sticky window
         /// </summary>
         /// <param name="frmExternal">External window that will be used as reference</param>
-        public static void RegisterExternalReferenceForm(Form frmExternal)
-        {
+        public static void RegisterExternalReferenceForm(Form frmExternal) {
             GlobalStickyWindows.Add(frmExternal);
         }
+
         /// <summary>
         /// Unregister a form from the external references.
         /// <see cref="RegisterExternalReferenceForm"/>
         /// </summary>
         /// <param name="frmExternal">External window that will was used as reference</param>
-        public static void UnregisterExternalReferenceForm(Form frmExternal)
-        {
+        public static void UnregisterExternalReferenceForm(Form frmExternal) {
             GlobalStickyWindows.Remove(frmExternal);
         }
 
-        #endregion
+        #endregion Public operations and properties
 
         #region StickyWindow Constructor
+
         /// <summary>
         /// Make the form Sticky
         /// </summary>
         /// <param name="form">Form to be made sticky</param>
-        public StickyWindow(Form form)
-        {
+        public StickyWindow(Form form) {
             resizingForm = false;
             movingForm = false;
 
@@ -288,49 +291,46 @@ namespace Blue.Windows
 
             AssignHandle(originalForm.Handle);
         }
-        #endregion
+
+        #endregion StickyWindow Constructor
 
         #region OnHandleChange
+
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
-        protected override void OnHandleChange()
-        {
-            if ((int)this.Handle != 0)
-            {
+        protected override void OnHandleChange() {
+            if ((int)this.Handle != 0) {
                 GlobalStickyWindows.Add(this.originalForm);
-            }
-            else
-            {
+            } else {
                 GlobalStickyWindows.Remove(this.originalForm);
             }
         }
-        #endregion
+
+        #endregion OnHandleChange
 
         #region WndProc
+
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
-        protected override void WndProc(ref Message m)
-        {
+        protected override void WndProc(ref Message m) {
             if (!MessageProcessor(ref m))
                 base.WndProc(ref m);
         }
-        #endregion
+
+        #endregion WndProc
 
         #region DefaultMsgProcessor
+
         /// <summary>
         /// Processes messages during normal operations (while the form is not resized or moved)
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private bool DefaultMsgProcessor(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case Win32.WM.WM_NCLBUTTONDOWN:
-                    {
+        private bool DefaultMsgProcessor(ref Message m) {
+            switch (m.Msg) {
+                case Win32.WM.WM_NCLBUTTONDOWN: {
                         originalForm.Activate();
                         mousePoint.X = (short)Win32.Bit.LoWord((int)m.LParam);
                         mousePoint.Y = (short)Win32.Bit.HiWord((int)m.LParam);
-                        if (OnNCLButtonDown((int)m.WParam, mousePoint))
-                        {
+                        if (OnNCLButtonDown((int)m.WParam, mousePoint)) {
                             //m.Result = new IntPtr ( (resizingForm || movingForm) ? 1 : 0 );
                             m.Result = (IntPtr)((resizingForm || movingForm) ? 1 : 0);
                             return true;
@@ -341,63 +341,66 @@ namespace Blue.Windows
 
             return false;
         }
-        #endregion
+
+        #endregion DefaultMsgProcessor
 
         #region OnNCLButtonDown
+
         /// <summary>
         /// Checks where the click was in the NC area and starts move or resize operation
         /// </summary>
         /// <param name="iHitTest"></param>
         /// <param name="point"></param>
         /// <returns></returns>
-        private bool OnNCLButtonDown(int iHitTest, Point point)
-        {
+        private bool OnNCLButtonDown(int iHitTest, Point point) {
             Rectangle rParent = originalForm.Bounds;
             offsetPoint = point;
 
-            switch (iHitTest)
-            {
-                case Win32.HT.HTCAPTION:
-                    {   // request for move
-                        if (stickOnMove)
-                        {
+            switch (iHitTest) {
+                case Win32.HT.HTCAPTION: {   // request for move
+                        if (stickOnMove) {
                             offsetPoint.Offset(-rParent.Left, -rParent.Top);
                             StartMove();
                             return true;
-                        }
-                        else
+                        } else
                             return false;   // leave default processing
-
                     }
 
                 // requests for resize
                 case Win32.HT.HTTOPLEFT:
                     return StartResize(ResizeDir.Top | ResizeDir.Left);
+
                 case Win32.HT.HTTOP:
                     return StartResize(ResizeDir.Top);
+
                 case Win32.HT.HTTOPRIGHT:
                     return StartResize(ResizeDir.Top | ResizeDir.Right);
+
                 case Win32.HT.HTRIGHT:
                     return StartResize(ResizeDir.Right);
+
                 case Win32.HT.HTBOTTOMRIGHT:
                     return StartResize(ResizeDir.Bottom | ResizeDir.Right);
+
                 case Win32.HT.HTBOTTOM:
                     return StartResize(ResizeDir.Bottom);
+
                 case Win32.HT.HTBOTTOMLEFT:
                     return StartResize(ResizeDir.Bottom | ResizeDir.Left);
+
                 case Win32.HT.HTLEFT:
                     return StartResize(ResizeDir.Left);
             }
 
             return false;
         }
-        #endregion
+
+        #endregion OnNCLButtonDown
 
         #region ResizeOperations
-        private bool StartResize(ResizeDir resDir)
-        {
-            if (stickOnResize)
-            {
+
+        private bool StartResize(ResizeDir resDir) {
+            if (stickOnResize) {
                 resizeDirection = resDir;
                 formRect = originalForm.Bounds;
                 formOriginalRect = originalForm.Bounds; // save the old bounds
@@ -408,36 +411,29 @@ namespace Blue.Windows
                 MessageProcessor = ResizeMessageProcessor;
 
                 return true;    // catch the message
-            }
-            else
+            } else
                 return false;   // leave default processing !
         }
-        private bool ResizeMsgProcessor(ref Message m)
-        {
-            if (!originalForm.Capture)
-            {
+
+        private bool ResizeMsgProcessor(ref Message m) {
+            if (!originalForm.Capture) {
                 Cancel();
                 return false;
             }
 
-            switch (m.Msg)
-            {
-                case Win32.WM.WM_LBUTTONUP:
-                    {   // ok, resize finished !!!
+            switch (m.Msg) {
+                case Win32.WM.WM_LBUTTONUP: {   // ok, resize finished !!!
                         EndResize();
                         break;
                     }
-                case Win32.WM.WM_MOUSEMOVE:
-                    {
+                case Win32.WM.WM_MOUSEMOVE: {
                         mousePoint.X = (short)Win32.Bit.LoWord((int)m.LParam);
                         mousePoint.Y = (short)Win32.Bit.HiWord((int)m.LParam);
                         Resize(mousePoint);
                         break;
                     }
-                case Win32.WM.WM_KEYDOWN:
-                    {
-                        if ((int)m.WParam == Win32.VK.VK_ESCAPE)
-                        {
+                case Win32.WM.WM_KEYDOWN: {
+                        if ((int)m.WParam == Win32.VK.VK_ESCAPE) {
                             originalForm.Bounds = formOriginalRect; // set back old size
                             Cancel();
                         }
@@ -447,15 +443,16 @@ namespace Blue.Windows
 
             return false;
         }
-        private void EndResize()
-        {
+
+        private void EndResize() {
             Cancel();
         }
-        #endregion
+
+        #endregion ResizeOperations
 
         #region Resize Computing
-        private void Resize(Point p)
-        {
+
+        private void Resize(Point p) {
             p = originalForm.PointToScreen(p);
             Screen activeScr = Screen.FromPoint(p);
             formRect = originalForm.Bounds;
@@ -465,16 +462,14 @@ namespace Blue.Windows
 
             // no normalize required
             // first strech the window to the new position
-            if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left)
-            {
+            if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left) {
                 formRect.Width = formRect.X - p.X + formRect.Width;
                 formRect.X = iRight - formRect.Width;
             }
             if ((resizeDirection & ResizeDir.Right) == ResizeDir.Right)
                 formRect.Width = p.X - formRect.Left;
 
-            if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top)
-            {
+            if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top) {
                 formRect.Height = formRect.Height - p.Y + formRect.Top;
                 formRect.Y = iBottom - formRect.Height;
             }
@@ -494,11 +489,9 @@ namespace Blue.Windows
             if (stickToScreen)
                 Resize_Stick(activeScr.WorkingArea, false);
 
-            if (stickToOther)
-            {
+            if (stickToOther) {
                 // now try to stick to other forms
-                foreach (Form sw in GlobalStickyWindows)
-                {
+                foreach (Form sw in GlobalStickyWindows) {
                     if (sw != this.originalForm)
                         Resize_Stick(sw.Bounds, true);
                 }
@@ -515,8 +508,7 @@ namespace Blue.Windows
                 formOffsetRect.Height = 0;
 
             // compute the new form size
-            if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left)
-            {   // left resize requires special handling of X & Width acording to MinSize and MinWindowTrackSize
+            if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left) {   // left resize requires special handling of X & Width acording to MinSize and MinWindowTrackSize
                 int iNewWidth = formRect.Width + formOffsetRect.Width + formOffsetRect.X;
 
                 if (originalForm.MaximumSize.Width != 0)
@@ -528,14 +520,11 @@ namespace Blue.Windows
 
                 formRect.X = iRight - iNewWidth;
                 formRect.Width = iNewWidth;
-            }
-            else
-            {   // other resizes
+            } else {   // other resizes
                 formRect.Width += formOffsetRect.Width + formOffsetRect.X;
             }
 
-            if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top)
-            {
+            if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top) {
                 int iNewHeight = formRect.Height + formOffsetRect.Height + formOffsetRect.Y;
 
                 if (originalForm.MaximumSize.Height != 0)
@@ -547,9 +536,7 @@ namespace Blue.Windows
 
                 formRect.Y = iBottom - iNewHeight;
                 formRect.Height = iNewHeight;
-            }
-            else
-            {   // all other resizing are fine 
+            } else {   // all other resizing are fine
                 formRect.Height += formOffsetRect.Height + formOffsetRect.Y;
             }
 
@@ -557,20 +544,16 @@ namespace Blue.Windows
             originalForm.Bounds = formRect;
         }
 
-        private void Resize_Stick(Rectangle toRect, bool bInsideStick)
-        {
-            if (formRect.Right >= (toRect.Left - stickGap) && formRect.Left <= (toRect.Right + stickGap))
-            {
-                if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top)
-                {
+        private void Resize_Stick(Rectangle toRect, bool bInsideStick) {
+            if (formRect.Right >= (toRect.Left - stickGap) && formRect.Left <= (toRect.Right + stickGap)) {
+                if ((resizeDirection & ResizeDir.Top) == ResizeDir.Top) {
                     if (Math.Abs(formRect.Top - toRect.Bottom) <= Math.Abs(formOffsetRect.Top) && bInsideStick)
                         formOffsetRect.Y = formRect.Top - toRect.Bottom;    // snap top to bottom
                     else if (Math.Abs(formRect.Top - toRect.Top) <= Math.Abs(formOffsetRect.Top))
                         formOffsetRect.Y = formRect.Top - toRect.Top;       // snap top to top
                 }
 
-                if ((resizeDirection & ResizeDir.Bottom) == ResizeDir.Bottom)
-                {
+                if ((resizeDirection & ResizeDir.Bottom) == ResizeDir.Bottom) {
                     if (Math.Abs(formRect.Bottom - toRect.Top) <= Math.Abs(formOffsetRect.Bottom) && bInsideStick)
                         formOffsetRect.Height = toRect.Top - formRect.Bottom;   // snap Bottom to top
                     else if (Math.Abs(formRect.Bottom - toRect.Bottom) <= Math.Abs(formOffsetRect.Bottom))
@@ -578,18 +561,15 @@ namespace Blue.Windows
                 }
             }
 
-            if (formRect.Bottom >= (toRect.Top - stickGap) && formRect.Top <= (toRect.Bottom + stickGap))
-            {
-                if ((resizeDirection & ResizeDir.Right) == ResizeDir.Right)
-                {
+            if (formRect.Bottom >= (toRect.Top - stickGap) && formRect.Top <= (toRect.Bottom + stickGap)) {
+                if ((resizeDirection & ResizeDir.Right) == ResizeDir.Right) {
                     if (Math.Abs(formRect.Right - toRect.Left) <= Math.Abs(formOffsetRect.Right) && bInsideStick)
                         formOffsetRect.Width = toRect.Left - formRect.Right;        // Stick right to left
                     else if (Math.Abs(formRect.Right - toRect.Right) <= Math.Abs(formOffsetRect.Right))
                         formOffsetRect.Width = toRect.Right - formRect.Right;   // Stick right to right
                 }
 
-                if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left)
-                {
+                if ((resizeDirection & ResizeDir.Left) == ResizeDir.Left) {
                     if (Math.Abs(formRect.Left - toRect.Right) <= Math.Abs(formOffsetRect.Left) && bInsideStick)
                         formOffsetRect.X = formRect.Left - toRect.Right;        // Stick left to right
                     else if (Math.Abs(formRect.Left - toRect.Left) <= Math.Abs(formOffsetRect.Left))
@@ -597,11 +577,12 @@ namespace Blue.Windows
                 }
             }
         }
-        #endregion
+
+        #endregion Resize Computing
 
         #region Move Operations
-        private void StartMove()
-        {
+
+        private void StartMove() {
             formRect = originalForm.Bounds;
             formOriginalRect = originalForm.Bounds; // save original position
 
@@ -611,32 +592,25 @@ namespace Blue.Windows
             MessageProcessor = MoveMessageProcessor;
         }
 
-        private bool MoveMsgProcessor(ref Message m)
-        {   // internal message loop
-            if (!originalForm.Capture)
-            {
+        private bool MoveMsgProcessor(ref Message m) {   // internal message loop
+            if (!originalForm.Capture) {
                 Cancel();
                 return false;
             }
 
-            switch (m.Msg)
-            {
-                case Win32.WM.WM_LBUTTONUP:
-                    {   // ok, move finished !!!
+            switch (m.Msg) {
+                case Win32.WM.WM_LBUTTONUP: {   // ok, move finished !!!
                         EndMove();
                         break;
                     }
-                case Win32.WM.WM_MOUSEMOVE:
-                    {
+                case Win32.WM.WM_MOUSEMOVE: {
                         mousePoint.X = (short)Win32.Bit.LoWord((int)m.LParam);
                         mousePoint.Y = (short)Win32.Bit.HiWord((int)m.LParam);
                         Move(mousePoint);
                         break;
                     }
-                case Win32.WM.WM_KEYDOWN:
-                    {
-                        if ((int)m.WParam == Win32.VK.VK_ESCAPE)
-                        {
+                case Win32.WM.WM_KEYDOWN: {
+                        if ((int)m.WParam == Win32.VK.VK_ESCAPE) {
                             originalForm.Bounds = formOriginalRect; // set back old size
                             Cancel();
                         }
@@ -646,20 +620,20 @@ namespace Blue.Windows
 
             return false;
         }
-        private void EndMove()
-        {
+
+        private void EndMove() {
             Cancel();
         }
-        #endregion
+
+        #endregion Move Operations
 
         #region Move Computing
-        private void Move(Point p)
-        {
+
+        private void Move(Point p) {
             p = originalForm.PointToScreen(p);
             Screen activeScr = Screen.FromPoint(p); // get the screen from the point !!
 
-            if (!activeScr.WorkingArea.Contains(p))
-            {
+            if (!activeScr.WorkingArea.Contains(p)) {
                 p.X = NormalizeInside(p.X, activeScr.WorkingArea.Left, activeScr.WorkingArea.Right);
                 p.Y = NormalizeInside(p.Y, activeScr.WorkingArea.Top, activeScr.WorkingArea.Bottom);
             }
@@ -677,10 +651,8 @@ namespace Blue.Windows
                 Move_Stick(activeScr.WorkingArea, false);
 
             // Now try to snap to other windows
-            if (stickToOther)
-            {
-                foreach (Form sw in GlobalStickyWindows)
-                {
+            if (stickToOther) {
+                foreach (Form sw in GlobalStickyWindows) {
                     if (sw != this.originalForm)
                         Move_Stick(sw.Bounds, true);
                 }
@@ -697,68 +669,56 @@ namespace Blue.Windows
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="calculatedOffset">Calculate positon of the offset (snap distance)</param>
         /// <param name="toRect">Rect to try to snap to</param>
         /// <param name="bInsideStick">Allow snapping on the inside (eg: window to screen)</param>
-        private void Move_Stick(Rectangle toRect, bool bInsideStick)
-        {
+        private void Move_Stick(Rectangle toRect, bool bInsideStick) {
             // compare distance from toRect to formRect
             // and then with the found distances, compare the most closed position
-            if (formRect.Bottom >= (toRect.Top - stickGap) && formRect.Top <= (toRect.Bottom + stickGap))
-            {
-                if (bInsideStick)
-                {
-                    if ((Math.Abs(formRect.Left - toRect.Right) <= Math.Abs(formOffsetPoint.X)))
-                    {   // left 2 right
+            if (formRect.Bottom >= (toRect.Top - stickGap) && formRect.Top <= (toRect.Bottom + stickGap)) {
+                if (bInsideStick) {
+                    if ((Math.Abs(formRect.Left - toRect.Right) <= Math.Abs(formOffsetPoint.X))) {   // left 2 right
                         formOffsetPoint.X = toRect.Right - formRect.Left;
                     }
-                    if ((Math.Abs(formRect.Left + formRect.Width - toRect.Left) <= Math.Abs(formOffsetPoint.X)))
-                    {   // right 2 left
+                    if ((Math.Abs(formRect.Left + formRect.Width - toRect.Left) <= Math.Abs(formOffsetPoint.X))) {   // right 2 left
                         formOffsetPoint.X = toRect.Left - formRect.Width - formRect.Left;
                     }
                 }
 
-                if (Math.Abs(formRect.Left - toRect.Left) <= Math.Abs(formOffsetPoint.X))
-                {   // snap left 2 left
+                if (Math.Abs(formRect.Left - toRect.Left) <= Math.Abs(formOffsetPoint.X)) {   // snap left 2 left
                     formOffsetPoint.X = toRect.Left - formRect.Left;
                 }
-                if (Math.Abs(formRect.Left + formRect.Width - toRect.Left - toRect.Width) <= Math.Abs(formOffsetPoint.X))
-                {   // snap right 2 right
+                if (Math.Abs(formRect.Left + formRect.Width - toRect.Left - toRect.Width) <= Math.Abs(formOffsetPoint.X)) {   // snap right 2 right
                     formOffsetPoint.X = toRect.Left + toRect.Width - formRect.Width - formRect.Left;
                 }
             }
-            if (formRect.Right >= (toRect.Left - stickGap) && formRect.Left <= (toRect.Right + stickGap))
-            {
-                if (bInsideStick)
-                {
-                    if (Math.Abs(formRect.Top - toRect.Bottom) <= Math.Abs(formOffsetPoint.Y) && bInsideStick)
-                    {   // Stick Top to Bottom
+            if (formRect.Right >= (toRect.Left - stickGap) && formRect.Left <= (toRect.Right + stickGap)) {
+                if (bInsideStick) {
+                    if (Math.Abs(formRect.Top - toRect.Bottom) <= Math.Abs(formOffsetPoint.Y) && bInsideStick) {   // Stick Top to Bottom
                         formOffsetPoint.Y = toRect.Bottom - formRect.Top;
                     }
-                    if (Math.Abs(formRect.Top + formRect.Height - toRect.Top) <= Math.Abs(formOffsetPoint.Y) && bInsideStick)
-                    {   // snap Bottom to Top
+                    if (Math.Abs(formRect.Top + formRect.Height - toRect.Top) <= Math.Abs(formOffsetPoint.Y) && bInsideStick) {   // snap Bottom to Top
                         formOffsetPoint.Y = toRect.Top - formRect.Height - formRect.Top;
                     }
                 }
 
                 // try to snap top 2 top also
-                if (Math.Abs(formRect.Top - toRect.Top) <= Math.Abs(formOffsetPoint.Y))
-                {   // top 2 top
+                if (Math.Abs(formRect.Top - toRect.Top) <= Math.Abs(formOffsetPoint.Y)) {   // top 2 top
                     formOffsetPoint.Y = toRect.Top - formRect.Top;
                 }
-                if (Math.Abs(formRect.Top + formRect.Height - toRect.Top - toRect.Height) <= Math.Abs(formOffsetPoint.Y))
-                {   // bottom 2 bottom
+                if (Math.Abs(formRect.Top + formRect.Height - toRect.Top - toRect.Height) <= Math.Abs(formOffsetPoint.Y)) {   // bottom 2 bottom
                     formOffsetPoint.Y = toRect.Top + toRect.Height - formRect.Height - formRect.Top;
                 }
             }
         }
-        #endregion
+
+        #endregion Move Computing
 
         #region Utilities
-        private int NormalizeInside(int iP1, int iM1, int iM2)
-        {
+
+        private int NormalizeInside(int iP1, int iM1, int iM2) {
             if (iP1 <= iM1)
                 return iM1;
             else
@@ -766,16 +726,18 @@ namespace Blue.Windows
                 return iM2;
             return iP1;
         }
-        #endregion
+
+        #endregion Utilities
 
         #region Cancel
-        private void Cancel()
-        {
+
+        private void Cancel() {
             originalForm.Capture = false;
             movingForm = false;
             resizingForm = false;
             MessageProcessor = DefaultMessageProcessor;
         }
-        #endregion
+
+        #endregion Cancel
     }
 }

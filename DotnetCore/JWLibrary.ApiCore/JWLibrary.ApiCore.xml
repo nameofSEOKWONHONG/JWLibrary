@@ -4,12 +4,73 @@
         <name>JWLibrary.ApiCore</name>
     </assembly>
     <members>
+        <member name="T:JWLibrary.ApiCore.Base.JControllerBase">
+            <summary>
+            base controller
+            </summary>
+        </member>
         <!-- Badly formed XML comment ignored for member "T:JWLibrary.ApiCore.Config.SwaggerConfig" -->
+        <member name="M:JWLibrary.ApiCore.Config.SwaggerConfig.SwaggerConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            configure services on use startup
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:JWLibrary.ApiCore.Config.SwaggerConfig.SwaggerConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            configure on use startup
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
             <summary>
             CRUD TEST CLASS
             </summary>
         </member>
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.#ctor(Microsoft.Extensions.Logging.ILogger{JWLibrary.ApiCore.Controllers.WeatherForecastController})">
+            <summary>
+            constructor
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Get(System.Int32)">
+            <summary>
+            get
+            </summary>
+            <param name="idx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.GetAll">
+            <summary>
+            get all
+            </summary>
+            <returns></returns>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JWActions.WeatherForecast.WEATHER_FORECAST})" -->
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Remove(JWLibrary.Core.RequestDto{JWActions.WeatherForecast.WeatherForecastRequestDto})">
+            <summary>
+            remove
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:JWLibrary.ApiCore.Program">
+            <summary>
+            program
+            </summary>
+        </member>
+        <member name="M:JWLibrary.ApiCore.Program.Main(System.String[])">
+            <summary>
+            program main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:JWLibrary.ApiCore.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            create host builder
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

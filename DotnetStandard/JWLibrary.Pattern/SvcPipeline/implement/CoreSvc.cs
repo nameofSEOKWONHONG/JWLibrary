@@ -1,13 +1,11 @@
 ﻿using JWLibrary.Core;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
 namespace JCoreSvc {
+
     public abstract class CoreSvcBase {
         protected bool State { get; set; }
 
@@ -19,7 +17,6 @@ namespace JCoreSvc {
     public abstract class CoreSvc<TOwner, TRequest, TResult> : CoreSvcBase
         where TOwner : class
         where TRequest : class, new() {
-
         public TOwner Owner { get; set; }
         public TRequest Request { get; set; }
         public TResult Result { get; set; }
@@ -61,20 +58,18 @@ namespace JCoreSvc {
         }
 
         public void Dispose() {
-
         }
     }
 
     public interface IValidator { }
-    public class ValidatorBase : IValidator {
 
+    public class ValidatorBase : IValidator {
     }
 
     public class CoreSvcManager<TClass, TRequest, TResult, TValidator>
         where TClass : class, ICoreSvcOwner<TClass, TRequest, TResult>, new()
         where TRequest : class, new()
         where TValidator : class, IValidator, new() {
-
         public TClass Owner { get; set; }
         public TRequest Request { get; set; }
         public TValidator Validator { get; set; }

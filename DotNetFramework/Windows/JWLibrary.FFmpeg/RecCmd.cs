@@ -1,12 +1,11 @@
-﻿namespace JWLibrary.FFmpeg
-{
-    internal class RecCmd
-    {
-        public RecCmd()
-        {
+﻿namespace JWLibrary.FFmpeg {
+
+    internal class RecCmd {
+
+        public RecCmd() {
             this._outPutQuality = "30";
             this._videoSource = "screen-capture-recorder";
-            this._audioSource = "virtual-audio-capturer";            
+            this._audioSource = "virtual-audio-capturer";
         }
 
         private string _videoSource;
@@ -14,8 +13,7 @@
         /// <summary>
         /// recording video source (init : screen-capture-recorder)
         /// </summary>
-        public string VideoSource
-        {
+        public string VideoSource {
             get { return _videoSource; }
             set { _videoSource = value; }
         }
@@ -25,8 +23,7 @@
         /// <summary>
         /// recording audio source (init : virtual-audio-capturer)
         /// </summary>
-        public string AudioSource
-        {
+        public string AudioSource {
             get { return _audioSource; }
             set { _audioSource = value; }
         }
@@ -36,171 +33,160 @@
         /// <summary>
         /// not use
         /// </summary>
-        public string ExecuteFileName
-        {
+        public string ExecuteFileName {
             get { return this._executeFileName; }
             set { this._executeFileName = value; }
         }
+
         private string _generalCommand;
 
         /// <summary>
         /// not use
         /// </summary>
-        public string GeneralCommand
-        {
+        public string GeneralCommand {
             get { return this._generalCommand; }
             set { this._generalCommand = value; }
         }
+
         private string _frameRate;
-        public string FrameRate
-        {
+
+        public string FrameRate {
             get { return this._frameRate; }
             set { this._frameRate = value; }
         }
+
         private string _videoDeviceName;
 
         /// <summary>
         /// not use
         /// </summary>
-        public string VideoDeviceName
-        {
+        public string VideoDeviceName {
             get { return this._videoDeviceName; }
             set { this._videoDeviceName = value; }
         }
+
         private string _audioDeviceName;
 
         /// <summary>
         /// not use
         /// </summary>
-        public string AudioDeviceName
-        {
+        public string AudioDeviceName {
             get { return this._audioDeviceName; }
             set { this._audioDeviceName = value; }
         }
 
         private string _offsetX;
-        public string OffsetX
-        {
+
+        public string OffsetX {
             get { return this._offsetX; }
             set { this._offsetX = value; }
         }
 
         private string _offsetY;
-        public string OffsetY
-        {
+
+        public string OffsetY {
             get { return this._offsetY; }
             set { this._offsetY = value; }
         }
 
         private string _width;
-        public string Width
-        {
+
+        public string Width {
             get { return this._width; }
             set { this._width = value; }
         }
+
         private string _height;
-        public string Height
-        {
+
+        public string Height {
             get { return this._height; }
             set { this._height = value; }
         }
 
         private string _fullFileName;
+
         /// <summary>
         /// Base name is local file name.
         /// If you using twitchTV and Youtube live, enter live token or path.
         /// But twitchTV and youtube live not implemented yet.
         /// </summary>
-        public string FullFileName
-        {
+        public string FullFileName {
             get { return this._fullFileName; }
             set { this._fullFileName = value; }
         }
 
         private string _preset;
-        public string Preset
-        {
-            get
-            {
+
+        public string Preset {
+            get {
                 return _preset;
             }
-            set
-            {
+            set {
                 this._preset = value;
             }
         }
 
         private string _audioQuality;
-        public string AudioQuality
-        {
-            get
-            {
+
+        public string AudioQuality {
+            get {
                 return _audioQuality;
             }
-            set
-            {
+            set {
                 this._audioQuality = value;
             }
         }
 
         private string _format;
-        public string Format
-        {
-            get
-            {
+
+        public string Format {
+            get {
                 return _format;
             }
-            set
-            {
+            set {
                 this._format = value;
             }
         }
 
         private string _option1;
+
         /// <summary>
         /// Optional ffmpeg argument
         /// </summary>
-        public string Option1
-        {
-            get
-            {
+        public string Option1 {
+            get {
                 return _option1;
             }
-            set
-            {
+            set {
                 this._option1 = value;
             }
         }
 
         private string _outPutQuality;
+
         /// <summary>
         /// Initial value is 30.
         /// </summary>
-        public string OutPutQuality
-        {
-            get
-            {
+        public string OutPutQuality {
+            get {
                 return _outPutQuality;
             }
-            set
-            {
+            set {
                 this._outPutQuality = value;
             }
         }
 
         private string _cpuCore;
-        public string CpuCore
-        {
-            get
-            {
+
+        public string CpuCore {
+            get {
                 return _cpuCore;
             }
 
-            set
-            {
+            set {
                 _cpuCore = value;
             }
-        }        
+        }
 
         public bool IsNVENC { get; set; }
     }

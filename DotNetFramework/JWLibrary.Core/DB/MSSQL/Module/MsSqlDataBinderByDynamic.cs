@@ -1,17 +1,8 @@
-﻿using JWLibrary.Core.NetFramework.DB.MSSQL;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-#if NETFX_40
+﻿#if NETFX_40
 using System.Dynamic;
 #endif
-using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace JWLibrary.Core.NetFramework.DB.MSSQL.Module {
-
 #if NETFX_40
 	public class DynamicDataReader : DynamicEnumerableDataObjectWrapper<DbDataReader> {
 		public DynamicDataReader(DbDataReader reader)

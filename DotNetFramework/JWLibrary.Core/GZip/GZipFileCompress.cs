@@ -1,93 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JWLibrary.Core.NetFramework.GZip
-{
-	public class GZipFileCompress : ICompress, IDisposable {		
-		public string Compress (string param) {
-			var fileToCompress = new FileInfo(param);
-			if (!fileToCompress.Exists) return string.Empty;
+namespace JWLibrary.Core.NetFramework.GZip {
 
-			using (FileStream originalFileStream = fileToCompress.OpenRead()) {
-				using (FileStream compressedFileStream = File.Create(fileToCompress.FullName + ".gz")) {
-					using (GZipStream compressionStream = new GZipStream(compressedFileStream,
-					   CompressionMode.Compress)) {
-						originalFileStream.CopyTo(compressionStream);
-					}
-				}
-			}
-			return fileToCompress.FullName + ".gz";
-		}
+    public class GZipFileCompress : ICompress, IDisposable {
 
-		public string Decompress(string param) {
-			var fileToDecompress = new FileInfo(param);
-			if (!fileToDecompress.Exists) return string.Empty;
+        public string Compress(string param) {
+            var fileToCompress = new FileInfo(param);
+            if (!fileToCompress.Exists) return string.Empty;
 
-			using (FileStream originalFileStream = fileToDecompress.OpenRead()) {
-				string currentFileName = fileToDecompress.FullName;
-				string newFileName = currentFileName.Remove(currentFileName.Length - fileToDecompress.Extension.Length);
+            using (FileStream originalFileStream = fileToCompress.OpenRead()) {
+                using (FileStream compressedFileStream = File.Create(fileToCompress.FullName + ".gz")) {
+                    using (GZipStream compressionStream = new GZipStream(compressedFileStream,
+                       CompressionMode.Compress)) {
+                        originalFileStream.CopyTo(compressionStream);
+                    }
+                }
+            }
+            return fileToCompress.FullName + ".gz";
+        }
 
-				using (FileStream decompressedFileStream = File.Create(newFileName)) {
-					using (GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress)) {
-						decompressionStream.CopyTo(decompressedFileStream);
-					}
-				}
-			}
-			return fileToDecompress.Name;
-		}
+        public string Decompress(string param) {
+            var fileToDecompress = new FileInfo(param);
+            if (!fileToDecompress.Exists) return string.Empty;
 
+            using (FileStream originalFileStream = fileToDecompress.OpenRead()) {
+                string currentFileName = fileToDecompress.FullName;
+                string newFileName = currentFileName.Remove(currentFileName.Length - fileToDecompress.Extension.Length);
 
-		#region IDisposable Members
+                using (FileStream decompressedFileStream = File.Create(newFileName)) {
+                    using (GZipStream decompressionStream = new GZipStream(originalFileStream, CompressionMode.Decompress)) {
+                        decompressionStream.CopyTo(decompressedFileStream);
+                    }
+                }
+            }
+            return fileToDecompress.Name;
+        }
 
-		/// <summary>
-		/// Internal variable which checks if Dispose has already been called
-		/// </summary>
-		private Boolean disposed;
+        #region IDisposable Members
 
-		/// <summary>
-		/// Releases unmanaged and - optionally - managed resources
-		/// </summary>
-		/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
-		protected virtual void Dispose (Boolean disposing) {
-			if (disposed) {
-				return;
-			}
+        /// <summary>
+        /// Internal variable which checks if Dispose has already been called
+        /// </summary>
+        private Boolean disposed;
 
-			if (disposing) {
-				//TODO: Managed cleanup code here, while managed refs still valid
-			}
-			//TODO: Unmanaged cleanup code here
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+        protected virtual void Dispose(Boolean disposing) {
+            if (disposed) {
+                return;
+            }
 
-			disposed = true;
-		}
+            if (disposing) {
+                //TODO: Managed cleanup code here, while managed refs still valid
+            }
+            //TODO: Unmanaged cleanup code here
 
-		/// <summary>
-		/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-		/// </summary>
-		public void Dispose () {
-			// Call the private Dispose(bool) helper and indicate
-			// that we are explicitly disposing
-			this.Dispose(true);
+            disposed = true;
+        }
 
-			// Tell the garbage collector that the object doesn't require any
-			// cleanup when collected since Dispose was called explicitly.
-			GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose() {
+            // Call the private Dispose(bool) helper and indicate
+            // that we are explicitly disposing
+            this.Dispose(true);
 
-		/// <summary>
-		/// The destructor for the class.
-		/// </summary>
-		~GZipFileCompress () {
-			this.Dispose(false);
-		}
+            // Tell the garbage collector that the object doesn't require any
+            // cleanup when collected since Dispose was called explicitly.
+            GC.SuppressFinalize(this);
+        }
 
+        /// <summary>
+        /// The destructor for the class.
+        /// </summary>
+        ~GZipFileCompress() {
+            this.Dispose(false);
+        }
 
-		#endregion
-	}
+        #endregion IDisposable Members
+    }
 }

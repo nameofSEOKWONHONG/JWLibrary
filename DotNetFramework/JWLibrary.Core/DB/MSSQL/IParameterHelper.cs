@@ -1,20 +1,20 @@
 ﻿using System.Data;
 using System.Data.Common;
 
-namespace JWLibrary.Core.NetFramework.DB.MSSQL
-{
-  public interface IParameterHelper
-  {
-    DbParameter CreateParameter(string parameterName, object value);
+namespace JWLibrary.Core.NetFramework.DB.MSSQL {
 
-    DbParameter CreateParameter(string parameterName, object value, ParameterDirection direction);
-    
-    DbParameter CreateParameter(string parameterName, object value, object dbType);
+    public interface IParameterHelper {
 
-    DbParameter CreateParameter(string parameterName, object value, object dbType, ParameterDirection direction);
+        DbParameter CreateParameter(string parameterName, object value);
 
-    DbParameter CreateParameter(string parameterName, object value, object dbType, int size);
+        DbParameter CreateParameter(string parameterName, object value, ParameterDirection direction);
 
-    DbParameter CreateParameter(string parameterName, object value, object dbType, int size, ParameterDirection direction);
-  }
+        DbParameter CreateParameter(string parameterName, object value, object dbType);
+
+        DbParameter CreateParameter(string parameterName, object value, object dbType, ParameterDirection direction);
+
+        DbParameter CreateParameter(string parameterName, object value, object dbType, int size);
+
+        DbParameter CreateParameter(string parameterName, object value, object dbType, int size, ParameterDirection direction);
+    }
 }

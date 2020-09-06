@@ -1,16 +1,15 @@
-﻿using JWLibrary.Database;
-using JWLibrary.Pattern.TaskAction;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-using Dapper;
+﻿using Dapper;
 using JWLibrary.Core;
-using HigLabo.Core;
+using JWLibrary.Database;
+using JWLibrary.Pattern.TaskAction;
+
 namespace JWActions.WeatherForecast {
+
     using System.Data.SqlClient;
+
     public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {
         private WEATHER_FORECAST _exists = null;
+
         public override bool PreExecute() {
             using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
                 action.Request = new WeatherForecastRequestDto() {
@@ -29,12 +28,12 @@ namespace JWActions.WeatherForecast {
         public override int Executed() {
             return JDataBase.Resolve<SqlConnection>()
                         .jQuery<int>(db => {
-                            if(this._exists.jIsNotNull()) {
-                            return db.Update<WEATHER_FORECAST>(this.Request);
-                        }
+                            if (this._exists.jIsNotNull()) {
+                                return db.Update<WEATHER_FORECAST>(this.Request);
+                            }
 
-                        return db.Insert<WEATHER_FORECAST>(this.Request).Value;
-                   });
+                            return db.Insert<WEATHER_FORECAST>(this.Request).Value;
+                        });
         }
 
         public override bool PostExecute() {
