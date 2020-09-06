@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 
 namespace JWLibrary.Pattern.TaskAction {
 
@@ -6,6 +7,7 @@ namespace JWLibrary.Pattern.TaskAction {
         where TRequest : class {
 
         public ActionBase() {
+
         }
 
         public TRequest Request { get; set; }

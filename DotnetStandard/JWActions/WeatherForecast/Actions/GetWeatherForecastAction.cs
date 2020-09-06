@@ -1,5 +1,5 @@
 ﻿namespace JWActions.WeatherForecast {
-
+    using FluentValidation;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
@@ -7,6 +7,9 @@
     using System.Data.SqlClient;
 
     public class GetWeatherForecastAction : ActionBase<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastAction {
+        public GetWeatherForecastAction() {
+
+        }
 
         public override bool PostExecute() {
             return true;
@@ -31,6 +34,13 @@
 
         public override bool PreExecute() {
             return true;
+        }
+
+        public class Validator : AbstractValidator<GetWeatherForecastAction> {
+            public Validator() {
+                RuleFor(o => o.Request).NotNull();
+                RuleFor(o => o.Request.ID).GreaterThan(0);
+            }
         }
     }
 }

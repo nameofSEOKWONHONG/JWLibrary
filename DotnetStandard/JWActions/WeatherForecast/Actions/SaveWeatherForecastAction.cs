@@ -4,7 +4,7 @@ using JWLibrary.Database;
 using JWLibrary.Pattern.TaskAction;
 
 namespace JWActions.WeatherForecast {
-
+    using FluentValidation;
     using System.Data.SqlClient;
 
     public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {
@@ -38,6 +38,13 @@ namespace JWActions.WeatherForecast {
 
         public override bool PostExecute() {
             return true;
+        }
+
+        public class Validator : AbstractValidator<SaveWeatherForecastAction> {
+            public Validator() {
+                RuleFor(o => o.Request).NotNull();
+                RuleFor(o => o.Request.ID).GreaterThan(0);
+            }
         }
     }
 }

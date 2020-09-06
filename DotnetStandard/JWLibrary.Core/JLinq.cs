@@ -40,6 +40,12 @@ namespace JWLibrary.Core {
             return obj;
         }
 
+        public static void jIfNull<T>(this T obj, Action<T> action) {
+            if(obj.jIsNull()) {
+                action(obj);
+            }
+        }
+
         public static T jIfNotNull<T>(this T obj, Func<T, T> predicate, T defaultValue)
             where T : class {
             if (obj.jIsNotNull()) {

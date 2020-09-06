@@ -1,5 +1,5 @@
 ﻿namespace JWActions.WeatherForecast {
-
+    using FluentValidation;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
@@ -31,5 +31,7 @@
         public override bool PreExecute() {
             return true;
         }
+
+
     }
 }

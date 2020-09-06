@@ -4,6 +4,7 @@ using JWLibrary.Core;
 using JWLibrary.Pattern.TaskAction;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -31,7 +32,11 @@ namespace JWLibrary.ApiCore.Controllers {
         [HttpGet]
         public async Task<WEATHER_FORECAST> Get(int idx = 1) {
             WEATHER_FORECAST result = null;
-            using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
+            using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction,
+                        GetWeatherForecastAction,
+                        WeatherForecastRequestDto,
+                        WEATHER_FORECAST,
+                        GetWeatherForecastAction.Validator>()) {
                 action.Request = new WeatherForecastRequestDto() {
                     ID = idx
                 };
@@ -61,7 +66,7 @@ namespace JWLibrary.ApiCore.Controllers {
         [HttpPost]
         public async Task<int> Save([FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]
             RequestDto<WEATHER_FORECAST> request) {
-            using (var action = ActionFactory.CreateAction<ISaveWeatherForecastAction, SaveWeatherForecastAction, WEATHER_FORECAST, int>()) {
+            using (var action = ActionFactory.CreateAction<ISaveWeatherForecastAction, SaveWeatherForecastAction, WEATHER_FORECAST, int, SaveWeatherForecastAction.Validator>()) {
                 action.Request = request.Dto;
                 return await action.ExecuteCore();
             }
