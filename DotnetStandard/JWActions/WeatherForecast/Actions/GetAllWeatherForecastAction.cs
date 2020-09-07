@@ -1,5 +1,7 @@
 ﻿namespace JWActions.WeatherForecast {
     using FluentValidation;
+    using JEntity;
+    using JEntity.Dto;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;

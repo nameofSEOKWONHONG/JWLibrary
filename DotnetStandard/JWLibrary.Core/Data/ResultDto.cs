@@ -1,7 +1,8 @@
 ﻿namespace JWLibrary.Core {
-
-    public class ResultDto<TDto>
-       where TDto : class {
+    public class ResultDtoBase<TDto> {
         private TDto Dto { get; set; }
+    }
+    public class ResultDto<TDto> : ResultDtoBase<TDto> {
+
     }
 }

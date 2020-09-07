@@ -5,6 +5,8 @@ using JWLibrary.Pattern.TaskAction;
 
 namespace JWActions.WeatherForecast {
     using FluentValidation;
+    using JEntity;
+    using JEntity.Dto;
     using System.Data.SqlClient;
 
     public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {

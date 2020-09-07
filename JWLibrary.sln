@@ -64,6 +64,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JEntity", "DotnetStandard\JEntity\JEntity.csproj", "{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,10 @@ Global
 		{2860D48C-C481-46F5-ADA7-377753D24D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2860D48C-C481-46F5-ADA7-377753D24D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2860D48C-C481-46F5-ADA7-377753D24D7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +190,7 @@ Global
 		{B2C820D9-092F-4A0B-A617-BE37D8C8315F} = {1877F404-C6DE-45BB-B709-DFEB751E2690}
 		{8450E2A6-8950-415B-9C79-BA0B32666CE0} = {1877F404-C6DE-45BB-B709-DFEB751E2690}
 		{2860D48C-C481-46F5-ADA7-377753D24D7E} = {BDC7430D-DC66-4D31-81E2-F571D24DE2FD}
+		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43} = {BDC7430D-DC66-4D31-81E2-F571D24DE2FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E469A77-3A20-49DE-ABC5-6ED14F253F99}

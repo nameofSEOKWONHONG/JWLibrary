@@ -21,7 +21,30 @@ namespace JWLibrary.ApiCore {
             services.AddControllers()
                 .AddNewtonsoftJson(options => {
                     options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
-                });
+                })
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            // ********************
+            // USE CORS
+            // ********************
+            services.AddCors(options => {
+                //options.AddPolicy("AllowAll",
+                //    builder => {
+                //        builder
+                //        .AllowAnyOrigin()
+                //        .AllowAnyMethod()
+                //        .AllowAnyHeader()
+                //        .AllowCredentials();
+                //    });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
+            // add service for allowing caching of responses
+            // ref : https://github.com/Cingulara/dotnet-core-web-api-caching-examples
+            services.AddResponseCaching();
             //.AddNewtonsoftJson(o => o.SerializerSettings.Converters.Insert(0, new CustomConverter()));
         }
 
@@ -36,6 +59,14 @@ namespace JWLibrary.ApiCore {
             app.UseRouting();
 
             app.UseAuthorization();
+
+            // ********************
+            // USE CORS
+            // ********************
+            app.UseCors("AllowAll");
+
+            // allow response caching directives in the API Controllers
+            app.UseResponseCaching();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();

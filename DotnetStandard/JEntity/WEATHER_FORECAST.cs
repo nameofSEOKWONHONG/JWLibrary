@@ -1,8 +1,8 @@
-namespace JWActions.WeatherForecast {
+namespace JEntity {
 
     using System;
 
-    public class WEATHER_FORECAST {
+    public partial class WEATHER_FORECAST {
         public int ID { get; set; }
 
         public DateTime? DATE { get; set; }

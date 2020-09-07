@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http.Controllers;
 
 namespace JWLibrary.ApiCore {
     //public class JModelBinder<T> : IModelBinder

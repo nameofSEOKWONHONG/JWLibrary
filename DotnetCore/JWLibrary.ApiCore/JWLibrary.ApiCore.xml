@@ -24,7 +24,9 @@
         </member>
         <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
             <summary>
-            CRUD TEST CLASS
+            WeatherForecastController
+            **no more use biner**
+            ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
             </summary>
         </member>
         <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.#ctor(Microsoft.Extensions.Logging.ILogger{JWLibrary.ApiCore.Controllers.WeatherForecastController})">
@@ -46,8 +48,8 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JWActions.WeatherForecast.WEATHER_FORECAST})" -->
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Remove(JWLibrary.Core.RequestDto{JWActions.WeatherForecast.WeatherForecastRequestDto})">
+        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JEntity.WEATHER_FORECAST})" -->
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Remove(JWLibrary.Core.RequestDto{JEntity.Dto.WeatherForecastRequestDto})">
             <summary>
             remove
             </summary>

@@ -1,6 +1,8 @@
 ﻿namespace JWActions.WeatherForecast {
 
     using Dapper;
+    using JEntity;
+    using JEntity.Dto;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
