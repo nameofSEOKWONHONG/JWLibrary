@@ -63,7 +63,7 @@ namespace JWLibrary.ApiCore {
             // ********************
             // USE CORS
             // ********************
-            app.UseCors("AllowAll");
+            app.UseCors("CorsPolicy");
 
             // allow response caching directives in the API Controllers
             app.UseResponseCaching();
