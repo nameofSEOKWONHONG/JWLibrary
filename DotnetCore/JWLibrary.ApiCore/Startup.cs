@@ -26,6 +26,7 @@ namespace JWLibrary.ApiCore {
 
             // ********************
             // USE CORS
+            // ref : https://stackoverflow.com/questions/53675850/how-to-fix-the-cors-protocol-does-not-allow-specifying-a-wildcard-any-origin
             // ********************
             services.AddCors(options => {
                 //options.AddPolicy("AllowAll",
