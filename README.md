@@ -17,10 +17,17 @@ Extension classes and patterning are the main concerns of the project.
 The included libraries are as follows.
 
 Enum.net
+
 , Dapper
+
 , Newtonsoft.Json
+
 , HigLabo.Mapper
+
 , SqlKata
+
 , FluentValidation
+
 , SqlClient
+
 , MySqlClient
