@@ -1,7 +1,7 @@
 ﻿namespace JWActions.WeatherForecast {
     using FluentValidation;
-    using JEntity;
-    using JEntity.Dto;
+    using JAction;
+    using JAction.Data;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
@@ -10,11 +10,9 @@
     using System.Data.SqlClient;
 
     public class GetAllWeatherForecastAction : ActionBase<WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>, IGetAllWeatherForecastAction {
-
-        public override bool PostExecute() {
+        public override bool PreExecute() {
             return true;
         }
-
         public override IEnumerable<WEATHER_FORECAST> Executed() {
             var query = new Query("WEATHER_FORECAST").Select("*");
             var result = JDataBase.Resolve<SqlConnection>()
@@ -29,10 +27,13 @@
 
             return result;
         }
-
-        public override bool PreExecute() {
+        public override bool PostExecute() {
+            if(this.Result.jIsNotNull()) {
+                System.Diagnostics.Debug.Assert(false, "result is not null");
+            }
             return true;
         }
+
 
 
     }

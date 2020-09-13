@@ -1,5 +1,5 @@
-﻿using JEntity;
-using JEntity.Dto;
+﻿using JAction;
+using JAction.Data;
 using JWActions.WeatherForecast;
 using JWLibrary.ApiCore.Base;
 using JWLibrary.Core;

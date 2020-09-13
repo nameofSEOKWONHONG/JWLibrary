@@ -48,8 +48,8 @@
             </summary>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JEntity.WEATHER_FORECAST})" -->
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Remove(JWLibrary.Core.RequestDto{JEntity.Dto.WeatherForecastRequestDto})">
+        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Save(JWLibrary.Core.RequestDto{JAction.Data.WEATHER_FORECAST})" -->
+        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Remove(JWLibrary.Core.RequestDto{JAction.Data.WeatherForecastRequestDto})">
             <summary>
             remove
             </summary>

@@ -17,7 +17,7 @@
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Database\JWLibrary.Database.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Pattern\JWLibrary.Pattern.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
-    <ProjectReference Include="..\JEntity\JEntity.csproj" />
+    <ProjectReference Include="..\JEntity\JWAction.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿namespace JWActions.WeatherForecast {
     using FluentValidation;
-    using JEntity;
-    using JEntity.Dto;
+    using JAction;
+    using JAction.Data;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
@@ -13,7 +13,7 @@
 
         }
 
-        public override bool PostExecute() {
+        public override bool PreExecute() {
             return true;
         }
 
@@ -34,7 +34,7 @@
             //});
         }
 
-        public override bool PreExecute() {
+        public override bool PostExecute() {
             return true;
         }
 

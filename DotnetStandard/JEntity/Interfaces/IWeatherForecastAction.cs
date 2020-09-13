@@ -1,6 +1,6 @@
 ﻿namespace JWActions.WeatherForecast {
-    using JEntity;
-    using JEntity.Dto;
+    using JAction;
+    using JAction.Data;
     using JWLibrary.Pattern.TaskAction;
     using System.Collections.Generic;
 

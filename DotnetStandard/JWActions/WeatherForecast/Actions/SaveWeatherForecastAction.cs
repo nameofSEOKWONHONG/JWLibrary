@@ -1,12 +1,11 @@
-﻿using Dapper;
-using JWLibrary.Core;
-using JWLibrary.Database;
-using JWLibrary.Pattern.TaskAction;
-
-namespace JWActions.WeatherForecast {
+﻿namespace JWActions.WeatherForecast {
     using FluentValidation;
-    using JEntity;
-    using JEntity.Dto;
+    using Dapper;
+    using JWLibrary.Core;
+    using JWLibrary.Database;
+    using JWLibrary.Pattern.TaskAction;
+    using JAction;
+    using JAction.Data;
     using System.Data.SqlClient;
 
     public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {

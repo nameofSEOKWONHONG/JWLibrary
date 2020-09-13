@@ -12,6 +12,8 @@ namespace JWLibrary.Pattern.TaskAction {
 
         public TRequest Request { get; set; }
 
+        public TResult Result { get; set; }
+
         public abstract bool PreExecute();
 
         public abstract TResult Executed();

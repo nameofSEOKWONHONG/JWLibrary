@@ -34,6 +34,7 @@ namespace JWLibrary.Pattern.TaskAction {
                 TResult result = default(TResult);
                 if (_action.PreExecute()) {
                     result = _action.Executed();
+                    _action.Result = result;
                     _action.PostExecute();
                 }
                 return result;

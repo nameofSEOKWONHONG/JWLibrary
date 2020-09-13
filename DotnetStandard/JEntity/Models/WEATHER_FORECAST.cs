@@ -1,4 +1,4 @@
-namespace JEntity {
+namespace JAction.Data {
 
     using System;
 
