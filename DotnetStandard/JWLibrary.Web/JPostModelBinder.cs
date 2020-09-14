@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
+using IModelBinder = Microsoft.AspNetCore.Mvc.ModelBinding.IModelBinder;
+using ModelBindingContext = Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext;
 
-namespace JWLibrary.ApiCore {
+namespace JWLibrary.Web {
     //public class JModelBinder<T> : IModelBinder
     //    where T : class, new() {
     //    public async Task BindModelAsync(ModelBindingContext bindingContext) {

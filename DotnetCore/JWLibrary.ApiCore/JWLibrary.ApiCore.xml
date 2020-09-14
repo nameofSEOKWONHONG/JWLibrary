@@ -9,19 +9,6 @@
             base controller
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:JWLibrary.ApiCore.Config.SwaggerConfig" -->
-        <member name="M:JWLibrary.ApiCore.Config.SwaggerConfig.SwaggerConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            configure services on use startup
-            </summary>
-            <param name="services"></param>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Config.SwaggerConfig.SwaggerConfigure(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            configure on use startup
-            </summary>
-            <param name="app"></param>
-        </member>
         <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
             <summary>
             WeatherForecastController

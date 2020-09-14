@@ -66,6 +66,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWAction.Data", "DotnetStandard\JEntity\JWAction.Data.csproj", "{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWLibrary.Web", "DotnetStandard\JWLibrary.Web\JWLibrary.Web.csproj", "{8A9938C0-33A8-4B33-B827-B18DD556F47D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -160,6 +162,10 @@ Global
 		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A9938C0-33A8-4B33-B827-B18DD556F47D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A9938C0-33A8-4B33-B827-B18DD556F47D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A9938C0-33A8-4B33-B827-B18DD556F47D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A9938C0-33A8-4B33-B827-B18DD556F47D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,6 +197,7 @@ Global
 		{8450E2A6-8950-415B-9C79-BA0B32666CE0} = {1877F404-C6DE-45BB-B709-DFEB751E2690}
 		{2860D48C-C481-46F5-ADA7-377753D24D7E} = {BDC7430D-DC66-4D31-81E2-F571D24DE2FD}
 		{3E1CFEEE-E2C8-4DD3-88D2-659B1043CA43} = {BDC7430D-DC66-4D31-81E2-F571D24DE2FD}
+		{8A9938C0-33A8-4B33-B827-B18DD556F47D} = {1877F404-C6DE-45BB-B709-DFEB751E2690}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E469A77-3A20-49DE-ABC5-6ED14F253F99}

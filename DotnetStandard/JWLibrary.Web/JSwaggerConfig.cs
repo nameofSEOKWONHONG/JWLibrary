@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 
-namespace JWLibrary.ApiCore.Config {
+namespace JWLibrary.Web {
 
     /// <summary>
     /// ref : https://docs.microsoft.com/ko-kr/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-3.1&tabs=visual-studio

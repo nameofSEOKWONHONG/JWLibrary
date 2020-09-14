@@ -1,6 +1,5 @@
 namespace JWLibrary.ApiCore {
-
-    using JWLibrary.ApiCore.Config;
+    using JWLibrary.Web;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
