@@ -4,6 +4,7 @@ using JWActions.WeatherForecast;
 using JWLibrary.ApiCore.Base;
 using JWLibrary.Core;
 using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -33,6 +34,7 @@ namespace JWLibrary.ApiCore.Controllers {
         /// </summary>
         /// <param name="idx"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "idx" })]
         public async Task<WEATHER_FORECAST> Get(int idx = 1) {

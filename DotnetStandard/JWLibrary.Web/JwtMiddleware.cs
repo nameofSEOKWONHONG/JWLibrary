@@ -19,26 +19,31 @@ namespace JWLibrary.Web {
     /// </summary>
     public class JwtMiddleware {
         private readonly RequestDelegate _next;
-        private readonly JWTSettings _jwtSettings;
+        public static readonly Lazy<JWTSettings> JWTSettings = new Lazy<JWTSettings>(() => {
+            return new JWTSettings();
+        });
 
-        public JwtMiddleware(RequestDelegate next, IOptions<JWTSettings> appSettings) {
+        public static List<Account> Accounts { get; set; } = new List<Account>() {
+            new Account() { Id = 1, UserId = "heyjude"}
+        };
+
+        public JwtMiddleware(RequestDelegate next) {
             _next = next;
-            _jwtSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, DataContext dataContext) {
+        public async Task Invoke(HttpContext context) {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (token != null)
-                await attachAccountToContext(context, dataContext, token);
+                await attachAccountToContext(context, token);
 
             await _next(context);
         }
 
-        private async Task attachAccountToContext(HttpContext context, DataContext dataContext, string token) {
+        private async Task attachAccountToContext(HttpContext context, string token) {
             try {
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
+                var key = Encoding.ASCII.GetBytes(JWTSettings.Value.Secret);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
@@ -52,7 +57,8 @@ namespace JWLibrary.Web {
                 var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach account to context on successful jwt validation
-                context.Items["Account"] = await dataContext.Accounts.FindAsync(accountId);
+                context.Items["Account"] = Accounts.Where(m => m.Id == accountId).First();
+                await Task.Delay(1000);
             } catch {
                 // do nothing if jwt validation fails
                 // account is not attached to context so request won't have access to secure routes
@@ -63,7 +69,7 @@ namespace JWLibrary.Web {
     public class JWTTokenService {
         public string GenerateJwtToken(int accountId) {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("[SECRET USED TO SIGN AND VERIFY JWT TOKENS, IT CAN BE ANY STRING]");
+            var key = Encoding.ASCII.GetBytes(JwtMiddleware.JWTSettings.Value.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", accountId.ToString()) }),
                 Expires = DateTime.UtcNow.AddDays(7),
@@ -75,7 +81,7 @@ namespace JWLibrary.Web {
 
         public int? ValidateJwtToken(string token) {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("[SECRET USED TO SIGN AND VERIFY JWT TOKENS, IT CAN BE ANY STRING]");
+            var key = Encoding.ASCII.GetBytes(JwtMiddleware.JWTSettings.Value.Secret);
             try {
                 tokenHandler.ValidateToken(token, new TokenValidationParameters {
                     ValidateIssuerSigningKey = true,
@@ -108,4 +114,5 @@ namespace JWLibrary.Web {
             }
         }
     }
+
 }

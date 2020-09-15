@@ -68,6 +68,8 @@ namespace JWLibrary.ApiCore {
             // allow response caching directives in the API Controllers
             app.UseResponseCaching();
 
+            app.UseMiddleware<JwtMiddleware>();
+
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllers();
             });
