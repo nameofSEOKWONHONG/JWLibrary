@@ -55,8 +55,8 @@ namespace JWLibrary.Utils {
             return true;
         }
 
-        public static void OpenPort(this int port, ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN) {
-            var arg = OpenPortCommand(boundType.jToEnumString(), portType.jToEnumString(), port);
+        public static void OpenPort(this int port, string name = "ACC", ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN) {
+            var arg = OpenPortCommand(name, boundType.jToEnumString(), portType.jToEnumString(), port);
             ProcessHandlerAsync.RunAsync("cmd.exe", arg,
                 (output) => {
                     Debug.WriteLine(output);
@@ -70,8 +70,8 @@ namespace JWLibrary.Utils {
                 });
         }
 
-        public static void ClosePort(this int port, ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN) {
-            var arg = ClosePortCommand(boundType.jToEnumString(), portType.jToEnumString(), port);
+        public static void ClosePort(this int port, string name = "ACC", ENUM_PORT_TYPE portType = ENUM_PORT_TYPE.TCP, ENUM_BOUND_TYPE boundType = ENUM_BOUND_TYPE.IN) {
+            var arg = ClosePortCommand(name, boundType.jToEnumString(), portType.jToEnumString(), port);
             ProcessHandlerAsync.RunAsync("cmd.exe", arg,
                 (output) => {
                     Debug.WriteLine(output);
@@ -122,12 +122,12 @@ namespace JWLibrary.Utils {
         /// <param name="portType">TCP/UDP</param>
         /// <param name="port"></param>
         /// <returns></returns>
-        private static string OpenPortCommand(string boundType, string portType, int port) {
-            return $"/C netsh advfirewall firewall add rule name=\"ACCC Server App Open Port {port}\" dir={boundType} action=allow protocol={portType} localport={port}";
+        private static string OpenPortCommand(string name, string boundType, string portType, int port) {
+            return $"/C netsh advfirewall firewall add rule name=\"{name} PORT OPEN {port}\" dir={boundType} action=allow protocol={portType} localport={port}";
         }
 
-        private static string ClosePortCommand(string boundType, string portType, int port) {
-            return $"/C netsh advfirewall firewall delete rule name=\"ACCC Server App Open Port {port}\" dir={boundType} protocol={portType} localport={port}";
+        private static string ClosePortCommand(string name, string boundType, string portType, int port) {
+            return $"/C netsh advfirewall firewall delete rule name=\"{name} PORT OPEN {port}\" dir={boundType} protocol={portType} localport={port}";
         }
 
         private static string EnableFirewallCommand() {

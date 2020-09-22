@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
 
-namespace JWLibrary.StaticMethod {
+namespace JWLibrary.Core {
 
     public static class JPath {
 

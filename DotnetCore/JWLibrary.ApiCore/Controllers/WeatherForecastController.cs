@@ -3,6 +3,7 @@ using JAction.Data;
 using JWActions.WeatherForecast;
 using JWLibrary.ApiCore.Base;
 using JWLibrary.Core;
+using JWLibrary.Database;
 using JWLibrary.Pattern.TaskAction;
 using JWLibrary.Web;
 using Microsoft.AspNetCore.Mvc;
@@ -37,6 +38,7 @@ namespace JWLibrary.ApiCore.Controllers {
         [Authorize]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "idx" })]
+        [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
         public async Task<WEATHER_FORECAST> Get(int idx = 1) {
             WEATHER_FORECAST result = null;
             using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction,
@@ -49,6 +51,19 @@ namespace JWLibrary.ApiCore.Controllers {
                 };
                 result = await action.ExecuteCore();
             }
+
+            #region [test code]
+            using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction,
+                DeleteWeatherForecastAction,
+                WeatherForecastRequestDto,
+                bool>()) {
+                action.Request = new WeatherForecastRequestDto() {
+                    ID = result.ID
+                };
+                var result2 = await action.ExecuteCore();
+                throw new Exception($"do not remove id : {result.ID}");
+            }
+            #endregion
             return result;
         }
 
@@ -58,6 +73,7 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <returns></returns>
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
         public async Task<IEnumerable<WEATHER_FORECAST>> GetAll() {
             IEnumerable<WEATHER_FORECAST> result = null;
             using (var action = ActionFactory.CreateAction<IGetAllWeatherForecastAction, GetAllWeatherForecastAction, WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>()) {
@@ -72,6 +88,7 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <param name="request">요청:RequestDto<TestRequestDto></param>
         /// <returns></returns>
         [HttpPost]
+        [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<int> Save(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]*/
             RequestDto<WEATHER_FORECAST> request) {
             using (var action = ActionFactory.CreateAction<ISaveWeatherForecastAction, SaveWeatherForecastAction, WEATHER_FORECAST, int, SaveWeatherForecastAction.Validator>()) {
@@ -86,6 +103,7 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
+        [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<bool> Remove(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]*/
             RequestDto<WeatherForecastRequestDto> request) {
             using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction, DeleteWeatherForecastAction, WeatherForecastRequestDto, bool>()) {

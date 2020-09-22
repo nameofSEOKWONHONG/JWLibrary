@@ -1,6 +1,4 @@
-namespace JWLibrary.StaticMethod {
-
-    using JWLibrary.Core;
+namespace JWLibrary.Core {
     using Newtonsoft.Json;
     using System.Collections.Generic;
 

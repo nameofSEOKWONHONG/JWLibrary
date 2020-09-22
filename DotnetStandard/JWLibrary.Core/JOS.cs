@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace JWLibrary.StaticMethod {
+namespace JWLibrary.Core {
 
     public static class JOS {
 

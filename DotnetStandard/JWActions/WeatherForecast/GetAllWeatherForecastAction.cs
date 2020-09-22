@@ -29,7 +29,7 @@
         }
         public override bool PostExecute() {
             if(this.Result.jIsNotNull()) {
-                System.Diagnostics.Debug.Assert(false, "result is not null");
+                //System.Diagnostics.Debug.Assert(false, "result is not null");
             }
             return true;
         }

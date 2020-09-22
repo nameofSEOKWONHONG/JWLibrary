@@ -1,7 +1,7 @@
 ﻿using JWLibrary.Core;
 using System;
 
-namespace JWLibrary.StaticMethod {
+namespace JWLibrary.Core {
 
     public static class JDateHelper {
 

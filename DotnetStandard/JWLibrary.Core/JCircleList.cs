@@ -1,7 +1,7 @@
 using JWLibrary.Core;
 using System.Collections.Generic;
 
-namespace JWLibrary.StaticMethod {
+namespace JWLibrary.Core {
 
     public class JCircleList<T> : JList<T>
         where T : class, new() {

@@ -16,7 +16,7 @@ namespace JWLibrary.Utils {
             _uri = new Uri(_address);
         }
 
-        public async Task<T> GetSingleDataByAsync<T>(string apiUrl, string token = null) {
+        public async Task<T> GetSingleDataAsync<T>(string apiUrl, string token = null) {
             if (string.IsNullOrEmpty(this._address)) throw new Exception("Base url is empty.");
 
             try {
@@ -45,7 +45,7 @@ namespace JWLibrary.Utils {
             return default(T);
         }
 
-        public async Task<List<T>> GetMultipleDataByAsync<T>(string apiUrl, string token = null) {
+        public async Task<List<T>> GetMultipleDataAsync<T>(string apiUrl, string token = null) {
             if (string.IsNullOrEmpty(this._uri.AbsolutePath)) throw new Exception("Base Url is null");
 
             try {
@@ -75,7 +75,7 @@ namespace JWLibrary.Utils {
             return default(List<T>);
         }
 
-        public async Task<bool> PostByAsync(object data, string apiUrl, string token = null) {
+        public async Task<bool> PostAsync(object data, string apiUrl, string token = null) {
             try {
                 using (var client = new HttpClient()) {
                     client.BaseAddress = this._uri;
@@ -103,7 +103,7 @@ namespace JWLibrary.Utils {
             return false;
         }
 
-        public async Task<bool> PutByAsync(object data, string apiUrl, string token = null) {
+        public async Task<bool> PutAsync(object data, string apiUrl, string token = null) {
             try {
                 using (var client = new HttpClient()) {
                     client.BaseAddress = this._uri;
@@ -131,7 +131,7 @@ namespace JWLibrary.Utils {
             return false;
         }
 
-        public async Task<bool> DeleteByAsync(string apiUrl, string key, string token = null) {
+        public async Task<bool> DeleteAsync(string apiUrl, string key, string token = null) {
             try {
                 using (var client = new HttpClient()) {
                     client.BaseAddress = this._uri;

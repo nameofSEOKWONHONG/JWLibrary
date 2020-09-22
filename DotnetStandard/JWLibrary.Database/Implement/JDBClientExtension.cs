@@ -131,6 +131,47 @@ namespace JWLibrary.Database {
             }
         }
 
+        public static bool jUpdate<T>(this IDbConnection connection, T entity)
+            where T : class {
+            var result = false;
+            try {
+                connection.Open();
+                result = connection.Update<T>(entity) > 0;
+            }
+            finally {
+                connection.Close();
+            }
+            return result;
+        }
+
+        public static async Task<bool> jUpdateAsync<T>(this IDbConnection connection, T entity)
+            where T : class {
+            var result = false;
+            try {
+                connection.Open();
+                result = await connection.UpdateAsync<T>(entity) > 0;
+            }
+            finally {
+                connection.Close();
+            }
+            return result;
+        }
+
+        public static bool jInsert<T>(this IDbConnection connection, T entity)
+            where T : class {
+            var result = false;
+
+            try {
+                connection.Open();
+                result = connection.Insert<T>(entity) > 0;
+            }
+            finally {
+                connection.Close();
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// execute(update, delete) db, use sql
         /// </summary>

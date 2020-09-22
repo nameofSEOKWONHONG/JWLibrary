@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace JWLibrary.StaticMethod {
+namespace JWLibrary.Core {
 
     public static class EmbeddedResource {
 
