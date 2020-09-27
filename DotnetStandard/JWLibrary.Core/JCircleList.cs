@@ -14,8 +14,8 @@ namespace JWLibrary.Core {
             : base(capacity) {
         }
 
-        public JCircleList(IEnumerable<T> enumerable)
-            : base(enumerable) {
+        public JCircleList(IEnumerable<T> enumerable) {
+            this.AddAll(enumerable);
         }
 
         public T Next() {

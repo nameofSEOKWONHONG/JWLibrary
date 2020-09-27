@@ -1,4 +1,4 @@
-using JWLibrary.StaticMethod;
+using JWLibrary.Core;
 using Moq;
 using NUnit.Framework;
 using System;
