@@ -5,18 +5,17 @@ using System.Linq;
 using System.Text;
 
 namespace JWLibrary.Core {
-
     public class JList<T> : C5.ArrayList<T> {
-        public JList() {
+        public JList() : base(100, MemoryType.Normal) {
 
         }
 
-        public JList(int capacity) 
-            : base(capacity){
+        public JList(int capacity)
+            : base(capacity, MemoryType.Normal) {
 
         }
 
-        public JList(int capacity, MemoryType memoryType) 
+        public JList(int capacity, MemoryType memoryType)
             : base(capacity, memoryType) {
         }
     }
@@ -28,7 +27,7 @@ namespace JWLibrary.Core {
     public class JHList<T> : C5.HashedArrayList<T> {
         public JHList() { }
         public JHList(int capacity) : base(capacity) { }
-        public JHList(int capacity, MemoryType memoryType) : base(capacity, memoryType) { } 
+        public JHList(int capacity, MemoryType memoryType) : base(capacity, memoryType) { }
     }
 
     public class JHLKList<T> : C5.HashedLinkedList<T> {
@@ -37,12 +36,11 @@ namespace JWLibrary.Core {
 
     }
 
-    public class JHDictionary<T1, T2> : C5.HashDictionary<T1, T2> {
+    public class JHDictionary<K, V> : C5.HashDictionary<K, V> {
 
     }
 
-    public class JTDictionary<T1, T2> : C5.TreeDictionary<T1, T2> {
+    public class JTDictionary<K, V> : C5.TreeDictionary<K, V> {
 
     }
-
 }

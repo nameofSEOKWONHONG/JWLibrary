@@ -11,19 +11,19 @@ namespace JWLibrary.Core {
             return datetime;
         }
 
-        public static string jToDateTime(this string date, string format = null) {
-            DateTime datetime = DateTime.MinValue;
-            DateTime.TryParse(date, out datetime);
-            return datetime.ToString(format);
+        public static string jToDateTime(this DateTime date, ConvertFormat format = ConvertFormat.Default) {
+            return date.ToString(format.jToEnumString());
         }
 
         public static string jToDateTime(this DateTime date, string format = null) {
+            if (format.jIsNullOrEmpty()) format = "yyyy-MM-dd";
             return date.ToString(format);
         }
     }
 
     public enum ConvertFormat {
-
+        [StringValue("yyyy-MM-dd")]
+        Default,
         [StringValue("yyyy-MM-dd")]
         YYYY_MM_DD,
 

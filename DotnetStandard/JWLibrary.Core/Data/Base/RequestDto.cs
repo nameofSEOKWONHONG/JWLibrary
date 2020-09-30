@@ -3,11 +3,11 @@ using System;
 
 namespace JWLibrary.Core {
 
-    public class RequestBase<TDto> {
+    public partial class RequestBase<TDto> {
         [JsonProperty("dto")]
         public TDto Dto { get; set; }
     }
-    public class RequestDto<TDto> : RequestBase<TDto> {
+    public partial class RequestDto<TDto> : RequestBase<TDto> {
         public RequestDto() {
         }
         public string WRITER_ID { get; set; }

@@ -5,6 +5,7 @@ namespace JWLibrary.ApiCore {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     public class Startup {
 
@@ -59,6 +60,8 @@ namespace JWLibrary.ApiCore {
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
             // ********************
             // USE CORS

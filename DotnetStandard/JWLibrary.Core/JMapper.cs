@@ -29,4 +29,28 @@ namespace JWLibrary.Core {
 
         #endregion [object deep copay]
     }
+
+    public static class JCast {
+        public static IEnumerable<TDest> jCast<TDest>(this IEnumerable<TDest> srcs)
+            where TDest : class {
+            var @new = new JList<TDest>();
+            srcs.jForEach(item => {
+                var casted = item.jCast<TDest>();
+                @new.Add(casted);
+                return true;
+            });
+            return @new;
+        }
+
+        public static TDest jCast<TDest>(this TDest src)
+            where TDest : class {
+            return src as TDest;
+        }
+
+        public static TDest jCast<TSrc, TDest>(this TSrc src)
+            where TSrc : class
+            where TDest : class {
+            return src as TDest;
+        }
+    }
 }

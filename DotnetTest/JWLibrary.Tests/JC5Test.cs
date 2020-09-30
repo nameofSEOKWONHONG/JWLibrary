@@ -20,6 +20,7 @@ namespace JWLibrary.Tests {
             });
 
             list.jWhere(m => m.Id == 3000).jFirst();
+            Assert.AreEqual(1, list[0].Id);
         }
 
         [Test]

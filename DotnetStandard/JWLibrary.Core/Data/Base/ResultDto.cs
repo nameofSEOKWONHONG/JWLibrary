@@ -1,8 +1,8 @@
 ﻿namespace JWLibrary.Core {
-    public class ResultDtoBase<TDto> {
+    public partial class ResultDtoBase<TDto> {
         private TDto Dto { get; set; }
     }
-    public class ResultDto<TDto> : ResultDtoBase<TDto> {
+    public partial class ResultDto<TDto> : ResultDtoBase<TDto> {
 
     }
 }
