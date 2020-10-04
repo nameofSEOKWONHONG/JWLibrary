@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HigLabo.Mapper" Version="3.0.0.10" />
+    <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Mapster" Version="6.5.0" />
     <PackageReference Include="Moq" Version="4.14.5" />
     <PackageReference Include="nunit" Version="3.12.0" />
@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
   </ItemGroup>
 
 </Project>

@@ -67,14 +67,6 @@
     <Compile Include="DB\MSSQL\Module\MsSqlParameterHelper.cs" />
     <Compile Include="DB\MSSQL\ParameterHelperFactory.cs" />
     <Compile Include="DynamicInstanceLoader\Loader.cs" />
-    <Compile Include="FileIdentify\FileUniqueId.cs" />
-    <Compile Include="FileWatcher\FileSystemWatcherEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="FileWatcher\Watcher.cs" />
-    <Compile Include="FileWatcher\WatcherCommon.cs" />
-    <Compile Include="FileWatcher\WatcherEx.cs" />
-    <Compile Include="FileWatcher\WatcherInfo.cs" />
     <Compile Include="FTP\JWFTP.cs" />
     <Compile Include="GZip\GZipCompressFactory.cs" />
     <Compile Include="GZip\GZipFileCompress.cs" />
