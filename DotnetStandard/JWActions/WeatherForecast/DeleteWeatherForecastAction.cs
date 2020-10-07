@@ -13,10 +13,11 @@
 
         public override bool Executed() {
             using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
-                action.Request = new WeatherForecastRequestDto() {
-                    ID = this.Request.ID
-                };
-                _removeObj = action.ExecuteCore().Result;
+                _removeObj = action.SetLogger(base.Logger)
+                    .SetRequest(new WeatherForecastRequestDto() {
+                        ID = this.Request.ID
+                    })
+                    .ExecuteCoreAsync().Result;
                 return _removeObj.jIsNotNull();
             }
         }

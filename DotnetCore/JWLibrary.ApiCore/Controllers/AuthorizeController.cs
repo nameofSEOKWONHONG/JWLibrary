@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JWLibrary.ApiCore.Controllers {
-    public class AuthorizeController : JControllerBase {
+    public class AuthorizeController : JControllerBase<AuthorizeController> {
+        public AuthorizeController(Microsoft.Extensions.Logging.ILogger<AuthorizeController> logger) : base(logger) {
+        }
 
         [HttpGet]
         public string GetJWTToken(int accountId) {

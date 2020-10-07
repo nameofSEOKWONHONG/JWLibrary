@@ -2,19 +2,19 @@ namespace JWLibrary.Core {
     using Newtonsoft.Json;
     using System.Collections.Generic;
 
-    public static class JSonNetEx {
+    public static class JSerializer {
 
-        public static T Deserialize<T>(this string jsonString)
+        public static T jToDeserialize<T>(this string jsonString)
             where T : class {
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public static IEnumerable<T> DeserializeAll<T>(this string jsonString)
+        public static IEnumerable<T> jToDeserializeAll<T>(this string jsonString)
             where T : class {
             return JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
         }
 
-        public static string Serialize<T>(this T entity, Formatting? formatting = null, JsonSerializerSettings serializerSettings = null)
+        public static string jToSerialize<T>(this T entity, Formatting? formatting = null, JsonSerializerSettings serializerSettings = null)
             where T : class {
             if (formatting.jIsNotNull() && serializerSettings.jIsNotNull()) {
                 return JsonConvert.SerializeObject(entity, formatting.Value, serializerSettings);
@@ -25,6 +25,10 @@ namespace JWLibrary.Core {
             } else {
                 return JsonConvert.SerializeObject(entity);
             }
+        }
+
+        public static string jToSerialize(this object obj) {
+            return JsonConvert.SerializeObject(obj);
         }
     }
 }

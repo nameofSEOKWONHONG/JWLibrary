@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace JWLibrary.Pattern.TaskAction {
@@ -13,6 +14,8 @@ namespace JWLibrary.Pattern.TaskAction {
         public TRequest Request { get; set; }
 
         public TResult Result { get; set; }
+
+        public ILogger Logger { get; set; }
 
         public abstract bool PreExecute();
 

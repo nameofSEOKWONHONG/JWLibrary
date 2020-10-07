@@ -19,15 +19,9 @@ namespace JWLibrary.ApiCore.Controllers {
     /// **no more use biner**
     /// ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
     /// </summary>
-    public class WeatherForecastController : JControllerBase {
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="logger"></param>
-        public WeatherForecastController(ILogger<WeatherForecastController> logger) {
-            _logger = logger;
+    public class WeatherForecastController : JControllerBase<WeatherForecastController> {
+        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+            : base(logger) {
         }
 
         /// <summary>
@@ -41,29 +35,13 @@ namespace JWLibrary.ApiCore.Controllers {
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
         public async Task<WEATHER_FORECAST> Get(int idx = 1) {
             WEATHER_FORECAST result = null;
-            using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction,
+            result = await base.CreateAction<IGetWeatherForecastAction,
                         GetWeatherForecastAction,
                         WeatherForecastRequestDto,
                         WEATHER_FORECAST,
-                        GetWeatherForecastAction.Validator>()) {
-                action.Request = new WeatherForecastRequestDto() {
-                    ID = idx
-                };
-                result = await action.ExecuteCore();
-            }
-
-            #region [test code]
-            using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction,
-                DeleteWeatherForecastAction,
-                WeatherForecastRequestDto,
-                bool>()) {
-                action.Request = new WeatherForecastRequestDto() {
-                    ID = result.ID
-                };
-                var result2 = await action.ExecuteCore();
-                throw new Exception($"do not remove id : {result.ID}");
-            }
-            #endregion
+                        GetWeatherForecastAction.Validator>().SetRequest(new WeatherForecastRequestDto() {
+                            ID = idx
+                        }).ExecuteCoreAsync();
             return result;
         }
 
@@ -76,9 +54,12 @@ namespace JWLibrary.ApiCore.Controllers {
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
         public async Task<IEnumerable<WEATHER_FORECAST>> GetAll() {
             IEnumerable<WEATHER_FORECAST> result = null;
-            using (var action = ActionFactory.CreateAction<IGetAllWeatherForecastAction, GetAllWeatherForecastAction, WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>()) {
-                result = await action.ExecuteCore();
-            }
+            result = await base.CreateAction<IGetAllWeatherForecastAction,
+                                GetAllWeatherForecastAction,
+                                WeatherForecastRequestDto,
+                                IEnumerable<WEATHER_FORECAST>>()
+                                .SetRequest(new WeatherForecastRequestDto())
+                                .ExecuteCoreAsync();
             return result;
         }
 
@@ -91,9 +72,14 @@ namespace JWLibrary.ApiCore.Controllers {
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<int> Save(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]*/
             RequestDto<WEATHER_FORECAST> request) {
-            using (var action = ActionFactory.CreateAction<ISaveWeatherForecastAction, SaveWeatherForecastAction, WEATHER_FORECAST, int, SaveWeatherForecastAction.Validator>()) {
-                action.Request = request.Dto;
-                return await action.ExecuteCore();
+            using (var action = ActionFactory.CreateAction<ISaveWeatherForecastAction,
+                                SaveWeatherForecastAction,
+                                WEATHER_FORECAST,
+                                int,
+                                SaveWeatherForecastAction.Validator>()) {
+                return await action.SetLogger(base.Logger)
+                    .SetRequest(request.Dto)
+                    .ExecuteCoreAsync();
             }
         }
 
@@ -106,9 +92,13 @@ namespace JWLibrary.ApiCore.Controllers {
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<bool> Remove(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]*/
             RequestDto<WeatherForecastRequestDto> request) {
-            using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction, DeleteWeatherForecastAction, WeatherForecastRequestDto, bool>()) {
-                action.Request = request.Dto;
-                return await action.ExecuteCore();
+            using (var action = ActionFactory.CreateAction<IDeleteWeatherForecastAction,
+                                DeleteWeatherForecastAction,
+                                WeatherForecastRequestDto,
+                                bool>()) {
+                return await action.SetLogger(base.Logger)
+                    .SetRequest(request.Dto)
+                    .ExecuteCoreAsync();
             }
         }
     }

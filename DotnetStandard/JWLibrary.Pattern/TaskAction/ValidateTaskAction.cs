@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using JWLibrary.Core;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -19,16 +20,16 @@ namespace JWLibrary.Pattern.TaskAction {
 
         public ValidateTaskAction() {
             _validator = _validations.Value.jFirst(m => m.GetType().jEquals(typeof(TValidator)));
-            _validator.jIfNull(_ => {
+            _validator.jIfNull(() => {
                 _validator = new TValidator();
                 _validations.Value.Add(_validator);
             });
         }
 
-        public override Task<TResult> ExecuteCore() {
+        public override Task<TResult> ExecuteCoreAsync() {
             var validateResult = _validator.Validate(this._instance);
             if (validateResult.IsValid.jIsFalse()) throw new Exception(validateResult.Errors[0].ErrorMessage);
-            return base.ExecuteCore();
+            return base.ExecuteCoreAsync();
         }
     }
 }

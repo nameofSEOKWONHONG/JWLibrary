@@ -4,7 +4,7 @@
         <name>JWLibrary.ApiCore</name>
     </assembly>
     <members>
-        <member name="T:JWLibrary.ApiCore.Base.JControllerBase">
+        <member name="T:JWLibrary.ApiCore.Base.JControllerBase`1">
             <summary>
             base controller
             </summary>
@@ -15,12 +15,6 @@
             **no more use biner**
             ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
             </summary>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.#ctor(Microsoft.Extensions.Logging.ILogger{JWLibrary.ApiCore.Controllers.WeatherForecastController})">
-            <summary>
-            constructor
-            </summary>
-            <param name="logger"></param>
         </member>
         <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.Get(System.Int32)">
             <summary>

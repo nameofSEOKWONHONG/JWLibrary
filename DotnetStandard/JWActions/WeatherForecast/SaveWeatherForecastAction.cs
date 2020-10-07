@@ -7,16 +7,18 @@
     using JAction;
     using JAction.Data;
     using System.Data.SqlClient;
+    using Microsoft.Extensions.Logging;
 
     public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {
         private WEATHER_FORECAST _exists = null;
 
         public override bool PreExecute() {
             using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
-                action.Request = new WeatherForecastRequestDto() {
-                    ID = this.Request.ID
-                };
-                _exists = action.ExecuteCore().Result;
+                _exists = action.SetLogger(base.Logger)
+                    .SetRequest(new WeatherForecastRequestDto() {
+                        ID = this.Request.ID
+                    })
+                    .ExecuteCoreAsync().Result;
             }
             return true;
             //return DatabaseConfig.DB_CONNECTION.jQuery<bool>(db => {

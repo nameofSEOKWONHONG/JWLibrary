@@ -8,12 +8,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Web {
-    public class ErrorHandlingMiddleware {
+    public class JErrorHandlingMiddleware {
         readonly RequestDelegate _next;
         readonly ILogger _logger;
-        public ErrorHandlingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) {
+        public JErrorHandlingMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) {
             _next = next;
-            _logger = loggerFactory.CreateLogger<ErrorHandlingMiddleware>();
+            _logger = loggerFactory.CreateLogger<JErrorHandlingMiddleware>();
         }
         public async Task Invoke(HttpContext context) {
             try {

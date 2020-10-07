@@ -40,9 +40,15 @@ namespace JWLibrary.Core {
             return obj;
         }
 
-        public static void jIfNull<T>(this T obj, Action<T> action) {
+        public static void jIfNull<T>(this T obj, Action action) {
             if(obj.jIsNull()) {
-                action(obj);
+                action();
+            }
+        }
+
+        public static void jIfNotNull<T>(this T obj, Action action) {
+            if(obj.jIsNotNull()) {
+                action();
             }
         }
 

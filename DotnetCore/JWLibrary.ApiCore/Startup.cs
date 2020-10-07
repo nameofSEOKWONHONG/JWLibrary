@@ -61,7 +61,7 @@ namespace JWLibrary.ApiCore {
 
             app.UseAuthorization();
 
-            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<JErrorHandlingMiddleware>();
 
             // ********************
             // USE CORS
