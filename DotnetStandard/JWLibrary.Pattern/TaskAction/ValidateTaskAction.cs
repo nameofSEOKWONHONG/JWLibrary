@@ -14,16 +14,7 @@ namespace JWLibrary.Pattern.TaskAction {
         where TValidator : class, IValidator<TAction>, new() {
         protected TValidator _validator;
 
-        private readonly static Lazy<HashSet<TValidator>> _validations = new Lazy<HashSet<TValidator>>(() => {
-            return new HashSet<TValidator>();
-        });
-
         public ValidateTaskAction() {
-            _validator = _validations.Value.jFirst(m => m.GetType().jEquals(typeof(TValidator)));
-            _validator.jIfNull(() => {
-                _validator = new TValidator();
-                _validations.Value.Add(_validator);
-            });
         }
 
         public override Task<TResult> ExecuteCoreAsync() {
