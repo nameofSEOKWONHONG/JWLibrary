@@ -9,7 +9,9 @@ using System.Text;
 
 namespace JWLibrary.Tests {
     public class LiteDbTest {
-        string filename = @"d:\litedbtest.db";
+        //enc file
+        //string filename = @"Filename=d:\litedbtest2.db;Password=1234";
+        string filename = @"Filename=d:\litedbtest.db";
 
         [SetUp]
         public void Setup() {
@@ -18,18 +20,22 @@ namespace JWLibrary.Tests {
         [Test]
         public void InsertTest() {
             var customer = new Customer() {
-                Name = "홍지우",
+                Name = "ghdwldn",
                 Phones = new string[] { "8000-0000", "9000-0000" },
                 IsActive = true
             };
 
-            var db = JDataBase.Resolve<ILiteDatabase>(filename);
-            var result = db.jBeginTrans()
-            .jGetCollection<Customer>("customers")
-            .jInsert<Customer>(customer);
-            db.jCommit();
+            using (var db = JDataBase.Resolve<ILiteDatabase>(filename)) {
+                var col = db.jGetCollection<Customer>("customers");
 
-            Assert.Greater(result, 0);
+                var result = db.jBeginTrans()
+                               .jGetCollection<Customer>("customers")
+                               .jInsert<Customer>(customer);
+                db.jCommit();
+
+                var resultCustomer = col.jGet<Customer>(result);
+                Assert.NotNull(resultCustomer);
+            }
         }
 
         [Test]

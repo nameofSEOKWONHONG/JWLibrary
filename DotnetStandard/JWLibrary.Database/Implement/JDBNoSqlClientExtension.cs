@@ -7,7 +7,7 @@ using System.Text;
 
 namespace JWLibrary.Database {
     public static class JDBNoSqlClientExtension {
-        #region [litedb]
+        #region [litedb - chaining methods]
         public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase, string entityName)
             where T : class {
             return liteDatabase.GetCollection<T>();
@@ -17,6 +17,10 @@ namespace JWLibrary.Database {
                 throw new Exception("litedb transaction failed on begintrans");
             }
             return liteDatabase;
+        }
+
+        public static T jGet<T>(this ILiteCollection<T> liteCollection, int id) {
+            return liteCollection.FindById(id);
         }
 
         public static T jGet<T>(this ILiteCollection<T> liteCollection, Func<T, bool> predicate) {
@@ -35,6 +39,10 @@ namespace JWLibrary.Database {
             return liteCollection.Insert(entity);
         }
 
+        public static int jInsertBulk<T>(this ILiteCollection<T> liteCollection, IEnumerable<T> entities, int bulksize = 5000) {
+            return liteCollection.InsertBulk(entities, bulksize);
+        }
+
         public static bool jDelete<T>(this ILiteCollection<T> liteCollection, BsonValue id) {
             return liteCollection.Delete(id);
         }
@@ -43,13 +51,18 @@ namespace JWLibrary.Database {
             return liteCollection.DeleteAll() > 0;
         }
 
-        public static bool jDeleteMany<T>(this ILiteCollection<T> liteCollection, Expression<Func<T, bool>> predicate) {
-            return liteCollection.DeleteMany(predicate) > 0;
+        public static bool jDeleteMany<T>(this ILiteCollection<T> liteCollection, Expression<Func<T, bool>> expression) {
+            return liteCollection.DeleteMany(expression) > 0;
+        }
+
+        public static bool jEnsureIndex<T>(this ILiteCollection<T> liteCollection, Expression<Func<T, T>> expression) {
+            return liteCollection.EnsureIndex<T>(expression);
         }
 
         public static bool jUpsert<T>(this ILiteCollection<T> liteCollection, T entity) {
             return liteCollection.Upsert(entity);
         }
+
         public static bool jCommit(this ILiteDatabase liteDatabase) {
             var result = liteDatabase.Commit();
             if (result.jIsFalse()) {
@@ -57,6 +70,7 @@ namespace JWLibrary.Database {
             }
             return result;
         }
+
         public static bool jRollback(this ILiteDatabase liteDatabase) {
             var result = liteDatabase.Rollback();
             if (result.jIsFalse()) {
