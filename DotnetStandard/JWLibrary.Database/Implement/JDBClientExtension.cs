@@ -1,10 +1,12 @@
 using Dapper;
 using JWLibrary.Core;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Database {
@@ -21,8 +23,6 @@ namespace JWLibrary.Database {
             { SQL_COMPILER_TYPE.POSTGRESQL, new SqlKata.Compilers.PostgresCompiler() },
             { SQL_COMPILER_TYPE.SQLLITE, new SqlKata.Compilers.SqliteCompiler() },
         };
-
-        #region [sync]
 
         #region [self impletment func method]
 
@@ -375,7 +375,6 @@ namespace JWLibrary.Database {
             }
         }
 
-        #endregion [sync]
     }
 
     public enum SQL_COMPILER_TYPE {

@@ -1,4 +1,5 @@
 using JWLibrary.Core;
+using LiteDB;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.MySqlClient;
@@ -14,9 +15,13 @@ namespace JWLibrary.Database {
     internal class JDatabaseInfo {
         private IConfiguration configuration;
 
-        public Dictionary<string, IDbConnection> ConKeyValues = new Dictionary<string, IDbConnection>() {
+        public Dictionary<string, IDbConnection> ConKeyValues { get; private set; } = new Dictionary<string, IDbConnection>() {
             {"MSSQL", null },
-            {"MYSQL", null }
+            {"MYSQL", null },
+        };
+
+        public Dictionary<string, ILiteDatabase> NoSqlConKeyValues { get; private set; } = new Dictionary<string, ILiteDatabase>() {
+            {"LITEDB", null }
         };
 
         public JDatabaseInfo() {
@@ -37,6 +42,8 @@ namespace JWLibrary.Database {
                     ConKeyValues[item.Key] = new SqlConnection(section.GetValue<string>(item.Key));
                 } else if (item.Key.jEquals("MYSQL")) {
                     ConKeyValues[item.Key] = new MySqlConnection(section.GetValue<string>(item.Key));
+                } else if (item.Key.jEquals("LITEDB")) {
+                    NoSqlConKeyValues[item.Key] = new LiteDatabase(section.GetValue<string>(item.Key));
                 }
             });
         }

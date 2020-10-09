@@ -1,4 +1,6 @@
-﻿using MySql.Data.MySqlClient;
+﻿using JWLibrary.Core;
+using LiteDB;
+using MySql.Data.MySqlClient;
 using System;
 using System.Data;
 using System.Data.Common;
@@ -13,7 +15,7 @@ namespace JWLibrary.Database {
         });
 
         public static IDbConnection Resolve<TDatabase>()
-            where TDatabase : DbConnection {
+            where TDatabase : IDbConnection {
             if (typeof(TDatabase) == typeof(SqlConnection)) {
                 return JDataBaseInfo.Value.ConKeyValues["MSSQL"];
             } else if (typeof(TDatabase) == typeof(MySqlConnection)) {
@@ -21,6 +23,28 @@ namespace JWLibrary.Database {
             } else {
                 throw new NotImplementedException();
             }
+        }
+
+        /// <summary>
+        /// create litedb instance.
+        /// litetime is single instance. 
+        /// so, create once.
+        /// also, create instance per use;
+        /// **example**
+        /// JDatabase.Resolve<ILiteDatabase>().jGetCollection<Customer>("customers")...codes...
+        /// var db = JDatabase.Resolve<ILiteDatabse>();
+        /// .... your code ....
+        /// db.Dispose();
+        /// </summary>
+        /// <typeparam name="TDatabase"></typeparam>
+        /// <param name="fileConnection"></param>
+        /// <returns></returns>
+        public static ILiteDatabase Resolve<TDatabase>(string fileConnection = null)
+            where TDatabase : ILiteDatabase {
+            if(fileConnection.jIsNotNull()) {
+                return new LiteDatabase(fileConnection);
+            }
+            return JDataBaseInfo.Value.NoSqlConKeyValues["LITEDB"];
         }
     }
 }
