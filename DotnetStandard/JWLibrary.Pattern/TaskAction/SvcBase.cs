@@ -4,10 +4,10 @@ using System;
 
 namespace JWLibrary.Pattern.TaskAction {
 
-    public abstract class ActionBase<TRequest, TResult> : IActionBase<TRequest, TResult>, IDisposable
+    public abstract class SvcBase<TRequest, TResult> : ISvcBase<TRequest, TResult>, IDisposable
         where TRequest : class {
 
-        public ActionBase() {
+        public SvcBase() {
 
         }
 

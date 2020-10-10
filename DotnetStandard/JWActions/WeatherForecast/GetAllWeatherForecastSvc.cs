@@ -1,15 +1,14 @@
-﻿namespace JWActions.WeatherForecast {
+﻿namespace JWService.WeatherForecast {
     using FluentValidation;
-    using JAction;
-    using JAction.Data;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
+    using JWService.Data;
     using SqlKata;
     using System.Collections.Generic;
     using System.Data.SqlClient;
 
-    public class GetAllWeatherForecastAction : ActionBase<WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>, IGetAllWeatherForecastAction {
+    public class GetAllWeatherForecastSvc : SvcBase<WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>>, IGetAllWeatherForecastSvc {
         public override bool PreExecute() {
             return true;
         }

@@ -19,22 +19,22 @@ namespace JWLibrary.ApiCore.Base {
             this.Logger = logger;
         }
 
-        protected TaskAction<TIAction, TAction, TRequest, TResult> CreateAction<TIAction, TAction, TRequest, TResult>()
-            where TIAction : IActionBase<TRequest, TResult>
-            where TAction : ActionBase<TRequest, TResult>, new()
+        protected TaskService<TIAction, TAction, TRequest, TResult> CreateAction<TIAction, TAction, TRequest, TResult>()
+            where TIAction : ISvcBase<TRequest, TResult>
+            where TAction : SvcBase<TRequest, TResult>, new()
             where TRequest : class {
-            return ActionFactory.CreateAction<TIAction,
+            return ServiceFactory.CreateService<TIAction,
                         TAction,
                         TRequest,
                         TResult>().SetLogger(this.Logger);
         }
 
-        protected TaskAction<TIAction, TAction, TRequest, TResult> CreateAction<TIAction, TAction, TRequest, TResult, TValidator>()
-            where TIAction : IActionBase<TRequest, TResult>
-            where TAction : ActionBase<TRequest, TResult>, new()
+        protected TaskService<TIAction, TAction, TRequest, TResult> CreateAction<TIAction, TAction, TRequest, TResult, TValidator>()
+            where TIAction : ISvcBase<TRequest, TResult>
+            where TAction : SvcBase<TRequest, TResult>, new()
             where TRequest : class
             where TValidator : class, IValidator<TAction>, new() {
-            return ActionFactory.CreateAction<TIAction,
+            return ServiceFactory.CreateService<TIAction,
                         TAction,
                         TRequest,
                         TResult,

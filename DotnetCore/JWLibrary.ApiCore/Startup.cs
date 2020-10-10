@@ -1,5 +1,9 @@
 namespace JWLibrary.ApiCore {
+    using JWLibrary.ApiCore.Config;
+    using JWLibrary.Core.Data;
     using JWLibrary.Web;
+    using JWService.Accounts;
+    using JWService.Data;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -23,6 +27,8 @@ namespace JWLibrary.ApiCore {
                     options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
                 })
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
+
+            services.AddScoped<IGetAccountSvc, GetAccountSvc>();
 
             // ********************
             // USE CORS
@@ -58,7 +64,7 @@ namespace JWLibrary.ApiCore {
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
 
             app.UseMiddleware<JErrorHandlingMiddleware>();

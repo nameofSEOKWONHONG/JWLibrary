@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.TaskAction {
-    public class ValidateTaskAction<TIAction, TAction, TRequest, TResult, TValidator> : TaskAction<TIAction, TAction, TRequest, TResult>
-        where TIAction : IActionBase<TRequest, TResult>
-        where TAction : ActionBase<TRequest, TResult>, new()
+    public class ValidateTaskService<TIAction, TAction, TRequest, TResult, TValidator> : TaskService<TIAction, TAction, TRequest, TResult>
+        where TIAction : ISvcBase<TRequest, TResult>
+        where TAction : SvcBase<TRequest, TResult>, new()
         where TRequest : class
         where TValidator : class, IValidator<TAction>, new() {
         protected TValidator _validator;
 
-        public ValidateTaskAction() {
+        public ValidateTaskService() {
         }
 
         public override Task<TResult> ExecuteCoreAsync() {

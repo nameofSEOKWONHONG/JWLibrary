@@ -9,25 +9,25 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.TaskAction {
 
-    public class TaskAction<TIAction, TAction, TRequest, TResult> : IDisposable
-         where TIAction : IActionBase<TRequest, TResult>
-         where TAction : ActionBase<TRequest, TResult>, new()
+    public class TaskService<TIAction, TAction, TRequest, TResult> : IDisposable
+         where TIAction : ISvcBase<TRequest, TResult>
+         where TAction : SvcBase<TRequest, TResult>, new()
          where TRequest : class {
-        protected IActionBase<TRequest, TResult> _action;
+        protected ISvcBase<TRequest, TResult> _action;
         protected TAction _instance;
-        public IActionBase<TRequest, TResult> Action { get { return _action; } }
+        public ISvcBase<TRequest, TResult> Action { get { return _action; } }
 
-        public TaskAction() {
+        public TaskService() {
             _instance = new TAction();
             _action = _instance;
         }
 
-        public TaskAction<TIAction, TAction, TRequest, TResult> SetLogger(ILogger logger) {
+        public TaskService<TIAction, TAction, TRequest, TResult> SetLogger(ILogger logger) {
             this._instance.Logger = logger;
             return this;
         }
 
-        public TaskAction<TIAction, TAction, TRequest, TResult> SetRequest(TRequest request) {
+        public TaskService<TIAction, TAction, TRequest, TResult> SetRequest(TRequest request) {
             this._instance.Request = request;
             return this;
         }

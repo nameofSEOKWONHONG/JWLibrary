@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using JWLibrary.ApiCore.Base;
+using JWLibrary.ApiCore.Config;
+using JWLibrary.Core.Data;
 using JWLibrary.Web;
+using JWService.Accounts;
+using JWService.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,10 +16,16 @@ namespace JWLibrary.ApiCore.Controllers {
         public AuthorizeController(Microsoft.Extensions.Logging.ILogger<AuthorizeController> logger) : base(logger) {
         }
 
-        [HttpGet]
-        public string GetJWTToken(int accountId) {
+        [HttpPost]
+        public async Task<string> GetJWTToken([FromBody]Account account) {
             JWTTokenService jwtTokenService = new JWTTokenService();
-            return jwtTokenService.GenerateJwtToken(accountId);
+            var resultAccount = await base.CreateAction<IGetAccountSvc,
+                                GetAccountSvc,
+                                Account,
+                                IAccount>()
+                                .SetRequest(account)
+                                .ExecuteCoreAsync();
+            return jwtTokenService.GenerateJwtToken(resultAccount.HashId);
         }
     }
 }

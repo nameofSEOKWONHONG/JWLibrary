@@ -1,19 +1,18 @@
-﻿namespace JWActions.WeatherForecast {
+﻿namespace JWService.WeatherForecast {
     using FluentValidation;
     using Dapper;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
-    using JAction;
-    using JAction.Data;
     using System.Data.SqlClient;
     using Microsoft.Extensions.Logging;
+    using JWService.Data;
 
-    public class SaveWeatherForecastAction : ActionBase<WEATHER_FORECAST, int>, ISaveWeatherForecastAction {
+    public class SaveWeatherForecastSvc : SvcBase<WEATHER_FORECAST, int>, ISaveWeatherForecastSvc {
         private WEATHER_FORECAST _exists = null;
 
         public override bool PreExecute() {
-            using (var action = ActionFactory.CreateAction<IGetWeatherForecastAction, GetWeatherForecastAction, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
+            using (var action = ServiceFactory.CreateService<IGetWeatherForecastSvc, GetWeatherForecastSvc, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
                 _exists = action.SetLogger(base.Logger)
                     .SetRequest(new WeatherForecastRequestDto() {
                         ID = this.Request.ID
@@ -43,7 +42,7 @@
             return true;
         }
 
-        public class Validator : AbstractValidator<SaveWeatherForecastAction> {
+        public class Validator : AbstractValidator<SaveWeatherForecastSvc> {
             public Validator() {
                 RuleFor(o => o.Request).NotNull();
                 RuleFor(o => o.Request.ID).GreaterThan(0);

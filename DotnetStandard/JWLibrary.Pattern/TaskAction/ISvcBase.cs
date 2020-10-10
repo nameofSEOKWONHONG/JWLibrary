@@ -2,7 +2,7 @@
 
 namespace JWLibrary.Pattern.TaskAction {
 
-    public interface IActionBase<TRequest, TResult> {
+    public interface ISvcBase<TRequest, TResult> {
         TRequest Request { set; }
         TResult Result { get; set; }
 

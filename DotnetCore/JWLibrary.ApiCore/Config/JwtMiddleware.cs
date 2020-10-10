@@ -1,18 +1,19 @@
 ﻿using JWLibrary.Core.Data;
+using JWLibrary.Pattern.TaskAction;
+using JWService.Accounts;
+using JWService.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Web {
+namespace JWLibrary.ApiCore.Config {
     /// <summary>
     /// mvc : https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
     /// api : https://jasonwatmore.com/post/2020/07/21/aspnet-core-3-create-and-validate-jwt-tokens-use-custom-jwt-middleware
@@ -23,17 +24,12 @@ namespace JWLibrary.Web {
             return new JWTSettings();
         });
 
-        public static List<Account> Accounts { get; set; } = new List<Account>() {
-            new Account() { Id = 1, UserId = "heyjude"}
-        };
-
         public JwtMiddleware(RequestDelegate next) {
-            _next = next;
+            this._next = next;
         }
 
         public async Task Invoke(HttpContext context) {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
             if (token != null)
                 await attachAccountToContext(context, token);
 
@@ -54,10 +50,16 @@ namespace JWLibrary.Web {
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+                var accountId = jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach account to context on successful jwt validation
-                context.Items["Account"] = Accounts.Where(m => m.Id == accountId).First();
+                var resultAccount = await ServiceFactory.CreateService<IGetAccountSvc,
+                    GetAccountSvc,
+                    Account,
+                    IAccount>()
+                    .SetRequest(new Account() { HashId = accountId })
+                    .ExecuteCoreAsync();
+                context.Items["Account"] = resultAccount;
                 await Task.Delay(1000);
             } catch {
                 // do nothing if jwt validation fails
@@ -67,7 +69,7 @@ namespace JWLibrary.Web {
     }
 
     public class JWTTokenService {
-        public string GenerateJwtToken(int accountId) {
+        public string GenerateJwtToken(string accountId) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(JwtMiddleware.JWTSettings.Value.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {

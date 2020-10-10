@@ -1,15 +1,14 @@
-﻿namespace JWActions.WeatherForecast {
+﻿namespace JWService.WeatherForecast {
     using FluentValidation;
-    using JAction;
-    using JAction.Data;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.TaskAction;
+    using JWService.Data;
     using SqlKata;
     using System.Data.SqlClient;
 
-    public class GetWeatherForecastAction : ActionBase<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastAction {
-        public GetWeatherForecastAction() {
+    public class GetWeatherForecastSvc : SvcBase<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastSvc {
+        public GetWeatherForecastSvc() {
 
         }
 
@@ -38,7 +37,7 @@
             return true;
         }
 
-        public class Validator : AbstractValidator<GetWeatherForecastAction> {
+        public class Validator : AbstractValidator<GetWeatherForecastSvc> {
             public Validator() {
                 RuleFor(o => o.Request).NotNull();
                 RuleFor(o => o.Request.ID).GreaterThan(0);

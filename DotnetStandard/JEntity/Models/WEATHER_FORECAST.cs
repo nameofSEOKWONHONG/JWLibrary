@@ -1,4 +1,4 @@
-namespace JAction.Data {
+namespace JWService.Data {
 
     using System;
     using System.ComponentModel.DataAnnotations.Schema;

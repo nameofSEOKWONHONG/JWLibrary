@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>H:\workspace\JWLibrary\DotnetCore\JWLibrary.ApiCore\JWLibrary.ApiCore.xml</DocumentationFile>
+    <DocumentationFile>D:\JWLibrary\DotnetCore\JWLibrary.ApiCore\JWLibrary.ApiCore.xml</DocumentationFile>
     <NoWarn>1701;1702;1591;1570;RSC1102;</NoWarn>
   </PropertyGroup>
 
@@ -14,6 +14,10 @@
     <Content Remove="Models\**" />
     <EmbeddedResource Remove="Models\**" />
     <None Remove="Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="JWTSettings.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,8 +31,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\DotnetStandard\JEntity\JWAction.Data.csproj" />
-    <ProjectReference Include="..\..\DotnetStandard\JWActions\JWActions.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JEntity\JWService.Data.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWActions\JWService.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Database\JWLibrary.Database.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Pattern\JWLibrary.Pattern.csproj" />
@@ -37,8 +41,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Config\" />
     <Folder Include="Util\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="JWTSettings.json" />
   </ItemGroup>
 
 
