@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DotnetStandard\JEntity\JWService.Data.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWActions\JWService.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Database\JWLibrary.Database.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />

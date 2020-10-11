@@ -1,4 +1,5 @@
-﻿using JWLibrary.Core.Data;
+﻿using JWLibrary.Core;
+using JWLibrary.Core.Data;
 using JWLibrary.Pattern.TaskAction;
 using JWService.Accounts;
 using JWService.Data;
@@ -31,12 +32,12 @@ namespace JWLibrary.ApiCore.Config {
         public async Task Invoke(HttpContext context) {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (token != null)
-                await attachAccountToContext(context, token);
+                await AttachAccountToContext(context, token);
 
             await _next(context);
         }
 
-        private async Task attachAccountToContext(HttpContext context, string token) {
+        private async Task AttachAccountToContext(HttpContext context, string token) {
             try {
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(JWTSettings.Value.Secret);
@@ -50,14 +51,14 @@ namespace JWLibrary.ApiCore.Config {
                 }, out SecurityToken validatedToken);
 
                 var jwtToken = (JwtSecurityToken)validatedToken;
-                var accountId = jwtToken.Claims.First(x => x.Type == "id").Value);
+                var accountId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach account to context on successful jwt validation
-                var resultAccount = await ServiceFactory.CreateService<IGetAccountSvc,
-                    GetAccountSvc,
-                    Account,
-                    IAccount>()
-                    .SetRequest(new Account() { HashId = accountId })
+                var resultAccount = await ServiceFactory.CreateService<IGetAccountByIdSvc,
+                    GetAccountByIdSvc,
+                    RequestDto<int>,
+                    Account>()
+                    .SetRequest(new RequestDto<int>() { Dto = accountId })
                     .ExecuteCoreAsync();
                 context.Items["Account"] = resultAccount;
                 await Task.Delay(1000);
@@ -69,7 +70,7 @@ namespace JWLibrary.ApiCore.Config {
     }
 
     public class JWTTokenService {
-        public string GenerateJwtToken(string accountId) {
+        public string GenerateJwtToken(int accountId) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(JwtMiddleware.JWTSettings.Value.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor {

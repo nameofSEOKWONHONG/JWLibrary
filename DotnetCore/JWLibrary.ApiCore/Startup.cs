@@ -79,7 +79,9 @@ namespace JWLibrary.ApiCore {
 
             app.UseMiddleware<JwtMiddleware>();
 
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>{
+                //endpoints.MapControllerRoute(
+                //name: "default", pattern: "{controller=WeatherForecast}/{action=GetWeathers}/{id?}");
                 endpoints.MapControllers();
             });
 

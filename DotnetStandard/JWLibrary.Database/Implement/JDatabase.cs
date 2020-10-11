@@ -41,10 +41,22 @@ namespace JWLibrary.Database {
         /// <returns></returns>
         public static ILiteDatabase Resolve<TDatabase>(string fileConnection = null)
             where TDatabase : ILiteDatabase {
-            if(fileConnection.jIsNotNull()) {
+            if (fileConnection.jIsNotNull()) {
                 return new LiteDatabase(fileConnection);
             }
             return JDataBaseInfo.Value.NoSqlConKeyValues["LITEDB"];
         }
+
+        public static ILiteDatabase Resolve<TDatabase, TEntity>()
+            where TDatabase : ILiteDatabase
+            where TEntity : class {
+            var fileConnection = typeof(TEntity).jGetAttributeValue((DBFileNameAttribute dn) => dn.FileName).jToAppPath();
+            if (fileConnection.jIsNotNull()) {
+                return new LiteDatabase(fileConnection);
+            }
+            return JDataBaseInfo.Value.NoSqlConKeyValues["LITEDB"];
+        }
+
+
     }
 }

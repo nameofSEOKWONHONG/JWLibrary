@@ -1,4 +1,5 @@
 ﻿using JWLibrary.ApiCore.Base;
+using JWLibrary.ApiCore.Config;
 using JWLibrary.Core;
 using JWLibrary.Pattern.TaskAction;
 using JWLibrary.Web;
@@ -27,10 +28,11 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <param name="idx"></param>
         /// <returns></returns>
         [Authorize]
+        [Route("/GetWeather")]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "idx" })]
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
-        public async Task<WEATHER_FORECAST> Get(int idx = 1) {
+        public async Task<WEATHER_FORECAST> GetWeather(int idx = 1) {
             WEATHER_FORECAST result = null;
             result = await base.CreateAction<IGetWeatherForecastSvc,
                         GetWeatherForecastSvc,
@@ -46,10 +48,11 @@ namespace JWLibrary.ApiCore.Controllers {
         /// get all
         /// </summary>
         /// <returns></returns>
+        [Route("/GetWeathers")]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
-        public async Task<IEnumerable<WEATHER_FORECAST>> GetAll() {
+        public async Task<IEnumerable<WEATHER_FORECAST>> GetWeathers() {
             IEnumerable<WEATHER_FORECAST> result = null;
             result = await base.CreateAction<IGetAllWeatherForecastSvc,
                                 GetAllWeatherForecastSvc,
@@ -65,9 +68,10 @@ namespace JWLibrary.ApiCore.Controllers {
         /// </summary>
         /// <param name="request">요청:RequestDto<TestRequestDto></param>
         /// <returns></returns>
+        [Route("/SaveWeather")]
         [HttpPost]
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
-        public async Task<int> Save(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]*/
+        public async Task<int> SaveWeather(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]*/
             RequestDto<WEATHER_FORECAST> request) {
             using (var action = ServiceFactory.CreateService<ISaveWeatherForecastSvc,
                                 SaveWeatherForecastSvc,
@@ -85,9 +89,10 @@ namespace JWLibrary.ApiCore.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [Route("/RemoveWeather")]
         [HttpPost]
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
-        public async Task<bool> Remove(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]*/
+        public async Task<bool> RemoveWeather(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]*/
             RequestDto<WeatherForecastRequestDto> request) {
             using (var action = ServiceFactory.CreateService<IDeleteWeatherForecastSvc,
                                 DeleteWeatherForecastSvc,

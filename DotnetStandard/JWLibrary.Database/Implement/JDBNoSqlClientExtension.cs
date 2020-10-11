@@ -2,15 +2,20 @@
 using LiteDB;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 using System.Text;
 
 namespace JWLibrary.Database {
     public static class JDBNoSqlClientExtension {
         #region [litedb - chaining methods]
-        public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase, string entityName)
+        public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase, string tableName)
             where T : class {
-            return liteDatabase.GetCollection<T>();
+            return liteDatabase.GetCollection<T>(tableName);
+        }
+        public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase)
+            where T : class {
+            return liteDatabase.GetCollection<T>(typeof(T).jGetAttributeValue((TableAttribute ta) => ta.Name));
         }
         public static ILiteDatabase jBeginTrans(this ILiteDatabase liteDatabase) {
             if (liteDatabase.BeginTrans().jIsFalse()) {
@@ -23,8 +28,8 @@ namespace JWLibrary.Database {
             return liteCollection.FindById(id);
         }
 
-        public static T jGet<T>(this ILiteCollection<T> liteCollection, Func<T, bool> predicate) {
-            return liteCollection.FindOne(x => predicate(x));
+        public static T jGet<T>(this ILiteCollection<T> liteCollection, Expression<Func<T, bool>> expression) {
+            return liteCollection.FindOne(expression);
         }
 
         public static IEnumerable<T> jGetAll<T>(this ILiteCollection<T> liteCollection) {

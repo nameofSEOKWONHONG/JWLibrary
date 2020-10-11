@@ -267,3 +267,4 @@ paket-files/
 /DotNetFramework/Windows/output/JWLibrary.Hook.dll
 /DotNetFramework/Windows/output/JWLibrary.Firewall.dll
 /DotNetFramework/Windows/output/JWLibrary.FFmpeg.dll
+*.db

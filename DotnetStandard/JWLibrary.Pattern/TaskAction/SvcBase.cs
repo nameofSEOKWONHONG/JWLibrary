@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using System;
 
 namespace JWLibrary.Pattern.TaskAction {
-
     public abstract class SvcBase<TRequest, TResult> : ISvcBase<TRequest, TResult>, IDisposable
         where TRequest : class {
 

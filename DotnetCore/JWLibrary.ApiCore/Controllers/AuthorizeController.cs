@@ -16,8 +16,9 @@ namespace JWLibrary.ApiCore.Controllers {
         public AuthorizeController(Microsoft.Extensions.Logging.ILogger<AuthorizeController> logger) : base(logger) {
         }
 
+        [Route("/GetToken")]
         [HttpPost]
-        public async Task<string> GetJWTToken([FromBody]Account account) {
+        public async Task<string> GetToken([FromBody] Account account) {
             JWTTokenService jwtTokenService = new JWTTokenService();
             var resultAccount = await base.CreateAction<IGetAccountSvc,
                                 GetAccountSvc,
@@ -25,7 +26,7 @@ namespace JWLibrary.ApiCore.Controllers {
                                 IAccount>()
                                 .SetRequest(account)
                                 .ExecuteCoreAsync();
-            return jwtTokenService.GenerateJwtToken(resultAccount.HashId);
+            return jwtTokenService.GenerateJwtToken(resultAccount.Id);
         }
     }
 }
