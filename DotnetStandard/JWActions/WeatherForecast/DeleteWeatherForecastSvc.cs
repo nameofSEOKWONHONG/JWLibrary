@@ -7,6 +7,7 @@
     using JWLibrary.Pattern.TaskAction;
     using System.Data.SqlClient;
     using JWService.Data;
+    using System.Threading.Tasks;
 
     public class DeleteWeatherForecastSvc : SvcBase<WeatherForecastRequestDto, bool>, IDeleteWeatherForecastSvc {
         private WEATHER_FORECAST _removeObj = null;
@@ -22,10 +23,12 @@
             }
         }
 
-        public override bool PostExecute() {
-            return JDataBase.Resolve<SqlConnection>().jQuery<bool>(db => {
+        public override async Task<bool> PostExecute() {
+            var result = JDataBase.Resolve<SqlConnection>().jQuery<bool>(db => {
                 return db.Delete<WEATHER_FORECAST>(_removeObj) > 0;
             });
+
+            return await Task.FromResult(result);
         }
 
         public override bool PreExecute() {

@@ -15,7 +15,6 @@ namespace JWLibrary.Pattern.TaskAction {
          where TRequest : class {
         protected ISvcBase<TRequest, TResult> _action;
         protected TAction _instance;
-        public ISvcBase<TRequest, TResult> Action { get { return _action; } }
 
         public TaskService() {
             _instance = new TAction();
@@ -38,13 +37,13 @@ namespace JWLibrary.Pattern.TaskAction {
                 this._instance.Logger?.LogInformation("init default result");
 
                 this._instance.Logger?.LogInformation("run pre execute");
-                if (_action.PreExecute()) {
+                if (_action.PreExecute().GetAwaiter().GetResult()) {
                     this._instance.Logger?.LogInformation("run action executed");
                     result = _action.Executed();
                     _action.Result = result;
 
                     this._instance.Logger?.LogInformation($"return result : {_action.Result.jToSerialize()}");
-                    _action.PostExecute();
+                    var task = _action.PostExecute().GetAwaiter().GetResult();
                 }
                 else {
                     this._instance.Logger?.LogInformation("not passed pre execute");

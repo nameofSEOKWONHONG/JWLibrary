@@ -16,7 +16,6 @@ namespace JWLibrary.ApiCore.Controllers {
         public AuthorizeController(Microsoft.Extensions.Logging.ILogger<AuthorizeController> logger) : base(logger) {
         }
 
-        [Route("/GetToken")]
         [HttpPost]
         public async Task<string> GetToken([FromBody] Account account) {
             JWTTokenService jwtTokenService = new JWTTokenService();

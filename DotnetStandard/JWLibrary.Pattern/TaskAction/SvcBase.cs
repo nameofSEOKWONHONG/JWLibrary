@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.TaskAction {
     public abstract class SvcBase<TRequest, TResult> : ISvcBase<TRequest, TResult>, IDisposable
@@ -16,11 +17,11 @@ namespace JWLibrary.Pattern.TaskAction {
 
         public ILogger Logger { get; set; }
 
-        public abstract bool PreExecute();
+        public abstract Task<bool> PreExecute();
 
         public abstract TResult Executed();
 
-        public abstract bool PostExecute();
+        public abstract Task<bool> PostExecute();
 
         public void Dispose() {
         }

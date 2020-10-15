@@ -7,15 +7,14 @@ using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JWService.Accounts {
     public class DeleteAccountSvc : AccountSvcBase<RequestDto<int>, bool>, IDeleteAccountSvc {
-        public override bool PreExecute() {
-            using (var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, IAccount>()) {
-                action.Action.Request = new Account() {
-                    Id = this.Request.Dto
-                };
-                var exists = action.Action.Executed();
+        public override async Task<bool> PreExecute() {
+            using (var action = ServiceFactory.CreateService<IGetAccountByIdSvc, GetAccountByIdSvc, RequestDto<int>, Account>()) {
+                action.SetRequest(this.Request);
+                var exists = await action.ExecuteCoreAsync();
                 return exists.jIsNotNull(); 
             }
         }

@@ -7,18 +7,20 @@ using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JWService.Accounts {
     public class SaveAccountSvc : AccountSvcBase<Account, int>, ISaveAccountSvc {
         Account _exists = null;
-        public override bool PreExecute() {
+        public override async Task<bool> PreExecute() {
             using(var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, IAccount>()) {
-                action.Action.Request = this.Request;
-                _exists = action.Action.Executed().jCast<IAccount, Account>();
+                action.SetRequest(this.Request);
+                _exists = (Account)await action.ExecuteCoreAsync();
             }
 
             return true;
         }
+
         public override int Executed() {
             int accountId = 0;
             if (_exists.jIsNotNull()) {

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace JWService.Accounts {
     public abstract class AccountSvcBase<TRequest, TResult> : SvcBase<TRequest, TResult> 
@@ -16,12 +17,12 @@ namespace JWService.Accounts {
             return default(TResult);
         }
 
-        public override bool PostExecute() {
-            return true;
+        public override async Task<bool> PostExecute() {
+            return await Task.FromResult(true);
         }
 
-        public override bool PreExecute() {
-            return true;
+        public override async Task<bool> PreExecute() {
+            return await Task.FromResult(true);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Threading.Tasks;
+using FluentValidation;
 
 namespace JWLibrary.Pattern.TaskAction {
 
@@ -6,10 +7,10 @@ namespace JWLibrary.Pattern.TaskAction {
         TRequest Request { set; }
         TResult Result { get; set; }
 
-        bool PreExecute();
+        Task<bool> PreExecute();
 
         TResult Executed();
 
-        bool PostExecute();
+        Task<bool> PostExecute();
     }
 }

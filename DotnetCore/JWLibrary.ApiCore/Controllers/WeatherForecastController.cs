@@ -28,7 +28,6 @@ namespace JWLibrary.ApiCore.Controllers {
         /// <param name="idx"></param>
         /// <returns></returns>
         [Authorize]
-        [Route("/GetWeather")]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new[] { "idx" })]
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
@@ -48,7 +47,6 @@ namespace JWLibrary.ApiCore.Controllers {
         /// get all
         /// </summary>
         /// <returns></returns>
-        [Route("/GetWeathers")]
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         [Transaction(System.Transactions.TransactionScopeOption.Suppress)]
@@ -68,7 +66,6 @@ namespace JWLibrary.ApiCore.Controllers {
         /// </summary>
         /// <param name="request">요청:RequestDto<TestRequestDto></param>
         /// <returns></returns>
-        [Route("/SaveWeather")]
         [HttpPost]
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<int> SaveWeather(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WEATHER_FORECAST>>))]*/
@@ -89,7 +86,6 @@ namespace JWLibrary.ApiCore.Controllers {
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [Route("/RemoveWeather")]
         [HttpPost]
         [Transaction(System.Transactions.TransactionScopeOption.Required)]
         public async Task<bool> RemoveWeather(/*[FromBody][ModelBinder(typeof(JPostModelBinder<RequestDto<WeatherForecastRequestDto>>))]*/

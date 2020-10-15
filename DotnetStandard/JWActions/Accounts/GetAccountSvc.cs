@@ -24,13 +24,5 @@ namespace JWService.Accounts {
             this.Request = account;
             return this.Executed();
         }
-
-        public override bool PostExecute() {
-            return true;
-        }
-
-        public override bool PreExecute() {
-            return true;
-        }
     }
 }
