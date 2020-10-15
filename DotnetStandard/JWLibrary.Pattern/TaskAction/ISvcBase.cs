@@ -7,10 +7,10 @@ namespace JWLibrary.Pattern.TaskAction {
         TRequest Request { set; }
         TResult Result { get; set; }
 
-        Task<bool> PreExecute();
+        bool PreExecute();
 
         TResult Executed();
 
-        Task<bool> PostExecute();
+        bool PostExecute();
     }
 }

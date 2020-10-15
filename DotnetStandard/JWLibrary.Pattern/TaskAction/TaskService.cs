@@ -37,13 +37,13 @@ namespace JWLibrary.Pattern.TaskAction {
                 this._instance.Logger?.LogInformation("init default result");
 
                 this._instance.Logger?.LogInformation("run pre execute");
-                if (_action.PreExecute().GetAwaiter().GetResult()) {
+                if (_action.PreExecute()) {
                     this._instance.Logger?.LogInformation("run action executed");
                     result = _action.Executed();
                     _action.Result = result;
 
                     this._instance.Logger?.LogInformation($"return result : {_action.Result.jToSerialize()}");
-                    var task = _action.PostExecute().GetAwaiter().GetResult();
+                    _action.PostExecute();
                 }
                 else {
                     this._instance.Logger?.LogInformation("not passed pre execute");

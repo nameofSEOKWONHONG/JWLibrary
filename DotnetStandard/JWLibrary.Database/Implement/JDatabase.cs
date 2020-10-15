@@ -50,7 +50,7 @@ namespace JWLibrary.Database {
         public static ILiteDatabase Resolve<TDatabase, TEntity>()
             where TDatabase : ILiteDatabase
             where TEntity : class {
-            var fileConnection = typeof(TEntity).jGetAttributeValue((DBFileNameAttribute dn) => dn.FileName).jToAppPath();
+            var fileConnection = typeof(TEntity).jGetAttributeValue((LiteDbFileNameAttribute dn) => dn.FileName).jToAppPath();
             if (fileConnection.jIsNotNull()) {
                 return new LiteDatabase(fileConnection);
             }

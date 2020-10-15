@@ -12,10 +12,10 @@ using System.Threading.Tasks;
 namespace JWService.Accounts {
     public class SaveAccountSvc : AccountSvcBase<Account, int>, ISaveAccountSvc {
         Account _exists = null;
-        public override async Task<bool> PreExecute() {
+        public override bool PreExecute() {
             using(var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, IAccount>()) {
                 action.SetRequest(this.Request);
-                _exists = (Account)await action.ExecuteCoreAsync();
+                _exists = action.ExecuteCoreAsync().GetAwaiter().GetResult().jCast<Account>();
             }
 
             return true;

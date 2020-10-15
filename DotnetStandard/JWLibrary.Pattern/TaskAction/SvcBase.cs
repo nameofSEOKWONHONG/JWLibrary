@@ -17,11 +17,11 @@ namespace JWLibrary.Pattern.TaskAction {
 
         public ILogger Logger { get; set; }
 
-        public abstract Task<bool> PreExecute();
+        public abstract bool PreExecute();
 
         public abstract TResult Executed();
 
-        public abstract Task<bool> PostExecute();
+        public abstract bool PostExecute();
 
         public void Dispose() {
         }

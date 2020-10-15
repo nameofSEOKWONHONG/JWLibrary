@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace JWLibrary.Core {
-    public class DBFileNameAttribute : Attribute {
+    public class LiteDbFileNameAttribute : Attribute {
         public string FileName { get; private set; }
-        public DBFileNameAttribute(string filename) {
+        public LiteDbFileNameAttribute(string filename) {
             FileName = filename;
         }
     }

@@ -18,43 +18,36 @@
         
         [HttpPost]
         public async Task<int> SaveMember([FromBody] Account account) {
-            var result = 0;
             using (var svc = ServiceFactory.CreateService<ISaveAccountSvc, SaveAccountSvc, Account, int>()) {
-                svc.Action.Request = account;
-                result = await svc.ExecuteCoreAsync();
+                return await svc.SetRequest(account)
+                .ExecuteCoreAsync();
             }
-            return result;
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IEnumerable<Account>> GetMembers() {
-            IEnumerable<Account> accounts = null;
             var svc = base.CreateAction<IGetAccountsSvc, GetAccountsSvc, RequestDto<Account>, IEnumerable<Account>>();
-            svc.Action.Request = new RequestDto<Account>();
-            accounts = await svc.ExecuteCoreAsync();
-            return accounts;
+            return await svc.SetRequest(new RequestDto<Account>())
+            .ExecuteCoreAsync();
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<Account> GetMember(string userId, string passwd) {
-            Account result = null;
+        public async Task<IAccount> GetMember(string userId, string passwd) {
             var svc = base.CreateAction<IGetAccountSvc, GetAccountSvc, Account, IAccount>();
-            svc.Action.Request = new Account() {
+            return await svc.SetRequest(new Account() {
                 UserId = userId,
                 Passwd = passwd
-            };
-            result = await svc.ExecuteCoreAsync() as Account;
-            return result;            
+            }).ExecuteCoreAsync();
         }
 
         [Authorize]
         [HttpDelete]
         public async Task<bool> DeleteMember(int id) {
             var svc = base.CreateAction<IDeleteAccountSvc, DeleteAccountSvc, RequestDto<int>, bool>();
-            svc.Action.Request = new RequestDto<int>(){ Dto = id};
-            return await svc.ExecuteCoreAsync();
+            return await svc.SetRequest(new RequestDto<int>(){ Dto = id})
+            .ExecuteCoreAsync();
         }
     }
 }

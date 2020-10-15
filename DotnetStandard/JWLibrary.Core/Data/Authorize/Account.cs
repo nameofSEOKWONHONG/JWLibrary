@@ -13,7 +13,7 @@ namespace JWLibrary.Core.Data {
         string Passwd { get; set; }
     }
 
-    [DBFileName("./account.db")]
+    [LiteDbFileName("./account.db")]
     [Table("accounts")]
     public class Account : IAccount {
         /// <summary>

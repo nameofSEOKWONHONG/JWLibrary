@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace JWService.Accounts {
     public class DeleteAccountSvc : AccountSvcBase<RequestDto<int>, bool>, IDeleteAccountSvc {
-        public override async Task<bool> PreExecute() {
+        public override bool PreExecute() {
             using (var action = ServiceFactory.CreateService<IGetAccountByIdSvc, GetAccountByIdSvc, RequestDto<int>, Account>()) {
                 action.SetRequest(this.Request);
-                var exists = await action.ExecuteCoreAsync();
+                var exists = action.ExecuteCoreAsync().GetAwaiter().GetResult();
                 return exists.jIsNotNull(); 
             }
         }

@@ -23,12 +23,12 @@
             }
         }
 
-        public override async Task<bool> PostExecute() {
+        public override bool PostExecute() {
             var result = JDataBase.Resolve<SqlConnection>().jQuery<bool>(db => {
                 return db.Delete<WEATHER_FORECAST>(_removeObj) > 0;
             });
 
-            return await Task.FromResult(result);
+            return result;
         }
 
         public override bool PreExecute() {
