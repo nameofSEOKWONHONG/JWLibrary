@@ -1,8 +1,9 @@
 ﻿using JWLibrary.Core;
 using JWLibrary.Core.Data;
-using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Pattern.TaskService;
 using JWService.Accounts;
 using JWService.Data;
+using JWService.Data.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -58,8 +59,8 @@ namespace JWLibrary.ApiCore.Config {
                     GetAccountByIdSvc,
                     RequestDto<int>,
                     Account>()
-                    .SetRequest(new RequestDto<int>() { Dto = accountId })
-                    .ExecuteCoreAsync();
+                    .SetRequest(new RequestDto<int>() { RequestDto = accountId })
+                    .ExecuteAsync();
                 context.Items["Account"] = resultAccount;
                 await Task.Delay(1000);
             } catch {

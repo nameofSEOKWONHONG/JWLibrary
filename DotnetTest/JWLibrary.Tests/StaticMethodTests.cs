@@ -23,6 +23,12 @@ namespace JWLibrary.Tests {
             list = list.jIfNull(x => x = new List<string>());
 
             Assert.NotNull(list);
+
+            string s = null;
+
+            s = s.jIfNull(x => x = string.Empty);
+
+            Assert.NotNull(s);
         }
 
         [Test]

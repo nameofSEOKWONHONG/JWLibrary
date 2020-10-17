@@ -1,7 +1,7 @@
 ﻿using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
 using JWLibrary.Core;
-using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Pattern.TaskService;
 using JWLibrary.Web;
 using JWService.Data;
 using JWService.WeatherForecast;
@@ -37,9 +37,10 @@ namespace JWLibrary.ApiCore.Controllers {
                         GetWeatherForecastSvc,
                         WeatherForecastRequestDto,
                         WEATHER_FORECAST,
-                        GetWeatherForecastSvc.Validator>().SetRequest(new WeatherForecastRequestDto() {
+                        GetWeatherForecastSvc.Validator>()
+                        .SetRequest(new WeatherForecastRequestDto() {
                             ID = idx
-                        }).ExecuteCoreAsync();
+                        }).ExecuteAsync();
             return result;
         }
 
@@ -57,7 +58,7 @@ namespace JWLibrary.ApiCore.Controllers {
                                 WeatherForecastRequestDto,
                                 IEnumerable<WEATHER_FORECAST>>()
                                 .SetRequest(new WeatherForecastRequestDto())
-                                .ExecuteCoreAsync();
+                                .ExecuteAsync();
             return result;
         }
 
@@ -76,8 +77,8 @@ namespace JWLibrary.ApiCore.Controllers {
                                 int,
                                 SaveWeatherForecastSvc.Validator>()) {
                 return await action.SetLogger(base.Logger)
-                    .SetRequest(request.Dto)
-                    .ExecuteCoreAsync();
+                    .SetRequest(request.RequestDto)
+                    .ExecuteAsync();
             }
         }
 
@@ -95,8 +96,8 @@ namespace JWLibrary.ApiCore.Controllers {
                                 WeatherForecastRequestDto,
                                 bool>()) {
                 return await action.SetLogger(base.Logger)
-                    .SetRequest(request.Dto)
-                    .ExecuteCoreAsync();
+                    .SetRequest(request.RequestDto)
+                    .ExecuteAsync();
             }
         }
     }

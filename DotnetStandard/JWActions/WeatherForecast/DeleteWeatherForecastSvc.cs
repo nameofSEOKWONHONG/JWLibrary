@@ -4,7 +4,7 @@
     using JWService;
     using JWLibrary.Core;
     using JWLibrary.Database;
-    using JWLibrary.Pattern.TaskAction;
+    using JWLibrary.Pattern.TaskService;
     using System.Data.SqlClient;
     using JWService.Data;
     using System.Threading.Tasks;
@@ -18,7 +18,7 @@
                     .SetRequest(new WeatherForecastRequestDto() {
                         ID = this.Request.ID
                     })
-                    .ExecuteCoreAsync().Result;
+                    .ExecuteAsync().Result;
                 return _removeObj.jIsNotNull();
             }
         }

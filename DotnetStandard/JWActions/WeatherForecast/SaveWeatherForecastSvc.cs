@@ -3,7 +3,7 @@
     using Dapper;
     using JWLibrary.Core;
     using JWLibrary.Database;
-    using JWLibrary.Pattern.TaskAction;
+    using JWLibrary.Pattern.TaskService;
     using System.Data.SqlClient;
     using Microsoft.Extensions.Logging;
     using JWService.Data;
@@ -17,7 +17,7 @@
                     .SetRequest(new WeatherForecastRequestDto() {
                         ID = this.Request.ID
                     })
-                    .ExecuteCoreAsync().Result;
+                    .ExecuteAsync().Result;
             }
             return true;
             //return DatabaseConfig.DB_CONNECTION.jQuery<bool>(db => {

@@ -1,8 +1,9 @@
 ﻿using JWLibrary.Core;
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
-using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Pattern.TaskService;
 using JWService.Data;
+using JWService.Data.Models;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace JWService.Accounts {
         public override bool PreExecute() {
             using (var action = ServiceFactory.CreateService<IGetAccountByIdSvc, GetAccountByIdSvc, RequestDto<int>, Account>()) {
                 action.SetRequest(this.Request);
-                var exists = action.ExecuteCoreAsync().GetAwaiter().GetResult();
+                var exists = action.ExecuteAsync().GetAwaiter().GetResult();
                 return exists.jIsNotNull(); 
             }
         }
@@ -24,7 +25,7 @@ namespace JWService.Accounts {
             using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
                 var tran = db.jBeginTrans();
                 var col = tran.jGetCollection<Account>();
-                result = col.jDelete(this.Request.Dto);
+                result = col.jDelete(this.Request.RequestDto);
                 tran.Commit();
             }
             return result;

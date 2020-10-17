@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JWLibrary.ApiCore.Base;
+﻿using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
-using JWLibrary.Core.Data;
-using JWLibrary.Web;
 using JWService.Accounts;
 using JWService.Data;
-using Microsoft.AspNetCore.Http;
+using JWService.Data.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace JWLibrary.ApiCore.Controllers {
     public class AuthorizeController : JControllerBase<AuthorizeController> {
@@ -22,9 +17,10 @@ namespace JWLibrary.ApiCore.Controllers {
             var resultAccount = await base.CreateAction<IGetAccountSvc,
                                 GetAccountSvc,
                                 Account,
-                                IAccount>()
+                                Account>()
+                                .SetFilter(r => !r.UserId.Contains("h"))
                                 .SetRequest(account)
-                                .ExecuteCoreAsync();
+                                .ExecuteAsync();
             return jwtTokenService.GenerateJwtToken(resultAccount.Id);
         }
     }

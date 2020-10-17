@@ -1,8 +1,9 @@
 ﻿using JWLibrary.Core;
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
-using JWLibrary.Pattern.TaskAction;
+using JWLibrary.Pattern.TaskService;
 using JWService.Data;
+using JWService.Data.Models;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,9 @@ namespace JWService.Accounts {
     public class SaveAccountSvc : AccountSvcBase<Account, int>, ISaveAccountSvc {
         Account _exists = null;
         public override bool PreExecute() {
-            using(var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, IAccount>()) {
+            using(var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, Account>()) {
                 action.SetRequest(this.Request);
-                _exists = action.ExecuteCoreAsync().GetAwaiter().GetResult().jCast<Account>();
+                _exists = action.ExecuteAsync().GetAwaiter().GetResult();
             }
 
             return true;

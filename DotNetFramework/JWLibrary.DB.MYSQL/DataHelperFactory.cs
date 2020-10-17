@@ -1,4 +1,5 @@
 ﻿using JWLibrary.DB.MYSQL.Module;
+using MySqlConnector;
 
 namespace JWLibrary.DB.MYSQL {
 

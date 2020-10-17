@@ -3,9 +3,10 @@
     using JWLibrary.ApiCore.Config;
     using JWLibrary.Core;
     using JWLibrary.Core.Data;
-    using JWLibrary.Pattern.TaskAction;
+    using JWLibrary.Pattern.TaskService;
     using JWService.Accounts;
     using JWService.Data;
+    using JWService.Data.Models;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
@@ -20,34 +21,36 @@
         public async Task<int> SaveMember([FromBody] Account account) {
             using (var svc = ServiceFactory.CreateService<ISaveAccountSvc, SaveAccountSvc, Account, int>()) {
                 return await svc.SetRequest(account)
-                .ExecuteCoreAsync();
+                .ExecuteAsync();
             }
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IEnumerable<Account>> GetMembers() {
-            var svc = base.CreateAction<IGetAccountsSvc, GetAccountsSvc, RequestDto<Account>, IEnumerable<Account>>();
-            return await svc.SetRequest(new RequestDto<Account>())
-            .ExecuteCoreAsync();
+        public async Task<PagingResultDto<IEnumerable<Account>>> GetMembers([FromQuery]PagingRequestDto<Account> pagingRequestDto) {
+            using (var svc = base.CreateAction<IGetAccountsSvc, GetAccountsSvc, PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>>()) {
+                return await svc.SetRequest(pagingRequestDto)
+                   .SetFilter(r => r.Page > 0)
+                   .ExecuteAsync();
+            }
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IAccount> GetMember(string userId, string passwd) {
-            var svc = base.CreateAction<IGetAccountSvc, GetAccountSvc, Account, IAccount>();
+            var svc = base.CreateAction<IGetAccountSvc, GetAccountSvc, Account, Account>();
             return await svc.SetRequest(new Account() {
                 UserId = userId,
                 Passwd = passwd
-            }).ExecuteCoreAsync();
+            }).ExecuteAsync();
         }
 
         [Authorize]
         [HttpDelete]
         public async Task<bool> DeleteMember(int id) {
             var svc = base.CreateAction<IDeleteAccountSvc, DeleteAccountSvc, RequestDto<int>, bool>();
-            return await svc.SetRequest(new RequestDto<int>(){ Dto = id})
-            .ExecuteCoreAsync();
+            return await svc.SetRequest(new RequestDto<int>(){ RequestDto = id})
+            .ExecuteAsync();
         }
     }
 }

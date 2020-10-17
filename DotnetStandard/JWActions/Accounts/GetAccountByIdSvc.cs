@@ -2,6 +2,7 @@
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
 using JWService.Data;
+using JWService.Data.Models;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace JWService.Accounts {
         public override Account Executed() {
             using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
                 var account = db.jGetCollection<Account>()
-                    .jGet(x => x.Id == this.Request.Dto);
+                    .jGet(x => x.Id == this.Request.RequestDto);
 
                 return account;
             }

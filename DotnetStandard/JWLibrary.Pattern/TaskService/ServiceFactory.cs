@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-namespace JWLibrary.Pattern.TaskAction {
+namespace JWLibrary.Pattern.TaskService {
 
     public class ServiceFactory {
 
