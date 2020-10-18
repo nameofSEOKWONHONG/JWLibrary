@@ -7,7 +7,7 @@ namespace JWLibrary.Core {
 
         #region [object deep copay]
 
-        public static TDest jToCopy<TSrc, TDest>(this TSrc src)
+        public static TDest jMapped<TSrc, TDest>(this TSrc src)
             where TSrc : class, new()
             where TDest : class, new() {
             var tdest = new TDest();
@@ -30,7 +30,7 @@ namespace JWLibrary.Core {
         #endregion [object deep copay]
     }
 
-    public static class JCast {
+    public static class JCastExtension {
         public static TDest jCast<TDest>(this object src) 
             where TDest : class {
             return src as TDest;

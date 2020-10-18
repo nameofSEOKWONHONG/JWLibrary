@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JWLibrary.Pattern\JWLibrary.Pattern.csproj" />
+    <ProjectReference Include="..\JWLibrary.Core\JWLibrary.Core.csproj" />
+    <ProjectReference Include="..\JWLibrary\JWLibrary.csproj" />
   </ItemGroup>
 
 </Project>

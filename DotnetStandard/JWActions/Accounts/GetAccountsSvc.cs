@@ -23,7 +23,7 @@ namespace JWService.Accounts {
                 if(request.UserId.jIsNullOrEmpty().jIsFalse()) {
                     query = query.Where(m => m.UserId == request.UserId);
                 }
-                var accounts = query.Limit(this.Request.Size).Offset((this.Request.PageNumber - 1) * this.Request.Page).ToList();
+                var accounts = query.Limit(this.Request.Size).Offset((this.Request.Page - 1) * this.Request.Page).ToList();
 
                 var result = this.Request.Adapt<PagingResultDto<IEnumerable<Account>>>();
                 result.TotalCount = col.Count();

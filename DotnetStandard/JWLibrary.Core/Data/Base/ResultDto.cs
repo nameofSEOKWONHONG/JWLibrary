@@ -12,10 +12,7 @@ namespace JWLibrary.Core {
     public partial class PagingResultDto<TResultDto> : ResultDto<TResultDto> {
         public int Page { get; set; }
         public int Size { get; set; }
-        public int PageNumber { get; set; }
         public int TotalCount { get; set; }
-
-        private int _totalPageNumber;
         public int TotalPageNumber { 
             get {
                 return (int)Math.Ceiling((double)TotalCount / Size);

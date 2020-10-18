@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
-    <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Utils\JWLibrary.Utils.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWLibrary\JWLibrary.csproj" />
   </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ namespace JWLibrary.Core {
         }
 
         public static string jToDateTime(this DateTime date, ConvertFormat format = ConvertFormat.Default) {
-            return date.ToString(format.jToEnumString());
+            return date.ToString(format.jToString());
         }
 
         public static string jToDateTime(this DateTime date, string format = null) {
