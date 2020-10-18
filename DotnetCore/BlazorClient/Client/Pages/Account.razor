@@ -1,0 +1,53 @@
+﻿@page "/account"
+@using BlazorClient.Client.Extensions   
+@using System.Net.Http.Headers 
+@inject HttpClient Http
+
+<h1>Account</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (accounts == null) {
+    <p><em>Loading...</em></p>
+} else {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>HashId</th>
+                <th>UserId</th>
+                <th>Passwd</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in accounts) {
+                <tr>
+                    <td>@account.Id</td>
+                    <td>@account.HashId</td>
+                    <td>@account.UserId</td>
+                    <td>@account.Passwd</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private JWService.Data.Models.Account[] accounts;
+
+    protected override async Task OnInitializedAsync() {
+        var tokenRequest = new JWService.Data.Models.Account() {
+            Id = 0,
+            HashId = "",
+            UserId = "test",
+            Passwd = "test"
+        };
+        var result = await Http.PostAsJsonAsync("https://localhost:5001/japi/Authorize/GetToken", tokenRequest);
+        var token = await result.Content.ReadAsStringAsync();        
+        var requestResult = await Http.GetJsonAsync<JWLibrary.Core.PagingResultDto<IEnumerable<JWService.Data.Models.Account>>>("https://localhost:5001/japi/Member/GetMembers?Page=1&Size=10",
+            new AuthenticationHeaderValue("Bearer", token));
+
+        accounts = requestResult.ResultDto.ToArray();
+    }
+
+}
