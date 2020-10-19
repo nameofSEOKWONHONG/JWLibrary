@@ -6,8 +6,8 @@ namespace JWLibrary.Core {
 
     public static class JLinq {
 
-        public static List<T> jToList<T>(this IEnumerable<T> list) {
-            return list.jIsNull() ? new List<T>() : list.ToList();
+        public static JList<T> jToList<T>(this IEnumerable<T> list) {
+            return new JList<T>(list.jIfNotNull(x => x, new JList<T>()));
         }
 
         public static T[] jToArray<T>(this IEnumerable<T> list) {
@@ -63,8 +63,8 @@ namespace JWLibrary.Core {
 
         public static IEnumerable<T> jWhere<T>(this IEnumerable<T> obj, Func<T, bool> predicate)
             where T : class {
-            List<T> list = new List<T>();
-            if (obj.jToList().jCount() <= 0) obj = new List<T>();
+            JList<T> list = new JList<T>();
+            if (obj.jToList().jCount() <= 0) obj = new JList<T>();
             list = obj.Where(predicate).jToList();
             return list;
         }

@@ -64,9 +64,9 @@ namespace JWLibrary.ApiCore {
 
             services.SwaggerConfigureServices(swaggerSetting);
             services.AddControllers()
-                .AddNewtonsoftJson(options => {
-                    options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
-                })
+                //.AddNewtonsoftJson(options => {
+                //    options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
+                //})
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
 
             services.AddScoped<IGetAccountSvc, GetAccountSvc>();
@@ -105,7 +105,7 @@ namespace JWLibrary.ApiCore {
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             app.UseAuthorization();
 
             app.UseMiddleware<JErrorHandlingMiddleware>();
@@ -130,10 +130,10 @@ namespace JWLibrary.ApiCore {
         }
     }
 
-    public class LowercaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
+    //public class LowercaseContractResolver : Newtonsoft.Json.Serialization.DefaultContractResolver {
 
-        protected override string ResolvePropertyName(string propertyName) {
-            return propertyName.ToLower();
-        }
-    }
+    //    protected override string ResolvePropertyName(string propertyName) {
+    //        return propertyName.ToLower();
+    //    }
+    //}
 }

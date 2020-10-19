@@ -36,14 +36,13 @@ namespace JWLibrary.Core {
             }
 
             var index = 0;
-            var list = iterator.jToList();
-            list.ForEach(item => {
+            foreach (var item in iterator) {
                 action(item);
 
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            });
+            };
         }
 
         /// <summary>
@@ -59,14 +58,13 @@ namespace JWLibrary.Core {
             }
 
             var index = 0;
-            var list = iterator.jToList();
-            list.ForEach(item => {
+            foreach(var item in iterator) {
                 action(item, index);
 
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            });
+            }
         }
 
         /// <summary>
@@ -82,15 +80,14 @@ namespace JWLibrary.Core {
             }
 
             var index = 0;
-            var list = iterator.jToList();
-            list.ForEach(item => {
+            foreach(var item in iterator) {
                 var isContinue = func(item);
                 if (!isContinue) return;
 
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            });
+            }
         }
 
         /// <summary>
@@ -106,15 +103,14 @@ namespace JWLibrary.Core {
             }
 
             var index = 0;
-            var list = iterator.jToList();
-            list.ForEach(item => {
+            foreach(var item in iterator) {
                 var isContinue = func(item, index);
                 if (!isContinue) return;
 
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            });
+            }
         }
 
         #endregion [for & foreach]

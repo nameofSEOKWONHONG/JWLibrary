@@ -18,6 +18,10 @@ namespace JWLibrary.Core {
         public JList(int capacity, MemoryType memoryType)
             : base(capacity, memoryType) {
         }
+
+        public JList(IEnumerable<T> iterator) {
+            this.AddAll(iterator);
+        }
     }
 
     public class JLKList<T>: C5.LinkedList<T> {
