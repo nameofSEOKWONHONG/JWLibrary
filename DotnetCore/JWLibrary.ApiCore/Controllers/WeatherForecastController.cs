@@ -17,6 +17,7 @@ namespace JWLibrary.ApiCore.Controllers {
     /// **no more use biner**
     /// ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
     /// </summary>
+    [ApiVersion("0.0")]
     public class WeatherForecastController : JControllerBase<WeatherForecastController> {
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
             : base(logger) {

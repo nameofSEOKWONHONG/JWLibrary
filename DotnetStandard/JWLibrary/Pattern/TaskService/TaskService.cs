@@ -48,7 +48,7 @@ namespace JWLibrary.Pattern.TaskService {
                         result = _action.Executed();
                         _action.Result = result;
 
-                        this._instance.Logger?.LogInformation($"return result : {_action.Result.jToSerialize()}");
+                        this._instance.Logger?.LogInformation($"return result : {_action.Result.jToString()}");
                         _action.PostExecute();
                     } else {
                         this._instance.Logger?.LogInformation("not passed pre execute");

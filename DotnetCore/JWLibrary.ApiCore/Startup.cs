@@ -68,7 +68,7 @@ namespace JWLibrary.ApiCore {
                 //    options.SerializerSettings.ContractResolver = new LowercaseContractResolver();
                 //})
                 .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0);
-
+            services.AddVersionConfig();
             services.AddScoped<IGetAccountSvc, GetAccountSvc>();
 
             // ********************

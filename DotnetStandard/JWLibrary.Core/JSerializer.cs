@@ -4,17 +4,17 @@ namespace JWLibrary.Core {
 
     public static class JSerializer {
 
-        public static T jToDeserialize<T>(this string jsonString)
+        public static T jToObject<T>(this string jsonString)
             where T : class {
             return JsonConvert.DeserializeObject<T>(jsonString);
         }
 
-        public static IEnumerable<T> jToDeserializeAll<T>(this string jsonString)
+        public static IEnumerable<T> jToObjects<T>(this string jsonString)
             where T : class {
             return JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
         }
 
-        public static string jToSerialize<T>(this T entity, Formatting? formatting = null, JsonSerializerSettings serializerSettings = null)
+        public static string jToString<T>(this T entity, Formatting? formatting = null, JsonSerializerSettings serializerSettings = null)
             where T : class {
             if (formatting.jIsNotNull() && serializerSettings.jIsNotNull()) {
                 return JsonConvert.SerializeObject(entity, formatting.Value, serializerSettings);
@@ -27,7 +27,7 @@ namespace JWLibrary.Core {
             }
         }
 
-        public static string jToSerialize(this object obj) {
+        public static string jToString(this object obj) {
             return JsonConvert.SerializeObject(obj);
         }
     }

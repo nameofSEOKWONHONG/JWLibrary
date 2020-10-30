@@ -10,7 +10,8 @@ namespace JWLibrary.ApiCore.Base {
     /// base controller
     /// </summary>
     [ApiController]
-    [Route("japi/[controller]/[action]")]
+    //[Route("api/[controller]/[action]")] //normal route
+    [Route("api/{v:apiVersion}/[controller]/[action]")] //url version route
     public class JControllerBase<TController> : ControllerBase
         where TController : class {
         protected ILogger<TController> Logger = null;
