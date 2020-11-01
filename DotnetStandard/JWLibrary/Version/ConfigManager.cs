@@ -10,7 +10,7 @@ namespace JWLibrary.Version {
         }
         public ConfigInfo GetInitialConfig(string ovnerName, Dictionary<string, string> etcs = null) {
             if (ovnerName.jIsNullOrEmpty()) throw new Exception("ownerName is null.");
-            var result = LiteDbFlexerManager<ConfigInfo>.Instance.Value.Create().EnsureIndex(x => x.OwnerName).Get(x => x.OwnerName == ovnerName).GetResult<ConfigInfo>();
+            var result = LiteDbFlexerManager.Instance.Value.Create<ConfigInfo>().EnsureIndex(x => x.OwnerName).Get(x => x.OwnerName == ovnerName).GetResult<ConfigInfo>();
             if(result.jIsNull()) {
                 result = new ConfigInfo() {
                     OwnerName = ovnerName,
@@ -18,7 +18,7 @@ namespace JWLibrary.Version {
                     OwnerNowVersion = 1,
                     Datum = etcs
                 };
-                LiteDbFlexerManager<ConfigInfo>.Instance.Value.Create().Insert(result);
+                LiteDbFlexerManager.Instance.Value.Create<ConfigInfo>().Insert(result);
             }
             else {
                 result.OwnerOldVersion = result.OwnerNowVersion;
@@ -26,14 +26,14 @@ namespace JWLibrary.Version {
                 if (etcs.jIsNotNull())
                     result.Datum = etcs;
 
-                LiteDbFlexerManager<ConfigInfo>.Instance.Value.Create().Update(result);
+                LiteDbFlexerManager.Instance.Value.Create<ConfigInfo>().Update(result);
             }
 
             return result;
         }
 
         public ConfigInfo GetConfig(string ownerName) {
-            return LiteDbFlexerManager<ConfigInfo>.Instance.Value.Create().EnsureIndex(x => x.OwnerName).Get(x => x.OwnerName == ownerName).GetResult<ConfigInfo>();
+            return LiteDbFlexerManager.Instance.Value.Create<ConfigInfo>().EnsureIndex(x => x.OwnerName).Get(x => x.OwnerName == ownerName).GetResult<ConfigInfo>();
         }
 
         [LiteDbTable("config.db", "configInfos")]
