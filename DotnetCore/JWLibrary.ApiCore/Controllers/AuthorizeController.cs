@@ -4,6 +4,7 @@ using JWLibrary.Core;
 using JWService.Accounts;
 using JWService.Data;
 using JWService.Data.Models;
+using LiteDbFlex;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace JWLibrary.ApiCore.Controllers {
 
         [HttpPost]
         public async Task<string> GetToken([FromBody] Account account) {
-            var exists = base.GetCache<string>(x => x.CacheName == (account.Id.ToString() + account.Passwd));
+            var exists = base.GetCache<string>(account.Id.ToString() + account.Passwd);
             if(exists != null) {
                 return exists.Data;
             }
@@ -30,12 +31,13 @@ namespace JWLibrary.ApiCore.Controllers {
                                 .SetRequest(account)
                                 .ExecuteAsync();
             var jwtToken = jwtTokenService.GenerateJwtToken(resultAccount.Id);
-            base.SetCache<string>(new CacheInfo<string>() {
+            var cacheInfo = new CacheInfo<string>() {
                 CacheName = account.Id.ToString() + account.Passwd.ToString(),
                 Data = jwtToken,
-                SetDateTime = DateTime.Now.ToString(),
+                SetTime = DateTime.Now,
                 Interval = 5
-            });
+            };
+            base.SetCache<string>(cacheInfo);
 
             return jwtToken;
         }

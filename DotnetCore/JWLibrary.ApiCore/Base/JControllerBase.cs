@@ -47,37 +47,23 @@ namespace JWLibrary.ApiCore.Base {
 
         protected void SetCache<TEntity>(CacheInfo<TEntity> cache, string privateFileName = "")
             where TEntity : class {
-            LiteDbFlex.LiteDbFlexerManager.Instance.Value.Create<CacheInfo<TEntity>>(privateFileName)
-                .Insert(cache);
+            LiteDbCacheFlexer<TEntity>.Instance.Value.SetAdditionalDbFileName(privateFileName).Execute(cache.CacheName, o => {
+                o.Insert(cache);
+                return cache;
+            });
         }
 
-        protected CacheInfo<TEntity> GetCache<TEntity>(Expression<Func<CacheInfo<TEntity>, bool>> expression, string privateFileName = "")
+        protected CacheInfo<TEntity> GetCache<TEntity>(string cacheName, string privateFileName = "")
             where TEntity : class {
-            var cache = LiteDbFlex.LiteDbFlexerManager.Instance.Value.Create<CacheInfo<TEntity>>(privateFileName)
-                .Get(expression)
-                .GetResult<CacheInfo<TEntity>>();
-            if (cache == null) return null;
-            if((DateTime.Now - DateTime.Parse(cache.SetDateTime)).TotalSeconds > cache.Interval) {
-                LiteDbFlex.LiteDbFlexerManager.Instance.Value.Create<CacheInfo<TEntity>>(privateFileName)
-                    .Delete(cache.Id);
-                return null;
-            }
+            var cache = LiteDbCacheFlexer<TEntity>.Instance.Value.SetAdditionalDbFileName(privateFileName).Execute(cacheName, o => {
+                return o.Get(x => x.CacheName == cacheName).GetResult<CacheInfo<TEntity>>();
+            });
 
             return cache;
         }
 
         public void Dispose() {
             LiteDbFlexerManager.Instance.Value.Dispose();
-        }
-
-        [LiteDbTable("cache.db", "caches")]
-        [LiteDbIndex(new[] { "CacheName" })]
-        public class CacheInfo<TEntity> {
-            public int Id { get; set; }
-            public string CacheName { get; set; }
-            public string SetDateTime { get; set; }
-            public int Interval { get; set; }
-            public TEntity Data { get; set; }
         }
     }
 }
