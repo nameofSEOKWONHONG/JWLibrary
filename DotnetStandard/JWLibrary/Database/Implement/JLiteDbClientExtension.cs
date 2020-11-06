@@ -4,23 +4,25 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace JWLibrary.Database {
+
     public static class JLiteDbClientExtension {
+
         #region [litedb - chaining methods]
+
         public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase, string tableName)
             where T : class {
             return liteDatabase.GetCollection<T>(tableName);
         }
+
         public static ILiteCollection<T> jGetCollection<T>(this ILiteDatabase liteDatabase)
             where T : class {
             return liteDatabase.GetCollection<T>(typeof(T).jGetAttributeValue((TableAttribute ta) => ta.Name));
         }
+
         public static ILiteDatabase jBeginTrans(this ILiteDatabase liteDatabase) {
-            if (liteDatabase.BeginTrans().jIsFalse()) {
-                throw new Exception("litedb transaction failed on begintrans");
-            }
+            if (liteDatabase.BeginTrans().jIsFalse()) throw new Exception("litedb transaction failed on begintrans");
             return liteDatabase;
         }
 
@@ -44,7 +46,8 @@ namespace JWLibrary.Database {
             return liteCollection.Insert(entity);
         }
 
-        public static int jInsertBulk<T>(this ILiteCollection<T> liteCollection, IEnumerable<T> entities, int bulksize = 5000) {
+        public static int jInsertBulk<T>(this ILiteCollection<T> liteCollection, IEnumerable<T> entities,
+            int bulksize = 5000) {
             return liteCollection.InsertBulk(entities, bulksize);
         }
 
@@ -61,7 +64,7 @@ namespace JWLibrary.Database {
         }
 
         public static bool jEnsureIndex<T>(this ILiteCollection<T> liteCollection, Expression<Func<T, T>> expression) {
-            return liteCollection.EnsureIndex<T>(expression);
+            return liteCollection.EnsureIndex(expression);
         }
 
         public static bool jUpsert<T>(this ILiteCollection<T> liteCollection, T entity) {
@@ -70,19 +73,16 @@ namespace JWLibrary.Database {
 
         public static bool jCommit(this ILiteDatabase liteDatabase) {
             var result = liteDatabase.Commit();
-            if (result.jIsFalse()) {
-                throw new Exception("litedb transaction failed on commit");
-            }
+            if (result.jIsFalse()) throw new Exception("litedb transaction failed on commit");
             return result;
         }
 
         public static bool jRollback(this ILiteDatabase liteDatabase) {
             var result = liteDatabase.Rollback();
-            if (result.jIsFalse()) {
-                throw new Exception("litedb transaction failed on rollback");
-            }
+            if (result.jIsFalse()) throw new Exception("litedb transaction failed on rollback");
             return result;
         }
-        #endregion [litedb]
+
+        #endregion [litedb - chaining methods]
     }
 }

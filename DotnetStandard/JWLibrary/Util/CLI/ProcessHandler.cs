@@ -5,15 +5,15 @@ using System.Linq;
 namespace JWLibrary.Utils {
 
     /// <summary>
-    /// execute command line base
-    /// (this method execute cmd.exe base)
+    ///     execute command line base
+    ///     (this method execute cmd.exe base)
     /// </summary>
     public class ProcessHandler {
-        private readonly string[] _killProcessNames = null;
+        private readonly string[] _killProcessNames;
 
         public ProcessHandler(string[] killProcessNames) {
-            this._killProcessNames = killProcessNames;
-            this._killProcessNames = this._killProcessNames.jIfNull(x => x = new[] { "" });
+            _killProcessNames = killProcessNames;
+            _killProcessNames = _killProcessNames.jIfNull(x => x = new[] { "" });
         }
 
         public void Run(string fileName, string args, string workingDir) {
@@ -29,8 +29,9 @@ namespace JWLibrary.Utils {
         }
 
         public void Stop() {
-            var procs = Process.GetProcesses();
-            var exist = procs.Where(p => _killProcessNames.Where(m => m == p.ProcessName).FirstOrDefault().jIsNotNull()).ToList();
+            var pros = Process.GetProcesses();
+            var exist = pros.Where(p => _killProcessNames.FirstOrDefault(m => m == p.ProcessName).jIsNotNull())
+                .ToList();
             foreach (var proc in exist) {
                 proc.CloseMainWindow();
                 proc.Close();

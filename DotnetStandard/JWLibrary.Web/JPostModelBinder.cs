@@ -4,8 +4,6 @@ using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using IModelBinder = Microsoft.AspNetCore.Mvc.ModelBinding.IModelBinder;
-using ModelBindingContext = Microsoft.AspNetCore.Mvc.ModelBinding.ModelBindingContext;
 
 namespace JWLibrary.Web {
     //public class JModelBinder<T> : IModelBinder
@@ -33,10 +31,11 @@ namespace JWLibrary.Web {
                 throw new ArgumentNullException(nameof(bindingContext));
 
             var valueFromBody = string.Empty;
-            using (StreamReader reader
-                      = new StreamReader(bindingContext.HttpContext.Request.Body, Encoding.UTF8)) {
+            using (var reader
+                = new StreamReader(bindingContext.HttpContext.Request.Body, Encoding.UTF8)) {
                 valueFromBody = await reader.ReadToEndAsync();
             }
+
             var result = JsonConvert.DeserializeObject<T>(valueFromBody);
             bindingContext.Result = ModelBindingResult.Success(result);
         }

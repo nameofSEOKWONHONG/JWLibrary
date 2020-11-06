@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace JWLibrary.Core {
-    public class JDictionaryPool<TKey,TValue> {
-        private readonly byte _poolSize;
-        private readonly ConcurrentDictionary<TKey, ConcurrentQueue<TValue>> _pool;
+
+    public class JDictionaryPool<TKey, TValue> {
         private readonly ConcurrentQueue<TKey> _keyQueue;
+        private readonly ConcurrentDictionary<TKey, ConcurrentQueue<TValue>> _pool;
+        private readonly byte _poolSize;
 
         public JDictionaryPool(byte maxPoolSize) {
             if (maxPoolSize <= 0)
@@ -28,9 +26,7 @@ namespace JWLibrary.Core {
 
                 while (_pool.Count > _poolSize) {
                     TKey localKey;
-                    if (_keyQueue.TryDequeue(out localKey)) {
-                        Remove(localKey);
-                    }
+                    if (_keyQueue.TryDequeue(out localKey)) Remove(localKey);
                 }
             }
 
@@ -44,6 +40,7 @@ namespace JWLibrary.Core {
             } else {
                 return false;
             }
+
             return true;
         }
 
@@ -63,15 +60,13 @@ namespace JWLibrary.Core {
                 _pool.TryAdd(key, new ConcurrentQueue<TValue>());
 
             ConcurrentQueue<TValue> q;
-            if (_pool.TryGetValue(key, out q)) {
-                return q.Count;
-            }
+            if (_pool.TryGetValue(key, out q)) return q.Count;
             return 0;
         }
 
         public TValue GetValue(TKey key, Func<TValue> creator = null) {
             if (key.jIsNull())
-                return default(TValue);
+                return default;
 
             if (!_pool.ContainsKey(key))
                 _pool.TryAdd(key, new ConcurrentQueue<TValue>());
@@ -84,7 +79,8 @@ namespace JWLibrary.Core {
                 if (creator.jIsNotNull())
                     return creator();
             }
-            return default(TValue);
+
+            return default;
         }
 
         public bool Release(TKey key, TValue value) {

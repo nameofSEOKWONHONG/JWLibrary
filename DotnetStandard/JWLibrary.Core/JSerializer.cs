@@ -1,6 +1,7 @@
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
 namespace JWLibrary.Core {
-    using Newtonsoft.Json;
-    using System.Collections.Generic;
 
     public static class JSerializer {
 
@@ -14,17 +15,16 @@ namespace JWLibrary.Core {
             return JsonConvert.DeserializeObject<IEnumerable<T>>(jsonString);
         }
 
-        public static string jToString<T>(this T entity, Formatting? formatting = null, JsonSerializerSettings serializerSettings = null)
+        public static string jToString<T>(this T entity, Formatting? formatting = null,
+            JsonSerializerSettings serializerSettings = null)
             where T : class {
-            if (formatting.jIsNotNull() && serializerSettings.jIsNotNull()) {
+            if (formatting.jIsNotNull() && serializerSettings.jIsNotNull())
                 return JsonConvert.SerializeObject(entity, formatting.Value, serializerSettings);
-            } else if (formatting.jIsNotNull() && serializerSettings.jIsNull()) {
+            if (formatting.jIsNotNull() && serializerSettings.jIsNull())
                 return JsonConvert.SerializeObject(entity, formatting.Value);
-            } else if (formatting.jIsNull() && serializerSettings.jIsNotNull()) {
+            if (formatting.jIsNull() && serializerSettings.jIsNotNull())
                 return JsonConvert.SerializeObject(entity, serializerSettings);
-            } else {
-                return JsonConvert.SerializeObject(entity);
-            }
+            return JsonConvert.SerializeObject(entity);
         }
 
         public static string jToString(this object obj) {

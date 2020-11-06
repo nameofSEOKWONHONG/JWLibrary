@@ -1,18 +1,17 @@
 ﻿using JWLibrary.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace JWLibrary.Utils.Files {
-    public class FileSystemWatcherProvider : IDisposable {
-        private FileSystemWatcher _watcher = null;
 
-        public FileSystemWatcherProvider(string path, 
-                bool watchSubDir = true, 
-                int internalBufferSize = 32768, //32KB
-                string fileExtensionFilters = null, 
-                NotifyFilters? notifyFilters = null) {
+    public class FileSystemWatcherProvider : IDisposable {
+        private FileSystemWatcher _watcher;
+
+        public FileSystemWatcherProvider(string path,
+            bool watchSubDir = true,
+            int internalBufferSize = 32768, //32KB
+            string fileExtensionFilters = null,
+            NotifyFilters? notifyFilters = null) {
             _watcher = new FileSystemWatcher(path);
 
             _watcher.EnableRaisingEvents = false;
@@ -23,7 +22,6 @@ namespace JWLibrary.Utils.Files {
 
             Console.WriteLine($"Watching Folder: {_watcher.Path}");
 
-
             // Watch for changes in LastAccess and LastWrite times, and
             // the renaming of files or directories.
 
@@ -33,35 +31,29 @@ namespace JWLibrary.Utils.Files {
             _watcher.Filter = fileExtensionFilters.jIfNullOrEmpty(_ => "*.*");
         }
 
-        public FileSystemWatcherProvider Changed(Action<object, FileSystemEventArgs, FileInfo>  action) {
-            if(_watcher.jIsNotNull()) {
-                _watcher.Changed += (s, e) => {
-                    action(s, e, new FileInfo(e.FullPath));
-                };
-            }
-
-            return this;
-        }
-
-        public FileSystemWatcherProvider Created(Action<object, FileSystemEventArgs, FileInfo> action) {
-            if(_watcher.jIsNotNull()) {
-                _watcher.Created += (s, e) => {
-                    action(s, e, new FileInfo(e.FullPath));
-                };
-            }
-
-            return this;
-        }
-
         public void Dispose() {
-            if(_watcher.jIsNotNull()) {
+            if (_watcher.jIsNotNull()) {
                 _watcher.Dispose();
                 _watcher = null;
             }
         }
 
+        public FileSystemWatcherProvider Changed(Action<object, FileSystemEventArgs, FileInfo> action) {
+            if (_watcher.jIsNotNull())
+                _watcher.Changed += (s, e) => { action(s, e, new FileInfo(e.FullPath)); };
+
+            return this;
+        }
+
+        public FileSystemWatcherProvider Created(Action<object, FileSystemEventArgs, FileInfo> action) {
+            if (_watcher.jIsNotNull())
+                _watcher.Created += (s, e) => { action(s, e, new FileInfo(e.FullPath)); };
+
+            return this;
+        }
+
         public void Start() {
-            if(_watcher.jIsNotNull()) {
+            if (_watcher.jIsNotNull()) {
                 // Begin watching.
                 _watcher.EnableRaisingEvents = true;
                 Console.WriteLine("FileSystemWatcher Ready.");
@@ -69,7 +61,7 @@ namespace JWLibrary.Utils.Files {
         }
 
         public void Stop() {
-            if(_watcher.jIsNotNull()) {
+            if (_watcher.jIsNotNull()) {
                 _watcher.EnableRaisingEvents = false;
                 Console.WriteLine("FileSystemWatcher End.");
             }

@@ -1,10 +1,6 @@
-﻿using JWLibrary.Core.Data.TUI;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace JWLibrary.Core.Data.TUI {
 
-namespace JWLibrary.Core.Data.TUI {
-    public partial class TUIPagingRequestDto<T> : RequestDto<T>, ITUIPagingBase, ITUIPagingOption {
+    public class TUIPagingRequestDto<T> : RequestDto<T>, ITUIPagingBase, ITUIPagingOption {
         public int TotalItems { get; set; }
         public int ItemsPerPage { get; set; }
         public int VisiblePages { get; set; }

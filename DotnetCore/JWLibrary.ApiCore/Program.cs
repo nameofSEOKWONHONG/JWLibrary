@@ -1,49 +1,42 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging.Debug;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-namespace JWLibrary.ApiCore {
+namespace JWLibrary.ApiCore
+{
     /// <summary>
-    /// program
+    ///     program
     /// </summary>
 #pragma warning disable RCS1102 // Make class static.
-
     public class Program
 #pragma warning restore RCS1102 // Make class static.
     {
         /// <summary>
-        /// program main
+        ///     program main
         /// </summary>
         /// <param name="args"></param>
-        public static void Main(string[] args) {
+        public static void Main(string[] args)
+        {
             CreateHostBuilder(args).Build().Run();
         }
 
         /// <summary>
-        /// create host builder
+        ///     create host builder
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureLogging((hostingContext, logging) => {
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, logging) =>
+                {
                     logging.ClearProviders();
                     logging.AddDebug();
                     logging.AddEventSourceLogger();
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                 })
-                .ConfigureWebHostDefaults(webBuilder => {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
     }
 }

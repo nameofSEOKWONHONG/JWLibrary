@@ -1,5 +1,4 @@
-﻿using JWLibrary.Core;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 
 namespace JWLibrary.Core {
@@ -20,13 +19,13 @@ namespace JWLibrary.Core {
                         val.ToString().jMiddleGetByLength(3, 4),
                         val.ToString().jLastGetByLength(4)),
                     _ => string.Format("{0}-{1}-****", val.ToString().jFirstGetByLength(3),
-                        val.ToString().jMiddleGetByLength(3, 4)),
+                        val.ToString().jMiddleGetByLength(3, 4))
                 },
                 ENUM_NUMBER_FORMAT_TYPE.Phone => MakePhoneString(val, allow),
                 ENUM_NUMBER_FORMAT_TYPE.RRN => MakeRRNString(val, allow),
                 ENUM_NUMBER_FORMAT_TYPE.CofficePrice => string.Format("{0}.{1}", val.ToString().jFirstGetByLength(1),
                     val.ToString().jMiddleGetByLength(1, 1)),
-                _ => throw new NotSupportedException("do not convert value"),
+                _ => throw new NotSupportedException("do not convert value")
             };
 
             return result;
@@ -36,55 +35,45 @@ namespace JWLibrary.Core {
             if (allow == ENUM_GET_ALLOW_TYPE.Allow) {
                 var temp = val.ToString();
                 if (temp.jFirstGetByLength(2) == "02") {
-                    if (temp.Length == 10) {
+                    if (temp.Length == 10)
                         return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 4),
                             temp.jLastGetByLength(4));
-                    } else {
-                        return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(2),
-                            temp.jMiddleGetByLength(2, 3),
-                            temp.jLastGetByLength(4));
-                    }
-                } else {
-                    if (temp.Length == 11) {
-                        return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
-                            temp.jMiddleGetByLength(3, 4),
-                            temp.jLastGetByLength(4));
-                    } else {
-                        return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
-                            temp.jMiddleGetByLength(3, 3),
-                            temp.jLastGetByLength(4));
-                    }
+                    return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(2),
+                        temp.jMiddleGetByLength(2, 3),
+                        temp.jLastGetByLength(4));
                 }
+
+                if (temp.Length == 11)
+                    return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
+                        temp.jMiddleGetByLength(3, 4),
+                        temp.jLastGetByLength(4));
+                return string.Format("{0}-{1}-{2}", temp.jFirstGetByLength(3),
+                    temp.jMiddleGetByLength(3, 3),
+                    temp.jLastGetByLength(4));
             } else {
                 var temp = val.ToString();
                 if (temp.jFirstGetByLength(2) == "02") {
-                    if (temp.Length == 10) {
+                    if (temp.Length == 10)
                         return string.Format("{0}-{1}-****", temp.jFirstGetByLength(2),
                             temp.jMiddleGetByLength(2, 4));
-                    } else {
-                        return string.Format("{0}-{1}-****", temp.jFirstGetByLength(2),
-                            temp.jMiddleGetByLength(2, 3));
-                    }
-                } else {
-                    if (temp.Length == 11) {
-                        return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
-                            temp.jMiddleGetByLength(3, 4));
-                    } else {
-                        return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
-                            temp.jMiddleGetByLength(3, 3));
-                    }
+                    return string.Format("{0}-{1}-****", temp.jFirstGetByLength(2),
+                        temp.jMiddleGetByLength(2, 3));
                 }
+
+                if (temp.Length == 11)
+                    return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
+                        temp.jMiddleGetByLength(3, 4));
+                return string.Format("{0}-{1}-****", temp.jFirstGetByLength(3),
+                    temp.jMiddleGetByLength(3, 3));
             }
         }
 
         private static string MakeRRNString<T>(T val, ENUM_GET_ALLOW_TYPE allow) {
-            if (allow == ENUM_GET_ALLOW_TYPE.Allow) {
+            if (allow == ENUM_GET_ALLOW_TYPE.Allow)
                 return string.Format("{0}-{1}", val.ToString().jFirstGetByLength(6),
                     val.ToString().jLastGetByLength(7));
-            } else {
-                return string.Format("{0}-*******", val.ToString().jFirstGetByLength(6));
-            }
+            return string.Format("{0}-*******", val.ToString().jFirstGetByLength(6));
         }
 
         public static string jMiddleGetByLength(this string value, int fromLen, int getLen) {
@@ -119,7 +108,8 @@ namespace JWLibrary.Core {
 
         public static bool jIsNumeric(this string str) {
             str = str.jIfNullOrEmpty(x => string.Empty);
-            var regex = new Regex(@"^(?<digit>-?\d+)(\.(?<scale>\d*))?$", RegexOptions.ExplicitCapture | RegexOptions.Compiled);
+            var regex = new Regex(@"^(?<digit>-?\d+)(\.(?<scale>\d*))?$",
+                RegexOptions.ExplicitCapture | RegexOptions.Compiled);
             return regex.Match(str).Success;
         }
     }
@@ -135,6 +125,6 @@ namespace JWLibrary.Core {
         Mobile,
         RRN,
         CofficePrice,
-        Phone,
+        Phone
     }
 }

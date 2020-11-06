@@ -10,6 +10,6 @@ namespace JWService.Data {
     public interface IGetAccountByIdSvc : ISvcBase<RequestDto<int>, Account> { }
     public interface IGetAccountSvc : ISvcBase<Account, Account> { }
     public interface IGetAccountsSvc : ISvcBase<PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>> { }
-    public interface ISaveAccountSvc : ISvcBase<Account, int> { }
+    public interface ISaveAccountSvc : ISvcBase<Account, bool> { }
     public interface IDeleteAccountSvc : ISvcBase<RequestDto<int>, bool> { }
 }

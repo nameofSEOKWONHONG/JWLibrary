@@ -6,7 +6,6 @@
 //namespace JWLibrary.Database {
 //    public class DBScriptJS {
 //        public void Execute(string script, string getPropertyName) {
-
 //        }
 //    }
 //}

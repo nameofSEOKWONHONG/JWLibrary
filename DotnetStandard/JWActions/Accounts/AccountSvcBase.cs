@@ -1,7 +1,7 @@
 ﻿using JWLibrary.Pattern.TaskService;
 
 namespace JWService.Accounts {
-    public abstract class AccountSvcBase<TRequest, TResult> : SvcBase<TRequest, TResult> 
+    public abstract class AccountSvcBase<TRequest, TResult> : SvcBase<TRequest, TResult>
         where TRequest : class {
 
         public override TResult Executed() {

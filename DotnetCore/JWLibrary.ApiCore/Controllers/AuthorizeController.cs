@@ -1,43 +1,45 @@
-﻿using JWLibrary.ApiCore.Base;
+﻿using System;
+using System.Threading.Tasks;
+using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
-using JWLibrary.Core;
 using JWService.Accounts;
 using JWService.Data;
 using JWService.Data.Models;
 using LiteDbFlex;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
-namespace JWLibrary.ApiCore.Controllers {
-    public class AuthorizeController : JControllerBase<AuthorizeController> {
-        public AuthorizeController(Microsoft.Extensions.Logging.ILogger<AuthorizeController> logger) : base(logger) {
+namespace JWLibrary.ApiCore.Controllers
+{
+    public class AuthorizeController : JControllerBase<AuthorizeController>
+    {
+        public AuthorizeController(ILogger<AuthorizeController> logger) : base(logger)
+        {
         }
 
         [HttpPost]
-        public async Task<string> GetToken([FromBody] Account account) {
-            var exists = base.GetCache<string>(account.Id.ToString() + account.Passwd);
-            if(exists != null) {
-                return exists.Data;
-            }
+        public async Task<string> GetToken([FromBody] Account account)
+        {
+            var exists = GetCache<string>(account.Id + account.Passwd);
+            if (exists != null) return exists.Data;
 
-            JWTTokenService jwtTokenService = new JWTTokenService();
-            var resultAccount = await base.CreateAction<IGetAccountSvc,
-                                GetAccountSvc,
-                                Account,
-                                Account>()
-                                .SetFilter(r => !r.UserId.Contains("h"))
-                                .SetRequest(account)
-                                .ExecuteAsync();
+            var jwtTokenService = new JWTTokenService();
+            var resultAccount = await CreateAction<IGetAccountSvc,
+                    GetAccountSvc,
+                    Account,
+                    Account>()
+                .SetFilter(r => !r.UserId.Contains("h"))
+                .SetRequest(account)
+                .ExecuteAsync();
             var jwtToken = jwtTokenService.GenerateJwtToken(resultAccount.Id);
-            var cacheInfo = new CacheInfo<string>() {
-                CacheName = account.Id.ToString() + account.Passwd.ToString(),
+            var cacheInfo = new CacheInfo<string>
+            {
+                CacheName = account.Id + account.Passwd,
                 Data = jwtToken,
                 SetTime = DateTime.Now,
                 Interval = 5
             };
-            base.SetCache<string>(cacheInfo);
+            SetCache(cacheInfo);
 
             return jwtToken;
         }

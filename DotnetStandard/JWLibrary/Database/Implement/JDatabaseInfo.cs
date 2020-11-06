@@ -10,41 +10,42 @@ using System.Data.SqlClient;
 namespace JWLibrary.Database {
 
     /// <summary>
-    /// Database Information Master
+    ///     Database Information Master
     /// </summary>
     internal class JDatabaseInfo {
         private IConfiguration configuration;
 
-        public Dictionary<string, IDbConnection> ConKeyValues { get; private set; } = new Dictionary<string, IDbConnection>() {
-            {"MSSQL", null },
-            {"MYSQL", null },
-        };
-
-        public Dictionary<string, ILiteDatabase> NoSqlConKeyValues { get; private set; } = new Dictionary<string, ILiteDatabase>() {
-            {"LITEDB", null }
-        };
-
         public JDatabaseInfo() {
-            ServiceCollection serviceCollection = new ServiceCollection();
+            var serviceCollection = new ServiceCollection();
             InitConfig(serviceCollection);
         }
+
+        public Dictionary<string, IDbConnection> ConKeyValues { get; } = new Dictionary<string, IDbConnection>
+        {
+            {"MSSQL", null},
+            {"MYSQL", null}
+        };
+
+        public Dictionary<string, ILiteDatabase> NoSqlConKeyValues { get; } = new Dictionary<string, ILiteDatabase>
+        {
+            {"LITEDB", null}
+        };
 
         private void InitConfig(IServiceCollection serviceCollection) {
             // Build configuration
             configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("appsettings.json", true, true)
                 .AddEnvironmentVariables()
                 .Build();
             var section = configuration.GetSection("DbConnections");
 
-            this.ConKeyValues.jForEach(item => {
-                if (item.Key.jEquals("MSSQL")) {
+            ConKeyValues.jForEach(item => {
+                if (item.Key.jEquals("MSSQL"))
                     ConKeyValues[item.Key] = new SqlConnection(section.GetValue<string>(item.Key));
-                } else if (item.Key.jEquals("MYSQL")) {
+                else if (item.Key.jEquals("MYSQL"))
                     ConKeyValues[item.Key] = new MySqlConnection(section.GetValue<string>(item.Key));
-                } else if (item.Key.jEquals("LITEDB")) {
+                else if (item.Key.jEquals("LITEDB"))
                     NoSqlConKeyValues[item.Key] = new LiteDatabase(section.GetValue<string>(item.Key));
-                }
             });
         }
     }

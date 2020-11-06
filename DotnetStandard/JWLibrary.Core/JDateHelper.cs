@@ -1,12 +1,11 @@
-﻿using JWLibrary.Core;
-using System;
+﻿using System;
 
 namespace JWLibrary.Core {
 
     public static class JDateHelper {
 
         public static DateTime jToDateTime(this string date) {
-            DateTime datetime = DateTime.MinValue;
+            var datetime = DateTime.MinValue;
             DateTime.TryParse(date, out datetime);
             return datetime;
         }
@@ -22,21 +21,15 @@ namespace JWLibrary.Core {
     }
 
     public enum ConvertFormat {
-        [StringValue("yyyy-MM-dd")]
-        Default,
-        [StringValue("yyyy-MM-dd")]
-        YYYY_MM_DD,
+        [StringValue("yyyy-MM-dd")] Default,
+        [StringValue("yyyy-MM-dd")] YYYY_MM_DD,
 
-        [StringValue("yyyyMMdd")]
-        YYYYMMDD,
+        [StringValue("yyyyMMdd")] YYYYMMDD,
 
-        [StringValue("yyyy/MM/dd")]
-        YYYY_S_MM_S_DD,
+        [StringValue("yyyy/MM/dd")] YYYY_S_MM_S_DD,
 
-        [StringValue("yyyyMMddHHmmss")]
-        YYYYMMDDHHMMSS,
+        [StringValue("yyyyMMddHHmmss")] YYYYMMDDHHMMSS,
 
-        [StringValue("HHmmss")]
-        HHMMSS,
+        [StringValue("HHmmss")] HHMMSS
     }
 }

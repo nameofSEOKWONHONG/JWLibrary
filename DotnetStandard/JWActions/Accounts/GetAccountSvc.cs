@@ -10,15 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using LiteDbFlex;
 
 namespace JWService.Accounts {
     public class GetAccountSvc : AccountSvcBase<Account, Account>, IGetAccountSvc {
-        public override Account Executed() {
-            using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
-                var account = db.jGetCollection<Account>()
-                    .jGet(x => x.UserId == this.Request.UserId && x.Passwd == this.Request.Passwd);
-                return account;
-            }
+        public override Account Executed()
+        {
+            var account = LiteDbFlexerManager.Instance.Value.Create<Account>()
+                .Get(m => m.UserId == this.Request.UserId &&
+                          m.Passwd == this.Request.Passwd)
+                .GetResult<Account>();
+            return account;
         }
     }
 }

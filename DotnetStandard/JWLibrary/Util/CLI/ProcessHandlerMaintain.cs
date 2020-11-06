@@ -6,34 +6,16 @@ using System.Threading;
 namespace JWLibrary.Utils {
 
     /// <summary>
-    /// execute command line base
-    /// (this method execute target fileName (process name) and repeated event)
+    ///     execute command line base
+    ///     (this method execute target fileName (process name) and repeated event)
     /// </summary>
     public class ProcessHandlerMaintain : IDisposable {
-
-        #region define events
-
-        public event EventHandler<DataReceivedEventArgs> CommandDataReceived;
-
-        public virtual void OnCommandDataReceived(object sender, DataReceivedEventArgs e) {
-            if (CommandDataReceived != null) {
-                CommandDataReceived(this, e);
-            }
-        }
-
-        #endregion define events
 
         #region variables
 
         private bool disposed;
 
         #endregion variables
-
-        #region properties
-
-        public Process RunProcess { get; private set; }
-
-        #endregion properties
 
         #region Constructor
 
@@ -42,6 +24,22 @@ namespace JWLibrary.Utils {
         }
 
         #endregion Constructor
+
+        #region properties
+
+        public Process RunProcess { get; private set; }
+
+        #endregion properties
+
+        #region define events
+
+        public event EventHandler<DataReceivedEventArgs> CommandDataReceived;
+
+        public virtual void OnCommandDataReceived(object sender, DataReceivedEventArgs e) {
+            if (CommandDataReceived != null) CommandDataReceived(this, e);
+        }
+
+        #endregion define events
 
         #region Functions
 
@@ -63,9 +61,7 @@ namespace JWLibrary.Utils {
             RunProcess.StartInfo.RedirectStandardInput = true;
             RunProcess.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
-            RunProcess.ErrorDataReceived += (s, e) => {
-                OnCommandDataReceived(this, e);
-            };
+            RunProcess.ErrorDataReceived += (s, e) => { OnCommandDataReceived(this, e); };
         }
 
         private void CommandLineStart() {
@@ -96,12 +92,12 @@ namespace JWLibrary.Utils {
 
         protected virtual void Dispose(bool disposing) {
             if (disposed) return;
-            if (disposing) {
+            if (disposing)
                 if (RunProcess != null) {
                     RunProcess.Dispose();
                     RunProcess = null;
                 }
-            }
+
             disposed = true;
         }
 

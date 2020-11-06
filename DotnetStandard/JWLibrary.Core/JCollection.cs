@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace JWLibrary.Core {
@@ -11,11 +12,12 @@ namespace JWLibrary.Core {
 
         public static int jCount<T>(this IEnumerable<T> collection) {
             if (collection.jIsNull()) return 0;
-            int result = 0;
-            using (IEnumerator<T> enumerator = collection.GetEnumerator()) {
+            var result = 0;
+            using (var enumerator = collection.GetEnumerator()) {
                 while (enumerator.MoveNext())
                     result++;
             }
+
             return result;
         }
 
@@ -24,16 +26,15 @@ namespace JWLibrary.Core {
         #region [for & foreach]
 
         /// <summary>
-        /// use struct, no break
+        ///     use struct, no break
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="action"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Action<T> action)
             where T : struct {
-            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
-                System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
-            }
+            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
+                Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
             foreach (var item in iterator) {
@@ -42,23 +43,24 @@ namespace JWLibrary.Core {
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            };
+            }
+
+            ;
         }
 
         /// <summary>
-        /// use struct, no break
+        ///     use struct, no break
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="action"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Action<T, int> action)
             where T : struct {
-            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
-                System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
-            }
+            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
+                Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
-            foreach(var item in iterator) {
+            foreach (var item in iterator) {
                 action(item, index);
 
                 if (index % JConst.LOOP_LIMIT == 0)
@@ -68,19 +70,18 @@ namespace JWLibrary.Core {
         }
 
         /// <summary>
-        /// use class, allow break;
+        ///     use class, allow break;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, bool> func)
             where T : class {
-            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
-                System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
-            }
+            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
+                Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
-            foreach(var item in iterator) {
+            foreach (var item in iterator) {
                 var isContinue = func(item);
                 if (!isContinue) return;
 
@@ -91,19 +92,18 @@ namespace JWLibrary.Core {
         }
 
         /// <summary>
-        /// use class, allow break;
+        ///     use class, allow break;
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, int, bool> func)
             where T : class {
-            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT) {
-                System.Diagnostics.Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
-            }
+            if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
+                Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
-            foreach(var item in iterator) {
+            foreach (var item in iterator) {
                 var isContinue = func(item, index);
                 if (!isContinue) return;
 
@@ -122,17 +122,13 @@ namespace JWLibrary.Core {
             var entity = new T();
             var properties = entity.GetType().GetProperties();
 
-            DataTable dt = new DataTable();
-            foreach (var property in properties) {
-                dt.Columns.Add(property.Name, property.PropertyType);
-            }
+            var dt = new DataTable();
+            foreach (var property in properties) dt.Columns.Add(property.Name, property.PropertyType);
 
             entities.jForEach(item => {
                 var itemProperty = item.GetType().GetProperties();
                 var row = dt.NewRow();
-                foreach (var property in itemProperty) {
-                    row[property.Name] = property.GetValue(item);
-                }
+                foreach (var property in itemProperty) row[property.Name] = property.GetValue(item);
                 dt.Rows.Add(row);
                 return true;
             });
@@ -149,11 +145,9 @@ namespace JWLibrary.Core {
             Enumerable.Range(0, reader.FieldCount - 1).jForEach(i => {
                 if (!reader.IsDBNull(i)) {
                     var property = properties.Where(m => m.Name.Equals(reader.GetName(i))).jFirst();
-                    if (property.jIsNotNull()) {
-                        if (reader.GetFieldType(i).Equals(property.PropertyType)) {
+                    if (property.jIsNotNull())
+                        if (reader.GetFieldType(i).Equals(property.PropertyType))
                             property.SetValue(newItem, reader[i]);
-                        }
-                    }
                 }
             });
 

@@ -14,7 +14,7 @@ namespace JWLibrary.Utils {
             string userNameKeyword, string passwordKeyword) {
             HttpWebResponse response = null;
 
-            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
+            var request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
             request.Method = "POST";
             request.ContentType = "application/json; charset=utf-8";
             //request.AllowAutoRedirect = false;
@@ -22,8 +22,8 @@ namespace JWLibrary.Utils {
             //request.Credentials = new NetworkCredential("admin", "media");
             //request.ContentType = "application/x-www-form-urlencoded";
             using (var streamWriter = new StreamWriter(request.GetRequestStream())) {
-                string json = "{\"" + userNameKeyword + "\":\"" + userName + "\"," +
-                              "\"" + passwordKeyword + "\":\"" + password + "\"}";
+                var json = "{\"" + userNameKeyword + "\":\"" + userName + "\"," +
+                           "\"" + passwordKeyword + "\":\"" + password + "\"}";
 
                 streamWriter.Write(json);
                 streamWriter.Flush();
@@ -32,13 +32,11 @@ namespace JWLibrary.Utils {
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
-                using (Stream stream = response.GetResponseStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
-                    String responseString = reader.ReadToEnd();
+                using (var stream = response.GetResponseStream()) {
+                    var reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
+                    var responseString = reader.ReadToEnd();
                     return responseString;
                 }
-            } catch {
-                throw;
             } finally {
                 if (response != null)
                     response.Close();
@@ -48,62 +46,57 @@ namespace JWLibrary.Utils {
         public static string GetResponse(string fullUrl, string method, string token) {
             HttpWebResponse response = null;
 
-            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
+            var request = (HttpWebRequest)System.Net.WebRequest.Create(fullUrl);
             request.Method = method;
             request.ContentType = "application/json; charset=utf-8";
             request.Headers.Add("Token", token);
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
-                using (Stream stream = response.GetResponseStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
-                    String responseString = reader.ReadToEnd();
+                using (var stream = response.GetResponseStream()) {
+                    var reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
+                    var responseString = reader.ReadToEnd();
                     return responseString;
                 }
-            } catch {
-                throw;
             } finally {
                 if (response != null)
                     response.Close();
             }
         }
 
-        public static bool GetResponse(string url, string method, string cookie, string encodingName, ref string resultData) {
-            bool isRet = false;
+        public static bool GetResponse(string url, string method, string cookie, string encodingName,
+            ref string resultData) {
+            var isRet = false;
 
-            try {
-                Uri uri = new Uri(url);
-                HttpWebRequest wReq = (HttpWebRequest)System.Net.WebRequest.Create(uri);
-                wReq.Method = method;
-                wReq.ServicePoint.Expect100Continue = false;
-                wReq.CookieContainer = new CookieContainer();
-                wReq.CookieContainer.SetCookies(uri, cookie);
+            var uri = new Uri(url);
+            var wReq = (HttpWebRequest)System.Net.WebRequest.Create(uri);
+            wReq.Method = method;
+            wReq.ServicePoint.Expect100Continue = false;
+            wReq.CookieContainer = new CookieContainer();
+            wReq.CookieContainer.SetCookies(uri, cookie);
 
-                using (HttpWebResponse wRes = (HttpWebResponse)wReq.GetResponse()) {
-                    Stream resPostStream = wRes.GetResponseStream();
-                    StreamReader readerPost = new StreamReader(resPostStream, Encoding.GetEncoding(encodingName), true);
+            using (var wRes = (HttpWebResponse)wReq.GetResponse()) {
+                var resPostStream = wRes.GetResponseStream();
+                var readerPost = new StreamReader(resPostStream, Encoding.GetEncoding(encodingName), true);
 
-                    resultData = readerPost.ReadToEnd();
-                }
-
-                isRet = true;
-            } catch {
-                throw;
+                resultData = readerPost.ReadToEnd();
             }
+
+            isRet = true;
 
             return isRet;
         }
 
         public static XmlDocument GetXMLDocumentFromXMLTemplate(string inURL, string data) {
-            HttpWebRequest myHttpWebRequest = null;     //Declare an HTTP-specific implementation of the WebRequest class.
-            HttpWebResponse myHttpWebResponse = null;   //Declare an HTTP-specific implementation of the WebResponse class
-            XmlDocument myXMLDocument = null;           //Declare XMLResponse document
-            XmlTextReader myXMLReader = null;           //Declare XMLReader
+            HttpWebRequest myHttpWebRequest = null; //Declare an HTTP-specific implementation of the WebRequest class.
+            HttpWebResponse myHttpWebResponse = null; //Declare an HTTP-specific implementation of the WebResponse class
+            XmlDocument myXMLDocument = null; //Declare XMLResponse document
+            XmlTextReader myXMLReader = null; //Declare XMLReader
 
             try {
                 //admin, media
                 //Create Request
-                myHttpWebRequest = (HttpWebRequest)HttpWebRequest.Create(inURL);
+                myHttpWebRequest = (HttpWebRequest)System.Net.WebRequest.Create(inURL);
                 myHttpWebRequest.Method = "GET";
                 myHttpWebRequest.ContentType = "text/xml; encoding='utf-8'";
                 myHttpWebRequest.AllowAutoRedirect = false;
@@ -124,6 +117,7 @@ namespace JWLibrary.Utils {
                 myHttpWebResponse = null;
                 myXMLReader = null;
             }
+
             return myXMLDocument;
         }
 
@@ -131,7 +125,7 @@ namespace JWLibrary.Utils {
             HttpWebResponse response = null;
             string result = null;
 
-            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
+            var request = (HttpWebRequest)System.Net.WebRequest.Create(url);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
             //request.Proxy = new WebProxy("203.236.20.219", 8086);
@@ -140,12 +134,10 @@ namespace JWLibrary.Utils {
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
-                using (Stream stream = response.GetResponseStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
-                    String responseString = reader.ReadToEnd();
+                using (var stream = response.GetResponseStream()) {
+                    var reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
+                    var responseString = reader.ReadToEnd();
                 }
-            } catch {
-                throw;
             } finally {
                 if (response != null)
                     response.Close();
@@ -158,7 +150,7 @@ namespace JWLibrary.Utils {
             HttpWebResponse response = null;
             string result = null;
 
-            HttpWebRequest request = (HttpWebRequest)System.Net.WebRequest.Create(url);
+            var request = (HttpWebRequest)System.Net.WebRequest.Create(url);
             request.Method = "GET";
             request.AllowAutoRedirect = false;
             //request.Proxy = new WebProxy("203.236.20.219", 8086);
@@ -167,12 +159,10 @@ namespace JWLibrary.Utils {
 
             try {
                 response = (HttpWebResponse)request.GetResponse();
-                using (Stream stream = response.GetResponseStream()) {
-                    StreamReader reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
-                    String responseString = reader.ReadToEnd();
+                using (var stream = response.GetResponseStream()) {
+                    var reader = new StreamReader(stream, Encoding.GetEncoding(response.CharacterSet));
+                    var responseString = reader.ReadToEnd();
                 }
-            } catch {
-                throw;
             } finally {
                 if (response != null)
                     response.Close();

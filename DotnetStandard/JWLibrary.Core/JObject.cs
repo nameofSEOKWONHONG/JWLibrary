@@ -3,16 +3,13 @@ using System;
 namespace JWLibrary.Core {
 
     public static class JObject {
+
         public static void jIfTrue(this bool obj, Action action) {
-            if(obj) {
-                action();
-            }
+            if (obj) action();
         }
 
         public static void jIfFalse(this bool obj, Action action) {
-            if(!obj) {
-                action();
-            }
+            if (!obj) action();
         }
 
         public static bool jIsTrue(this bool obj) {

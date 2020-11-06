@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using FluentValidation;
-using JWLibrary.Core;
+﻿using JWLibrary.Core;
+using System;
 
 namespace JWLibrary.Pattern.TaskService {
 

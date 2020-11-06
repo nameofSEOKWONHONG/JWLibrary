@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -16,7 +17,7 @@ namespace JWLibrary.Utils {
 
             try {
                 xs = new XmlSerializer(typeof(T));
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
@@ -24,7 +25,7 @@ namespace JWLibrary.Utils {
             try {
                 fs = new FileStream(filename, FileMode.Open);
                 settings = (T)xs.Deserialize(fs);
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
@@ -34,15 +35,13 @@ namespace JWLibrary.Utils {
         }
 
         public static bool Save2Xml(string filename, T settings) {
-            if (null == filename || string.Empty == Path.GetFileName(filename)) {
-                return false;
-            }
+            if (null == filename || string.Empty == Path.GetFileName(filename)) return false;
             TextWriter tw = null;
             XmlSerializer xs = null;
 
             try {
                 xs = new XmlSerializer(typeof(T));
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
@@ -50,13 +49,14 @@ namespace JWLibrary.Utils {
             try {
                 tw = new StreamWriter(filename);
                 xs.Serialize(tw, settings);
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
                 return false;
             } finally {
                 if (null != tw) tw.Close();
             }
+
             return true;
         }
     }

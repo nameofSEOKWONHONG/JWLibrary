@@ -26,44 +26,34 @@ namespace JWLibrary.Core {
 
         public static string jIfNullOrEmpty(this string str, Func<string, string> func) {
             var result = str;
-            if (str.jIsNullOrEmpty().jIsTrue()) {
-                result = func(str);
-            }
+            if (str.jIsNullOrEmpty().jIsTrue()) result = func(str);
             return result;
         }
 
         public static T jIfNull<T>(this T obj, Func<T, T> predicate) {
-            if (obj.jIsNull()) {
-                obj = predicate(obj);
-            }
+            if (obj.jIsNull()) obj = predicate(obj);
 
             return obj;
         }
 
         public static void jIfNull<T>(this T obj, Action action) {
-            if(obj.jIsNull()) {
-                action();
-            }
+            if (obj.jIsNull()) action();
         }
 
         public static void jIfNotNull<T>(this T obj, Action action) {
-            if(obj.jIsNotNull()) {
-                action();
-            }
+            if (obj.jIsNotNull()) action();
         }
 
         public static T jIfNotNull<T>(this T obj, Func<T, T> predicate, T defaultValue)
             where T : class {
-            if (obj.jIsNotNull()) {
-                return predicate(obj);
-            }
+            if (obj.jIsNotNull()) return predicate(obj);
 
             return defaultValue;
         }
 
         public static IEnumerable<T> jWhere<T>(this IEnumerable<T> obj, Func<T, bool> predicate)
             where T : class {
-            JList<T> list = new JList<T>();
+            var list = new JList<T>();
             if (obj.jToList().jCount() <= 0) obj = new JList<T>();
             list = obj.Where(predicate).jToList();
             return list;

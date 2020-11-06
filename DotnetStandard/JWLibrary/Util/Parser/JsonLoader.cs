@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -11,11 +12,11 @@ namespace JWLibrary.Utils {
 
             try {
                 // read JSON directly from a file
-                using (StreamReader file = File.OpenText(filename)) {
+                using (var file = File.OpenText(filename)) {
                     var json = file.ReadToEnd();
                     return JsonConvert.DeserializeObject<T>(json);
                 }
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
             }
@@ -24,9 +25,7 @@ namespace JWLibrary.Utils {
         }
 
         public static bool SaveToJson(string filename, T settings) {
-            if (null == filename || string.Empty == Path.GetFileName(filename)) {
-                return false;
-            }
+            if (null == filename || string.Empty == Path.GetFileName(filename)) return false;
 
             var json = JsonConvert.SerializeObject(settings, Formatting.Indented);
 
@@ -34,7 +33,7 @@ namespace JWLibrary.Utils {
                 using (var sw = File.CreateText(filename)) {
                     sw.Write(json);
                 }
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 Debug.Assert(false);
                 e.ToString();
                 return false;

@@ -1,11 +1,9 @@
-using JWLibrary.Core;
 using System.Collections.Generic;
 
 namespace JWLibrary.Core {
 
     public class JCircleList<T> : JList<T>
         where T : class, new() {
-        public int Index { get; private set; }
 
         public JCircleList() {
         }
@@ -15,29 +13,27 @@ namespace JWLibrary.Core {
         }
 
         public JCircleList(IEnumerable<T> enumerable) {
-            this.AddAll(enumerable);
+            AddAll(enumerable);
         }
 
-        public T Next() {
-            this.Index++;
-            if (this.Index > base.Count - 1) {
-                this.Index = 0;
-            } else if (this.Index < 0) {
-                Index = 0;
-            }
+        public int Index { get; private set; }
 
-            return base[this.Index];
+        public T Next() {
+            Index++;
+            if (Index > base.Count - 1)
+                Index = 0;
+            else if (Index < 0) Index = 0;
+
+            return base[Index];
         }
 
         public T Previous() {
-            this.Index--;
-            if (this.Index < 0) {
-                this.Index = 0;
-            } else if (this.Index > base.Count - 1) {
-                this.Index = 0;
-            }
+            Index--;
+            if (Index < 0)
+                Index = 0;
+            else if (Index > base.Count - 1) Index = 0;
 
-            return base[this.Index];
+            return base[Index];
         }
     }
 }

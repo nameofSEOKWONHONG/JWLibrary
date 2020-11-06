@@ -1,15 +1,16 @@
 ﻿using JWLibrary.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Utils.Files {
+
     public static class FileExtensions {
+
         public static string[] jReadLines(this string fileName) {
-            if(!File.Exists(fileName)) throw new Exception($"not exists {fileName}");
+            if (!File.Exists(fileName)) throw new Exception($"not exists {fileName}");
             return File.ReadAllLines(fileName);
         }
 
@@ -29,7 +30,7 @@ namespace JWLibrary.Utils.Files {
         }
 
         public static void jWriteLines(this string fileName, string[] lines, Encoding encoding = null) {
-            if(encoding.jIsNotNull())
+            if (encoding.jIsNotNull())
                 File.WriteAllLines(fileName, lines, encoding);
 
             File.WriteAllLines(fileName, lines);
@@ -55,7 +56,7 @@ namespace JWLibrary.Utils.Files {
         }
 
         public static string jToFileUniqueId(this string fileName) {
-            string ret = string.Empty;
+            var ret = string.Empty;
             if (!File.Exists(fileName)) throw new Exception($"not exists {fileName}");
             using (var md5 = MD5.Create()) {
                 using (var stream = File.OpenRead(fileName)) {

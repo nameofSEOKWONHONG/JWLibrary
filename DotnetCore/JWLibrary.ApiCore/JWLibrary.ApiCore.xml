@@ -1,65 +1,67 @@
 <?xml version="1.0"?>
+
 <doc>
-    <assembly>
-        <name>JWLibrary.ApiCore</name>
-    </assembly>
-    <members>
-        <member name="T:JWLibrary.ApiCore.Base.JControllerBase`1">
-            <summary>
-            base controller
-            </summary>
-        </member>
-        <member name="T:JWLibrary.ApiCore.Config.JwtMiddleware">
-            <summary>
-            mvc : https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
-            api : https://jasonwatmore.com/post/2020/07/21/aspnet-core-3-create-and-validate-jwt-tokens-use-custom-jwt-middleware
-            </summary>
-        </member>
-        <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
-            <summary>
-            WeatherForecastController
-            **no more use biner**
-            ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
-            </summary>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.GetWeather(System.Int32)">
-            <summary>
-            get
-            </summary>
-            <param name="idx"></param>
-            <returns></returns>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.GetWeathers">
-            <summary>
-            get all
-            </summary>
-            <returns></returns>
-        </member>
-        <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.SaveWeather(JWLibrary.Core.RequestDto{JWService.Data.WEATHER_FORECAST})" -->
-        <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.RemoveWeather(JWLibrary.Core.RequestDto{JWService.Data.WeatherForecastRequestDto})">
-            <summary>
-            remove
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="T:JWLibrary.ApiCore.Program">
-            <summary>
-            program
-            </summary>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Program.Main(System.String[])">
-            <summary>
-            program main
-            </summary>
-            <param name="args"></param>
-        </member>
-        <member name="M:JWLibrary.ApiCore.Program.CreateHostBuilder(System.String[])">
-            <summary>
-            create host builder
-            </summary>
-            <param name="args"></param>
-            <returns></returns>
-        </member>
-    </members>
+  <assembly>
+    <name>JWLibrary.ApiCore</name>
+  </assembly>
+  <members>
+    <member name="T:JWLibrary.ApiCore.Base.JControllerBase`1">
+      <summary>
+        base controller
+      </summary>
+    </member>
+    <member name="T:JWLibrary.ApiCore.Config.JwtMiddleware">
+      <summary>
+        mvc : https://jasonwatmore.com/post/2019/10/11/aspnet-core-3-jwt-authentication-tutorial-with-example-api
+        api : https://jasonwatmore.com/post/2020/07/21/aspnet-core-3-create-and-validate-jwt-tokens-use-custom-jwt-middleware
+      </summary>
+    </member>
+    <member name="T:JWLibrary.ApiCore.Controllers.WeatherForecastController">
+      <summary>
+        WeatherForecastController
+        **no more use biner**
+        ref : http://www.binaryintellect.net/articles/03f580c4-84ad-4d78-847f-43103b4e4691.aspx
+      </summary>
+    </member>
+    <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.GetWeather(System.Int32)">
+      <summary>
+        get
+      </summary>
+      <param name="idx"></param>
+      <returns></returns>
+    </member>
+    <member name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.GetWeathers">
+      <summary>
+        get all
+      </summary>
+      <returns></returns>
+    </member>
+    <!-- Badly formed XML comment ignored for member "M:JWLibrary.ApiCore.Controllers.WeatherForecastController.SaveWeather(JWLibrary.Core.RequestDto{JWService.Data.WEATHER_FORECAST})" -->
+    <member
+      name="M:JWLibrary.ApiCore.Controllers.WeatherForecastController.RemoveWeather(JWLibrary.Core.RequestDto{JWService.Data.WeatherForecastRequestDto})">
+      <summary>
+        remove
+      </summary>
+      <param name="request"></param>
+      <returns></returns>
+    </member>
+    <member name="T:JWLibrary.ApiCore.Program">
+      <summary>
+        program
+      </summary>
+    </member>
+    <member name="M:JWLibrary.ApiCore.Program.Main(System.String[])">
+      <summary>
+        program main
+      </summary>
+      <param name="args"></param>
+    </member>
+    <member name="M:JWLibrary.ApiCore.Program.CreateHostBuilder(System.String[])">
+      <summary>
+        create host builder
+      </summary>
+      <param name="args"></param>
+      <returns></returns>
+    </member>
+  </members>
 </doc>

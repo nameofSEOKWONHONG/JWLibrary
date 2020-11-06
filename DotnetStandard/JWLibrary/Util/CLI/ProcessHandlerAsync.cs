@@ -3,32 +3,34 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JWLibrary.Utils {
-
+namespace JWLibrary.Util.CLI {
     /// <summary>
-    /// execute command line base
-    /// (this method execute target fileName (process name))
+    ///     execute command line base
+    ///     (this method execute target fileName (process name))
     /// </summary>
     public class ProcessHandlerAsync {
 
-        public static async Task<int> RunAsync(string fileName, string args, Action<string> outputReceived, Action<string> errorReceived) {
-            using (var process = new Process()) {
-                process.StartInfo = new ProcessStartInfo();
-                process.StartInfo.FileName = fileName;
-                process.StartInfo.Arguments = args;
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.CreateNoWindow = false;
-                process.StartInfo.RedirectStandardOutput = true;
-                process.StartInfo.RedirectStandardError = true;
+        public static async Task<int> RunAsync(string fileName, string args, Action<string> outputReceived,
+            Action<string> errorReceived)
+        {
+            using var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = fileName,
+                    Arguments = args,
+                    UseShellExecute = false,
+                    CreateNoWindow = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    StandardOutputEncoding = Encoding.UTF8,
+                    StandardErrorEncoding = Encoding.UTF8,
+                    WindowStyle = ProcessWindowStyle.Normal
+                },
+                EnableRaisingEvents = true
+            };
 
-                process.StartInfo.StandardOutputEncoding = Encoding.UTF8;
-                process.StartInfo.StandardErrorEncoding = Encoding.UTF8;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
-
-                process.EnableRaisingEvents = true;
-
-                return await RunAsync(process, outputReceived, errorReceived).ConfigureAwait(false);
-            }
+            return await RunAsync(process, outputReceived, errorReceived).ConfigureAwait(false);
         }
 
         private static Task<int> RunAsync(Process process, Action<string> outputReceived, Action<string> errorReceived) {
@@ -39,9 +41,7 @@ namespace JWLibrary.Utils {
             process.ErrorDataReceived += (s, e) => errorReceived(e.Data);
 
             var isStarted = process.Start();
-            if (!isStarted) {
-                throw new InvalidOperationException("Could not start process");
-            }
+            if (!isStarted) throw new InvalidOperationException("Could not start process");
 
             process.BeginOutputReadLine();
             process.BeginErrorReadLine();

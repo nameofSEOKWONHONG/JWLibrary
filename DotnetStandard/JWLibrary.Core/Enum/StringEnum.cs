@@ -14,8 +14,7 @@ namespace JWLibrary.Core {
 
         #region Instance implementation
 
-        private Type _enumType;
-        private static Hashtable _stringValues = new Hashtable();
+        private static readonly Hashtable _stringValues = new Hashtable();
 
         /// <summary>
         /// Creates a new <see cref="StringEnum"/> instance.
@@ -23,9 +22,9 @@ namespace JWLibrary.Core {
         /// <param name="enumType">Enum type.</param>
         public StringEnum(Type enumType) {
             if (!typeof(Type).GetTypeInfo().IsEnum)
-                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", enumType.ToString()));
+                throw new ArgumentException(string.Format("Supplied type must be an Enum.  Type was {0}", enumType));
 
-            _enumType = enumType;
+            EnumType = enumType;
         }
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace JWLibrary.Core {
             Enum enumType;
             string stringValue = null;
             try {
-                enumType = (Enum)Enum.Parse(_enumType, valueName);
+                enumType = (Enum)Enum.Parse(EnumType, valueName);
                 stringValue = GetStringValue(enumType);
             } catch (Exception) { }//Swallow!
 
@@ -49,11 +48,11 @@ namespace JWLibrary.Core {
         /// </summary>
         /// <returns>String value array</returns>
         public Array GetStringValues() {
-            ArrayList values = new ArrayList();
+            var values = new ArrayList();
             //Look for our string value associated with fields in this enum
-            foreach (FieldInfo fi in _enumType.GetFields()) {
+            foreach (var fi in EnumType.GetFields()) {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                var attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
                 if (attrs.Length > 0)
                     values.Add(attrs[0].Value);
             }
@@ -66,14 +65,14 @@ namespace JWLibrary.Core {
         /// </summary>
         /// <returns>IList for data binding</returns>
         public IList GetListValues() {
-            Type underlyingType = Enum.GetUnderlyingType(_enumType);
-            ArrayList values = new ArrayList();
+            var underlyingType = Enum.GetUnderlyingType(EnumType);
+            var values = new ArrayList();
             //Look for our string value associated with fields in this enum
-            foreach (FieldInfo fi in _enumType.GetFields()) {
+            foreach (var fi in EnumType.GetFields()) {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                var attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
                 if (attrs.Length > 0)
-                    values.Add(new DictionaryEntry(Convert.ChangeType(Enum.Parse(_enumType, fi.Name), underlyingType), attrs[0].Value));
+                    values.Add(new DictionaryEntry(Convert.ChangeType(Enum.Parse(EnumType, fi.Name), underlyingType), attrs[0].Value));
             }
 
             return values;
@@ -85,7 +84,7 @@ namespace JWLibrary.Core {
         /// <param name="stringValue">String value.</param>
         /// <returns>Existence of the string value</returns>
         public bool IsStringDefined(string stringValue) {
-            return Parse(_enumType, stringValue) != null;
+            return Parse(EnumType, stringValue) != null;
         }
 
         /// <summary>
@@ -95,16 +94,14 @@ namespace JWLibrary.Core {
         /// <param name="ignoreCase">Denotes whether to conduct a case-insensitive match on the supplied string value</param>
         /// <returns>Existence of the string value</returns>
         public bool IsStringDefined(string stringValue, bool ignoreCase) {
-            return Parse(_enumType, stringValue, ignoreCase) != null;
+            return Parse(EnumType, stringValue, ignoreCase) != null;
         }
 
         /// <summary>
         /// Gets the underlying enum type for this instance.
         /// </summary>
         /// <value></value>
-        public Type EnumType {
-            get { return _enumType; }
-        }
+        public Type EnumType { get; }
 
         #endregion Instance implementation
 
@@ -117,14 +114,14 @@ namespace JWLibrary.Core {
         /// <returns>String Value associated via a <see cref="StringValueAttribute"/> attribute, or null if not found.</returns>
         public static string GetStringValue(Enum value) {
             string output = null;
-            Type type = value.GetType();
+            var type = value.GetType();
 
-            if (_stringValues.ContainsKey(value))
+            if (_stringValues.ContainsKey(value)) {
                 output = (_stringValues[value] as StringValueAttribute).Value;
-            else {
+            } else {
                 //Look for our 'StringValueAttribute' in the field's custom attributes
-                FieldInfo fi = type.GetField(value.ToString());
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                var fi = type.GetField(value.ToString());
+                var attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
                 if (attrs.Length > 0) {
                     _stringValues.Add(value, attrs[0]);
                     output = attrs[0].Value;
@@ -155,12 +152,12 @@ namespace JWLibrary.Core {
             string enumStringValue = null;
 
             if (!typeof(Type).GetTypeInfo().IsEnum)
-                throw new ArgumentException(String.Format("Supplied type must be an Enum.  Type was {0}", type.ToString()));
+                throw new ArgumentException(string.Format("Supplied type must be an Enum.  Type was {0}", type));
 
             //Look for our string value associated with fields in this enum
-            foreach (FieldInfo fi in type.GetFields()) {
+            foreach (var fi in type.GetFields()) {
                 //Check for our custom attribute
-                StringValueAttribute[] attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
+                var attrs = fi.GetCustomAttributes(typeof(StringValueAttribute), false) as StringValueAttribute[];
                 if (attrs.Length > 0)
                     enumStringValue = attrs[0].Value;
 
@@ -205,25 +202,22 @@ namespace JWLibrary.Core {
     /// <summary>
     /// Simple attribute class for storing String Values
     /// </summary>
-    [AttributeUsage(AttributeTargets.All, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.All)]
     public class StringValueAttribute : Attribute {
-        private string _value;
 
         /// <summary>
         /// Creates a new <see cref="StringValueAttribute"/> instance.
         /// </summary>
         /// <param name="value">Value.</param>
         public StringValueAttribute(string value) {
-            _value = value;
+            Value = value;
         }
 
         /// <summary>
         /// Gets the value.
         /// </summary>
         /// <value></value>
-        public string Value {
-            get { return _value; }
-        }
+        public string Value { get; }
     }
 
     #endregion Class StringValueAttribute

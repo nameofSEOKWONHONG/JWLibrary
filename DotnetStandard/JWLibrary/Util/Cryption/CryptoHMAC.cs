@@ -6,13 +6,14 @@ namespace JWLibrary.Utils {
 
     public static class CryptoHMAC {
 
-        public static string ToHMACString(this string encData, string encKey, DeconvertCipherFormat deconvertCipherFormat) {
-            UTF8Encoding encoding = new UTF8Encoding();
-            byte[] keyBuff = encoding.GetBytes(encKey);
+        public static string ToHMACString(this string encData, string encKey,
+            DeconvertCipherFormat deconvertCipherFormat) {
+            var encoding = new UTF8Encoding();
+            var keyBuff = encoding.GetBytes(encKey);
             byte[] hashMessage = null;
 
             using (var hmacsha256 = new HMACSHA256(keyBuff)) {
-                byte[] dataBytes = encoding.GetBytes(encData);
+                var dataBytes = encoding.GetBytes(encData);
                 hashMessage = hmacsha256.ComputeHash(dataBytes);
             }
 
@@ -40,9 +41,7 @@ namespace JWLibrary.Utils {
         public static byte[] jToByte(this string hexString) {
             try {
                 var bytes = new byte[hexString.Length / 2];
-                for (var i = 0; i < bytes.Length; i++) {
-                    bytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
-                }
+                for (var i = 0; i < bytes.Length; i++) bytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
 
                 return bytes;
             } catch {
@@ -51,11 +50,9 @@ namespace JWLibrary.Utils {
         }
 
         public static string jToHMACString(this byte[] hashMessage) {
-            string sbinary = string.Empty;
+            var sbinary = string.Empty;
 
-            for (int i = 0; i < hashMessage.Length; i++) {
-                sbinary += hashMessage[i].ToString("X2");
-            }
+            for (var i = 0; i < hashMessage.Length; i++) sbinary += hashMessage[i].ToString("X2");
 
             return sbinary;
         }

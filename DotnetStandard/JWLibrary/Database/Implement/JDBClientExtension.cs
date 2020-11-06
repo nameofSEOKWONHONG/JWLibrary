@@ -1,33 +1,86 @@
 using Dapper;
 using JWLibrary.Core;
-using LiteDB;
+using SqlKata;
+using SqlKata.Compilers;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Database {
 
     /// <summary>
-    /// Database Client Extension
+    ///     Database Client Extension
     /// </summary>
     public static class JDBClientExtension {
 
-        private static readonly Dictionary<SQL_COMPILER_TYPE, SqlKata.Compilers.Compiler> _COMPILER_MAP = new Dictionary<SQL_COMPILER_TYPE, SqlKata.Compilers.Compiler>() {
-            { SQL_COMPILER_TYPE.MSSQL, new SqlKata.Compilers.SqlServerCompiler() },
-            { SQL_COMPILER_TYPE.MYSQL, new SqlKata.Compilers.MySqlCompiler() },
-            { SQL_COMPILER_TYPE.ORACLE, new SqlKata.Compilers.OracleCompiler() },
-            { SQL_COMPILER_TYPE.POSTGRESQL, new SqlKata.Compilers.PostgresCompiler() },
-            { SQL_COMPILER_TYPE.SQLLITE, new SqlKata.Compilers.SqliteCompiler() },
-        };
+        private static readonly Dictionary<SQL_COMPILER_TYPE, Compiler> _COMPILER_MAP =
+            new Dictionary<SQL_COMPILER_TYPE, Compiler>
+            {
+                {SQL_COMPILER_TYPE.MSSQL, new SqlServerCompiler()},
+                {SQL_COMPILER_TYPE.MYSQL, new MySqlCompiler()},
+                {SQL_COMPILER_TYPE.ORACLE, new OracleCompiler()},
+                {SQL_COMPILER_TYPE.POSTGRESQL, new PostgresCompiler()},
+                {SQL_COMPILER_TYPE.SQLLITE, new SqliteCompiler()}
+            };
+
+        /// <summary>
+        ///     bulk insert, use datatable
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="connection"></param>
+        /// <param name="bulkDatas"></param>
+        /// <param name="tableName"></param>
+        public static void BulkInsert<T>(this IDbConnection connection, IEnumerable<T> bulkDatas,
+            string tableName = null)
+            where T : class, new() {
+            try {
+                if (tableName.jIsNullOrEmpty()) throw new NullReferenceException("table name is null or empty.");
+
+                var entity = new T();
+                var dt = bulkDatas.jToDataTable();
+
+                using (var objbulk = new SqlBulkCopy((SqlConnection)connection, SqlBulkCopyOptions.Default, null)) {
+                    objbulk.DestinationTableName = tableName.jIsNullOrEmpty() ? entity.GetType().Name : tableName;
+                    foreach (var property in entity.GetType().GetProperties())
+                        objbulk.ColumnMappings.Add(property.Name, property.Name);
+
+                    connection.Open();
+                    objbulk.WriteToServer(dt);
+                }
+            } finally {
+                connection.Close();
+            }
+        }
+
+        public static async Task BulkInsertAsync<T>(this IDbConnection connection, IEnumerable<T> bulkDatas,
+            string tableName = null)
+            where T : class, new() {
+            try {
+                if (tableName.jIsNullOrEmpty()) throw new NullReferenceException("table name is null or empty.");
+
+                var entity = new T();
+                var dt = bulkDatas.jToDataTable();
+
+                using (var objbulk = new SqlBulkCopy((SqlConnection)connection, SqlBulkCopyOptions.Default, null)) {
+                    objbulk.DestinationTableName = tableName.jIsNullOrEmpty() ? entity.GetType().Name : tableName;
+                    foreach (var property in entity.GetType().GetProperties())
+                        objbulk.ColumnMappings.Add(property.Name, property.Name);
+
+                    connection.Open();
+                    await objbulk.WriteToServerAsync(dt);
+                }
+            } finally {
+                connection.Close();
+            }
+        }
 
         #region [self impletment func method]
 
         /// <summary>
-        /// you can execute func method, use dbconnection, any code. (use dapper, ef, and so on...)
+        ///     you can execute func method, use dbconnection, any code. (use dapper, ef, and so on...)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -43,7 +96,7 @@ namespace JWLibrary.Database {
         }
 
         /// <summary>
-        /// async execute(select, update, delete, insert) db, use any code on func method. (use dapper, ef and so on...)
+        ///     async execute(select, update, delete, insert) db, use any code on func method. (use dapper, ef and so on...)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -64,7 +117,7 @@ namespace JWLibrary.Database {
         #region [sql implement and result. after call func method]
 
         /// <summary>
-        /// get db data, use sql (use inner dapper)
+        ///     get db data, use sql (use inner dapper)
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -84,7 +137,7 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<T> jGetAsync<T>(this IDbConnection connection, string sql, Func<T, T> func = null)
+        public static async Task<T> jGetAsync<T>(this IDbConnection connection, string sql, Func<T, T> func = null)
             where T : class, new() {
             var result = default(T);
             try {
@@ -98,14 +151,15 @@ namespace JWLibrary.Database {
         }
 
         /// <summary>
-        /// get db all data, use sql
+        ///     get db all data, use sql
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
         /// <param name="sql"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static IEnumerable<T> jGetAll<T>(this IDbConnection connection, string sql, Func<IEnumerable<T>, IEnumerable<T>> func = null)
+        public static IEnumerable<T> jGetAll<T>(this IDbConnection connection, string sql,
+            Func<IEnumerable<T>, IEnumerable<T>> func = null)
             where T : class, new() {
             var result = default(IEnumerable<T>);
             try {
@@ -118,7 +172,8 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<IEnumerable<T>> jGetAllAsync<T>(this IDbConnection connection, string sql, Func<IEnumerable<T>, IEnumerable<T>> func = null)
+        public static async Task<IEnumerable<T>> jGetAllAsync<T>(this IDbConnection connection, string sql,
+            Func<IEnumerable<T>, IEnumerable<T>> func = null)
             where T : class, new() {
             var result = default(IEnumerable<T>);
             try {
@@ -136,11 +191,11 @@ namespace JWLibrary.Database {
             var result = false;
             try {
                 connection.Open();
-                result = connection.Update<T>(entity) > 0;
-            }
-            finally {
+                result = connection.Update(entity) > 0;
+            } finally {
                 connection.Close();
             }
+
             return result;
         }
 
@@ -149,11 +204,11 @@ namespace JWLibrary.Database {
             var result = false;
             try {
                 connection.Open();
-                result = await connection.UpdateAsync<T>(entity) > 0;
-            }
-            finally {
+                result = await connection.UpdateAsync(entity) > 0;
+            } finally {
                 connection.Close();
             }
+
             return result;
         }
 
@@ -163,9 +218,8 @@ namespace JWLibrary.Database {
 
             try {
                 connection.Open();
-                result = connection.Insert<T>(entity) > 0;
-            }
-            finally {
+                result = connection.Insert(entity) > 0;
+            } finally {
                 connection.Close();
             }
 
@@ -173,7 +227,7 @@ namespace JWLibrary.Database {
         }
 
         /// <summary>
-        /// execute(update, delete) db, use sql
+        ///     execute(update, delete) db, use sql
         /// </summary>
         /// <param name="connection"></param>
         /// <param name="sql"></param>
@@ -191,7 +245,8 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<bool> jExecuteAsync(this IDbConnection connection, string sql, Action<bool> action = null) {
+        public static async Task<bool> jExecuteAsync(this IDbConnection connection, string sql,
+            Action<bool> action = null) {
             try {
                 connection.Open();
                 var result = await connection.ExecuteAsync(sql) > 0;
@@ -208,7 +263,7 @@ namespace JWLibrary.Database {
         #region [using sqlkata]
 
         /// <summary>
-        /// get db data, use sqlkata
+        ///     get db data, use sqlkata
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -216,7 +271,8 @@ namespace JWLibrary.Database {
         /// <param name="sqlCompilerType"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static T jGet<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<T, T> func = null)
+        public static T jGet<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<T, T> func = null)
             where T : class, new() {
             var result = default(T);
             try {
@@ -231,7 +287,8 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<T> jGetAsync<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<T, T> func = null)
+        public static async Task<T> jGetAsync<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<T, T> func = null)
             where T : class, new() {
             var result = default(T);
             try {
@@ -247,7 +304,7 @@ namespace JWLibrary.Database {
         }
 
         /// <summary>
-        /// get db all data, use sqlkata
+        ///     get db all data, use sqlkata
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -255,7 +312,9 @@ namespace JWLibrary.Database {
         /// <param name="sqlCompilerType"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public static IEnumerable<T> jGetAll<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<IEnumerable<T>, IEnumerable<T>> func = null)
+        public static IEnumerable<T> jGetAll<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL,
+            Func<IEnumerable<T>, IEnumerable<T>> func = null)
             where T : class, new() {
             var result = default(IEnumerable<T>);
             try {
@@ -270,7 +329,9 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<IEnumerable<T>> jGetAllAsync<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Func<IEnumerable<T>, IEnumerable<T>> func = null)
+        public static async Task<IEnumerable<T>> jGetAllAsync<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL,
+            Func<IEnumerable<T>, IEnumerable<T>> func = null)
             where T : class, new() {
             var result = default(IEnumerable<T>);
             try {
@@ -286,7 +347,7 @@ namespace JWLibrary.Database {
         }
 
         /// <summary>
-        /// execute(update, delete) db, use sqlkata
+        ///     execute(update, delete) db, use sqlkata
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="connection"></param>
@@ -294,7 +355,8 @@ namespace JWLibrary.Database {
         /// <param name="sqlCompilerType"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static bool jExecute<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Action<bool> action = null)
+        public static bool jExecute<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Action<bool> action = null)
             where T : class, new() {
             try {
                 connection.Open();
@@ -308,7 +370,8 @@ namespace JWLibrary.Database {
             }
         }
 
-        public async static Task<bool> jExecuteAsync<T>(this IDbConnection connection, SqlKata.Query query, SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Action<bool> action = null)
+        public static async Task<bool> jExecuteAsync<T>(this IDbConnection connection, Query query,
+            SQL_COMPILER_TYPE sqlCompilerType = SQL_COMPILER_TYPE.MSSQL, Action<bool> action = null)
             where T : class, new() {
             try {
                 connection.Open();
@@ -323,58 +386,6 @@ namespace JWLibrary.Database {
         }
 
         #endregion [using sqlkata]
-
-        /// <summary>
-        /// bulk insert, use datatable
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="connection"></param>
-        /// <param name="bulkDatas"></param>
-        /// <param name="tableName"></param>
-        public static void BulkInsert<T>(this IDbConnection connection, IEnumerable<T> bulkDatas, string tableName = null)
-            where T : class, new() {
-            try {
-                if (tableName.jIsNullOrEmpty()) throw new NullReferenceException("table name is null or empty.");
-
-                var entity = new T();
-                var dt = bulkDatas.jToDataTable();
-
-                using (SqlBulkCopy objbulk = new SqlBulkCopy((SqlConnection)connection, SqlBulkCopyOptions.Default, null)) {
-                    objbulk.DestinationTableName = tableName.jIsNullOrEmpty() == true ? entity.GetType().Name : tableName;
-                    foreach (var property in entity.GetType().GetProperties()) {
-                        objbulk.ColumnMappings.Add(property.Name, property.Name);
-                    }
-
-                    connection.Open();
-                    objbulk.WriteToServer(dt);
-                }
-            } finally {
-                connection.Close();
-            }
-        }
-
-        public async static Task BulkInsertAsync<T>(this IDbConnection connection, IEnumerable<T> bulkDatas, string tableName = null)
-            where T : class, new() {
-            try {
-                if (tableName.jIsNullOrEmpty()) throw new NullReferenceException("table name is null or empty.");
-
-                var entity = new T();
-                var dt = bulkDatas.jToDataTable();
-
-                using (SqlBulkCopy objbulk = new SqlBulkCopy((SqlConnection)connection, SqlBulkCopyOptions.Default, null)) {
-                    objbulk.DestinationTableName = tableName.jIsNullOrEmpty() == true ? entity.GetType().Name : tableName;
-                    foreach (var property in entity.GetType().GetProperties()) {
-                        objbulk.ColumnMappings.Add(property.Name, property.Name);
-                    }
-
-                    connection.Open();
-                    await objbulk.WriteToServerAsync(dt);
-                }
-            } finally {
-                connection.Close();
-            }
-        }
-
     }
 
     public enum SQL_COMPILER_TYPE {
