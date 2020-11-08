@@ -5,6 +5,22 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.TaskService {
 
+    public class TaskService<TIAction, TRequest, TResult> : IDisposable
+        where TIAction : ISvcBase<TRequest, TResult>
+        where TRequest : class
+    {
+        private TIAction _action = default(TIAction);
+
+        public TaskService()
+        {
+        }
+
+        public void Dispose()
+        {
+
+        }
+    }
+
     public class TaskService<TIAction, TAction, TRequest, TResult> : IDisposable
         where TIAction : ISvcBase<TRequest, TResult>
         where TAction : SvcBase<TRequest, TResult>, new()

@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" NoWarn="NU1701" />
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
@@ -37,10 +38,6 @@
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Web\JWLibrary.Web.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary\JWLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Util\" />
   </ItemGroup>
 
   <ItemGroup>

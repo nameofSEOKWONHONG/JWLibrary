@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using JWLibrary.ApiCore.Config;
+using JWLibrary.ApiCore.Util;
 using JWLibrary.Web;
 using JWService.Accounts;
 using JWService.Data;
@@ -22,6 +25,8 @@ namespace JWLibrary.ApiCore
         }
 
         public IConfiguration Configuration { get; }
+
+        public ILifetimeScope AutofacContainer { get; private set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -108,6 +113,10 @@ namespace JWLibrary.ApiCore
             //.AddNewtonsoftJson(o => o.SerializerSettings.Converters.Insert(0, new CustomConverter()));
         }
 
+        public void ConfigureContainer(ContainerBuilder builder) {
+            builder.RegisterModule(new ServiceModule());
+        }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -120,6 +129,9 @@ namespace JWLibrary.ApiCore
             app.UseAuthorization();
 
             app.UseMiddleware<JErrorHandlingMiddleware>();
+
+            //set autofac container
+            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             // ********************
             // USE CORS

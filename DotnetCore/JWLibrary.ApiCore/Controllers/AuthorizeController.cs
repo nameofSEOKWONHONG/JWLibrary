@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Threading.Tasks;
 using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
@@ -7,14 +8,17 @@ using JWService.Data;
 using JWService.Data.Models;
 using LiteDbFlex;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace JWLibrary.ApiCore.Controllers
 {
     public class AuthorizeController : JControllerBase<AuthorizeController>
     {
-        public AuthorizeController(ILogger<AuthorizeController> logger) : base(logger)
+        public AuthorizeController(ILogger<AuthorizeController> logger)
+            : base(logger)
         {
+
         }
 
         [HttpPost]
