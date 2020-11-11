@@ -24,8 +24,8 @@ namespace JWLibrary.ApiCore.Controllers
         [HttpPost]
         public async Task<string> GetToken([FromBody] Account account)
         {
-            var exists = GetCache<string>(account.Id + account.Passwd);
-            if (exists != null) return exists.Data;
+            //var exists = GetCache<string>(account.Id + account.Passwd);
+            //if (exists != null) return exists.Data;
 
             var jwtTokenService = new JWTTokenService();
             var resultAccount = await CreateAction<IGetAccountSvc,
@@ -43,7 +43,7 @@ namespace JWLibrary.ApiCore.Controllers
                 SetTime = DateTime.Now,
                 Interval = 5
             };
-            SetCache(cacheInfo);
+            //SetCache(cacheInfo);
 
             return jwtToken;
         }

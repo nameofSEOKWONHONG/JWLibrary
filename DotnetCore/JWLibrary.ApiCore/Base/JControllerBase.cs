@@ -54,18 +54,18 @@ namespace JWLibrary.ApiCore.Base
                 TValidator>().SetLogger(Logger);
         }
 
-        protected void SetCache<TEntity>(CacheInfo<TEntity> cache, string privateFileName = "")
-            where TEntity : class
-        {
-            LiteDbCacheFlexer.Instance.Value.SetAdditionalDbFileName(privateFileName).SetCache(() => cache);
-        }
+        //protected void SetCache<TEntity>(CacheInfo<TEntity> cache, string privateFileName = "")
+        //    where TEntity : class
+        //{
+        //    LiteDbCacheFlexer.Instance.Value.SetAdditionalDbFileName(privateFileName).SetCache(() => cache);
+        //}
 
-        protected CacheInfo<TEntity> GetCache<TEntity>(string cacheName, string privateFileName = "")
-            where TEntity : class
-        {
-            var cache = LiteDbCacheFlexer.Instance.Value.SetAdditionalDbFileName(privateFileName)
-                .GetCache<TEntity>(cacheName);
-            return cache;
-        }
+        //protected CacheInfo<TEntity> GetCache<TEntity>(string cacheName, string privateFileName = "")
+        //    where TEntity : class
+        //{
+        //    var cache = LiteDbCacheFlexer.Instance.Value.SetAdditionalDbFileName(privateFileName)
+        //        .GetCache<TEntity>(cacheName);
+        //    return cache;
+        //}
     }
 }

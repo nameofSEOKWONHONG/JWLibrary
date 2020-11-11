@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JWLibrary.Core;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,8 +39,14 @@ namespace JWLibrary.Util.CLI {
             var tcs = new TaskCompletionSource<int>();
 
             process.Exited += (s, e) => tcs.SetResult(process.ExitCode);
-            process.OutputDataReceived += (s, e) => outputReceived(e.Data);
-            process.ErrorDataReceived += (s, e) => errorReceived(e.Data);
+            process.OutputDataReceived += (s, e) => {
+                if (!e.Data.jIsNullOrEmpty())
+                    outputReceived(e.Data);
+            };
+            process.ErrorDataReceived += (s, e) => {
+                if (!e.Data.jIsNullOrEmpty())
+                    errorReceived(e.Data);
+            };
 
             var isStarted = process.Start();
             if (!isStarted) throw new InvalidOperationException("Could not start process");
