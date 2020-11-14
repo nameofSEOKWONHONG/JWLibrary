@@ -44,8 +44,6 @@ namespace JWLibrary.Core {
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
             }
-
-            ;
         }
 
         /// <summary>
@@ -60,13 +58,10 @@ namespace JWLibrary.Core {
                 Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
-            foreach (var item in iterator) {
+            iterator.jForEach<T>(item => {
                 action(item, index);
-
-                if (index % JConst.LOOP_LIMIT == 0)
-                    JConst.SetInterval(JConst.SLEEP_INTERVAL);
                 index++;
-            }
+            });
         }
 
         /// <summary>
@@ -76,14 +71,14 @@ namespace JWLibrary.Core {
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, bool> func)
-            where T : class {
+            where T : class, new() {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
                 Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
             foreach (var item in iterator) {
-                var isContinue = func(item);
-                if (!isContinue) return;
+                var isBreak = func(item);
+                if (isBreak) break;
 
                 if (index % JConst.LOOP_LIMIT == 0)
                     JConst.SetInterval(JConst.SLEEP_INTERVAL);
@@ -98,19 +93,18 @@ namespace JWLibrary.Core {
         /// <param name="iterator"></param>
         /// <param name="func"></param>
         public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, int, bool> func)
-            where T : class {
+            where T : class, new() {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
                 Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
             var index = 0;
-            foreach (var item in iterator) {
-                var isContinue = func(item, index);
-                if (!isContinue) return;
-
-                if (index % JConst.LOOP_LIMIT == 0)
-                    JConst.SetInterval(JConst.SLEEP_INTERVAL);
+            iterator.jForEach<T>(item => {
+                var isBreak = func(item, index);
                 index++;
-            }
+
+                if (isBreak) return true;
+                return true;
+            });
         }
 
         #endregion [for & foreach]
