@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 
 namespace JWLibrary.Database {
-
+    [Obsolete("no more use - replace LiteDbFlex", true)]
     public static class JLiteDbClientExtension {
 
         #region [litedb - chaining methods]

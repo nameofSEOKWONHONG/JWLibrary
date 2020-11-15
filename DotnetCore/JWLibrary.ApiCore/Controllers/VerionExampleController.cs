@@ -1,4 +1,4 @@
-﻿using JWLibrary.ApiCore.Base;
+﻿using JWLibrary.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.Design;
 using System.Threading.Tasks;
-using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
+using JWLibrary.Web;
 using JWService.Accounts;
 using JWService.Data;
 using JWService.Data.Models;

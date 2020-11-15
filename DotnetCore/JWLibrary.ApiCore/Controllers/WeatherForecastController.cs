@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Transactions;
-using JWLibrary.ApiCore.Base;
 using JWLibrary.ApiCore.Config;
 using JWLibrary.Core;
 using JWLibrary.Pattern.TaskService;

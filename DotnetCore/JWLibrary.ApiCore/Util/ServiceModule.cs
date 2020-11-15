@@ -9,6 +9,7 @@ namespace JWLibrary.ApiCore.Util {
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
+            //builder.RegisterType<IHelloService>.As<HelloService>();
         }
     }
 }

@@ -70,8 +70,7 @@ namespace JWLibrary.Core {
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="func"></param>
-        public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, bool> func)
-            where T : class, new() {
+        public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, bool> func) {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
                 Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
@@ -92,8 +91,7 @@ namespace JWLibrary.Core {
         /// <typeparam name="T"></typeparam>
         /// <param name="iterator"></param>
         /// <param name="func"></param>
-        public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, int, bool> func)
-            where T : class, new() {
+        public static void jForEach<T>(this IEnumerable<T> iterator, Func<T, int, bool> func) {
             if (iterator.jCount() > JConst.LOOP_WARNING_COUNT)
                 Trace.TraceInformation($"OVER LOOP WARNING COUNT ({JConst.LOOP_WARNING_COUNT})");
 
