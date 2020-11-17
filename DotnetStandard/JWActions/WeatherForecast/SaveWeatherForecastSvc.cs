@@ -7,27 +7,25 @@
     using System.Data.SqlClient;
     using Microsoft.Extensions.Logging;
     using JWService.Data;
+    using JWLibrary.Pattern.Chainging;
 
-    public class SaveWeatherForecastSvc : SvcBase<WEATHER_FORECAST, int>, ISaveWeatherForecastSvc {
+    public class SaveWeatherForecastSvc : BaseService<WEATHER_FORECAST, int>, ISaveWeatherForecastSvc {
         private WEATHER_FORECAST _exists = null;
-
-        public override bool PreExecute() {
-            using (var action = ServiceFactory.CreateService<IGetWeatherForecastSvc, GetWeatherForecastSvc, WeatherForecastRequestDto, WEATHER_FORECAST>()) {
-                _exists = action.SetLogger(base.Logger)
-                    .SetRequest(new WeatherForecastRequestDto() {
-                        ID = this.Request.ID
-                    })
-                    .ExecuteAsync().Result;
-            }
-            return true;
-            //return DatabaseConfig.DB_CONNECTION.jQuery<bool>(db => {
-            //    var sql = "SELECT * FROM WEATHER_FORECAST WHERE ID = @ID";
-            //    _exists = db.QueryFirstOrDefault<WEATHER_FORECAST>(sql, new { ID = this.Request.ID });
-            //    return true;
-            //});
+        private IGetWeatherForecastSvc _getWeatherForecastSvc;
+        public SaveWeatherForecastSvc(IGetWeatherForecastSvc getWeatherForecastSvc) {
+            this._getWeatherForecastSvc = getWeatherForecastSvc;
         }
 
-        public override int Executed() {
+        public override bool PreExecute() {
+            using var executor = new ServiceExecutorManager<WeatherForecastRequestDto, WEATHER_FORECAST>(_getWeatherForecastSvc);
+            this._exists = executor.SetRequest(o => new WeatherForecastRequestDto() { ID = this.Request.ID })
+                .OnExecuted(o => o);
+
+            if (this._exists.jIsNotNull()) return true;
+            return false;
+        }
+
+        public override int Execute() {
             return JDataBase.Resolve<SqlConnection>()
                         .jQuery<int>(db => {
                             if (this._exists.jIsNotNull()) {
@@ -38,8 +36,8 @@
                         });
         }
 
-        public override bool PostExecute() {
-            return true;
+        public override void PostExecute() {
+            base.PostExecute();
         }
 
         public class Validator : AbstractValidator<SaveWeatherForecastSvc> {

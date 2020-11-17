@@ -2,21 +2,18 @@
     using FluentValidation;
     using JWLibrary.Core;
     using JWLibrary.Database;
+    using JWLibrary.Pattern.Chainging;
     using JWLibrary.Pattern.TaskService;
     using JWService.Data;
     using SqlKata;
     using System.Data.SqlClient;
 
-    public class GetWeatherForecastSvc : SvcBase<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastSvc {
+    public class GetWeatherForecastSvc : BaseService<WeatherForecastRequestDto, WEATHER_FORECAST>, IGetWeatherForecastSvc {
         public GetWeatherForecastSvc() {
 
         }
 
-        public override bool PreExecute() {
-            return true;
-        }
-
-        public override WEATHER_FORECAST Executed() {
+        public override WEATHER_FORECAST Execute() {
             //use sqlkata
             var query = new Query("WEATHER_FORECAST").Where("ID", this.Request.ID).Select("*");
             return JDataBase.Resolve<SqlConnection>()
@@ -33,8 +30,8 @@
             //});
         }
 
-        public override bool PostExecute() {
-            return true;
+        public override void PostExecute() {
+            base.PostExecute();
         }
 
         public class Validator : AbstractValidator<GetWeatherForecastSvc> {

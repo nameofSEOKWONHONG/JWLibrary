@@ -6,6 +6,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.Chainging {
+    public class ServiceXExecutor<TIService>
+        where TIService : class {
+        public ServiceXExecutor() { }
+
+
+    }
 
     public class ServiceExecutorManager<TRequest, TResult> : IServiceCreator<TRequest, TResult>,
         IServiceRequestor<TRequest, TResult>,
@@ -52,15 +58,15 @@ namespace JWLibrary.Pattern.Chainging {
             return this;
         }
 
-        public void OnExecuted(Action<TResult> action) {
+        public TResult OnExecuted(Func<TResult, TResult> func) {
             var result = Execute();
-            action(result);
+            return func(result);
         }
 
-        public async Task OnExecutedAsync(Action<TResult> action) {
-            await Task.Factory.StartNew(() => {
+        public async Task<TResult> OnExecutedAsync(Func<TResult, TResult> func) {
+            return await Task.Factory.StartNew(() => {
                 var result = Execute();
-                action(result);
+                return func(result);
             });
         }
 

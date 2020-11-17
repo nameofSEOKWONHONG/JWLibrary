@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JWLibrary.Pattern.Chainging {
     public interface IServiceExecutor<TRequest, TResult> {
-        void OnExecuted(Action<TResult> action);
-        Task OnExecutedAsync(Action<TResult> action);
+        TResult OnExecuted(Func<TResult, TResult> func);
+        Task<TResult> OnExecutedAsync(Func<TResult, TResult> func);
     }
 }
