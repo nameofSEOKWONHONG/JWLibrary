@@ -1,4 +1,4 @@
-﻿namespace JWService.WeatherForecast {
+﻿namespace ServiceExample.WeatherForecast {
     using FluentValidation;
     using Dapper;
     using JWLibrary.Core;
@@ -6,7 +6,7 @@
     using JWLibrary.Pattern.TaskService;
     using System.Data.SqlClient;
     using Microsoft.Extensions.Logging;
-    using JWService.Data;
+    using ServiceExample.Data;
     using JWLibrary.Pattern.Chainging;
 
     public class SaveWeatherForecastSvc : BaseService<WEATHER_FORECAST, int>, ISaveWeatherForecastSvc {

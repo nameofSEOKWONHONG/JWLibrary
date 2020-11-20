@@ -1,13 +1,13 @@
 ﻿using JWLibrary.Core;
 using JWLibrary.Database;
 using JWLibrary.Pattern.TaskService;
-using JWService.Data;
-using JWService.Data.Models;
+using ServiceExample.Data;
+using ServiceExample.Data.Models;
 using LiteDB;
 using LiteDbFlex;
 
-namespace JWService.Accounts {
-    public class SaveAccountSvc : AccountSvcBase<Account, bool>, ISaveAccountSvc {
+namespace ServiceExample.Accounts {
+    public class SaveAccountSvc : AccountServiceBase<Account, bool>, ISaveAccountSvc {
         Account _exists = null;
         public override bool PreExecute() {
             using var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, Account>();

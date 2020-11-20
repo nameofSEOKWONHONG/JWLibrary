@@ -5,9 +5,9 @@ using JWLibrary.Core;
 using JWLibrary.Core.Data;
 using JWLibrary.Pattern.TaskService;
 using JWLibrary.Web;
-using JWService.Accounts;
-using JWService.Data;
-using JWService.Data.Models;
+using ServiceExample.Accounts;
+using ServiceExample.Data;
+using ServiceExample.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

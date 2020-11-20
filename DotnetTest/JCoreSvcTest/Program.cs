@@ -1,4 +1,8 @@
-﻿using JWLibrary.Utils.Files;
+﻿using FluentValidation;
+using JWLibrary.Core;
+using JWLibrary.Pattern.ServiceExecutor;
+using JWLibrary.ServiceExecutor;
+using JWLibrary.Utils.Files;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,20 +10,36 @@ using System.Threading.Tasks;
 namespace JCoreSvcTest {
     class Program {
         static void Main(string[] args) {
-            var fswProvider = new FileSystemWatcherProvider(@"D:\database");
-            fswProvider.Created((s, e, fi) => {
-                Console.WriteLine(e.ChangeType.ToString());
-                Console.WriteLine(e.FullPath);
-            }).Changed((s, e, fi) => {
-                Console.WriteLine(e.ChangeType.ToString());
-                Console.WriteLine(e.FullPath);
-            }).Start();
+            ITestService service = new TestService();
 
-            Console.ReadLine();
+            var result = string.Empty;
+            using (var executor = new ServiceExecutorManager<ITestService>(service)) {
+                executor.SetRequest(o => o.Request = null)
+                    //.AddFilter(o => o.Request.Length > 0)
+                    //.AddFilter(o => o.Request.jIsNotNull())
+                    .OnExecuted(o => {
+                        result = o.Result;
+                    });
+            }
+        }
+    }
 
-            fswProvider.Stop();
-            fswProvider.Dispose();
+    public interface ITestService : IServiceExecutor<string, string> { }
 
+    public class TestService : ServiceExecutor<TestService, TestService.TestServiceValidator, string, string>, ITestService {
+        public TestService() {
+
+        }
+
+        public override void Execute() {
+            this.Request = "HelloWorld";
+            base.Execute();
+        }
+
+        public class TestServiceValidator : AbstractValidator<TestService> {
+            public TestServiceValidator() {
+                RuleFor(o => o.Request).NotNull();
+            }
         }
     }
 }

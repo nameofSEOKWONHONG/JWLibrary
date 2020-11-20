@@ -2,9 +2,9 @@
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
 using JWLibrary.Pattern.TaskService;
-using JWService.Data;
-using JWService.Data.Models;
-using JWService.WeatherForecast;
+using ServiceExample.Data;
+using ServiceExample.Data.Models;
+using ServiceExample.WeatherForecast;
 using LiteDB;
 using System;
 using System.Collections.Generic;
@@ -12,8 +12,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using LiteDbFlex;
 
-namespace JWService.Accounts {
-    public class GetAccountSvc : AccountSvcBase<Account, Account>, IGetAccountSvc {
+namespace ServiceExample.Accounts {
+    public class GetAccountSvc : AccountServiceBase<Account, Account>, IGetAccountSvc {
         public override Account Executed()
         {
             var account = LiteDbFlexerManager.Instance.Value.Create<Account>()

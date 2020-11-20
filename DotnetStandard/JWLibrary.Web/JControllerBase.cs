@@ -1,4 +1,4 @@
-﻿using JWLibrary.Pattern.Chainging;
+﻿using JWLibrary.Pattern.ServiceExecutor;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -22,7 +22,7 @@ namespace JWLibrary.Web {
             Logger = logger;
         }
 
-        public ServiceExecutorManager<TRequest, TResult> CreateServiceExecutor<TRequest, TResult>(IBaseService<TRequest, TResult> service) {
+        public ServiceExecutorManager<TRequest, TResult> CreateServiceExecutor<TRequest, TResult>(IServiceBaseExecutor<TRequest, TResult> service) {
             return new ServiceExecutorManager<TRequest, TResult>(service);
         }
 

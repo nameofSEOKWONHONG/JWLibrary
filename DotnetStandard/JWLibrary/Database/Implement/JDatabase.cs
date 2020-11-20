@@ -21,40 +21,5 @@ namespace JWLibrary.Database {
                 return JDataBaseInfo.Value.ConKeyValues["MYSQL"];
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        ///     create litedb Instance.
-        ///     litetime is single Instance.
-        ///     so, create once.
-        ///     also, create Instance per use;
-        ///     **example**
-        ///     JDatabase.Resolve
-        ///     <ILiteDatabase>
-        ///         ().jGetCollection
-        ///         <Customer>
-        ///             ("customers")...codes...
-        ///             var db = JDatabase.Resolve
-        ///             <ILiteDatabse>
-        ///                 ();
-        ///                 .... your code ....
-        ///                 db.Dispose();
-        /// </summary>
-        /// <typeparam name="TDatabase"></typeparam>
-        /// <param name="fileConnection"></param>
-        /// <returns></returns>
-        public static ILiteDatabase Resolve<TDatabase>(string fileConnection = null)
-            where TDatabase : ILiteDatabase {
-            if (fileConnection.jIsNotNull()) return new LiteDatabase(fileConnection);
-            return JDataBaseInfo.Value.NoSqlConKeyValues["LITEDB"];
-        }
-
-        public static ILiteDatabase Resolve<TDatabase, TEntity>()
-            where TDatabase : ILiteDatabase
-            where TEntity : class {
-            var fileConnection = typeof(TEntity).jGetAttributeValue((LiteDbFileNameAttribute dn) => dn.FileName)
-                .jToAppPath();
-            if (fileConnection.jIsNotNull()) return new LiteDatabase(fileConnection);
-            return JDataBaseInfo.Value.NoSqlConKeyValues["LITEDB"];
-        }
     }
 }

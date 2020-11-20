@@ -2,16 +2,16 @@
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
 using JWLibrary.Pattern.TaskService;
-using JWService.Data;
-using JWService.Data.Models;
+using ServiceExample.Data;
+using ServiceExample.Data.Models;
 using LiteDB;
 using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JWService.Accounts {
-    public class GetAccountsSvc : AccountSvcBase<PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>>, IGetAccountsSvc {
+namespace ServiceExample.Accounts {
+    public class GetAccountsSvc : AccountServiceBase<PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>>, IGetAccountsSvc {
         public override PagingResultDto<IEnumerable<Account>> Executed() {
             using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
                 var col = db.jGetCollection<Account>();

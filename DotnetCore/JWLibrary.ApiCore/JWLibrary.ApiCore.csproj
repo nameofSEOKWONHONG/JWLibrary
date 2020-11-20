@@ -34,7 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\LiteDbFlex\LiteDbFlex\LiteDbFlex.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JEntity\JWService.Data.csproj" />
-    <ProjectReference Include="..\..\DotnetStandard\JWActions\JWService.csproj" />
+    <ProjectReference Include="..\..\DotnetStandard\JWActions\ServiceExample.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Web\JWLibrary.Web.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary\JWLibrary.csproj" />

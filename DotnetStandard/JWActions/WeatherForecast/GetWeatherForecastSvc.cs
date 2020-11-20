@@ -1,10 +1,10 @@
-﻿namespace JWService.WeatherForecast {
+﻿namespace ServiceExample.WeatherForecast {
     using FluentValidation;
     using JWLibrary.Core;
     using JWLibrary.Database;
     using JWLibrary.Pattern.Chainging;
     using JWLibrary.Pattern.TaskService;
-    using JWService.Data;
+    using ServiceExample.Data;
     using SqlKata;
     using System.Data.SqlClient;
 

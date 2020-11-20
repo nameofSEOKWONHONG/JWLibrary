@@ -2,22 +2,30 @@
 using JWLibrary.Core.Data;
 using JWLibrary.Database;
 using JWLibrary.Pattern.TaskService;
-using JWService.Data;
-using JWService.Data.Models;
+using ServiceExample.Data;
+using ServiceExample.Data.Models;
 using LiteDB;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using JWLibrary.ServiceExecutor;
+using FluentValidation;
 
-namespace JWService.Accounts {
-    public class DeleteAccountSvc : AccountSvcBase<RequestDto<int>, bool>, IDeleteAccountSvc {
+namespace ServiceExample.Accounts {
+    public class DeleteAccountSvc : AccountServiceBase<DeleteAccountSvc, DeleteAccountSvc.DeleteAccountServiceValidator, RequestDto<int>, bool>,
+        IDeleteAccountSvc {
+        private IGetAccountByIdSvc _getAccountByIdSvc;
+        public DeleteAccountSvc(IGetAccountByIdSvc getAccountByIdSvc) {
+            _getAccountByIdSvc = getAccountByIdSvc;
+        }
         public override bool PreExecute() {
-            using (var action = ServiceFactory.CreateService<IGetAccountByIdSvc, GetAccountByIdSvc, RequestDto<int>, Account>()) {
-                action.SetRequest(this.Request);
-                var exists = action.ExecuteAsync().GetAwaiter().GetResult();
-                return exists.jIsNotNull(); 
-            }
+            using var executor = new ServiceExecutorManager<IGetAccountByIdSvc>(_getAccountByIdSvc);
+            //using (var action = ServiceFactory.CreateService<IGetAccountByIdSvc, GetAccountByIdSvc, RequestDto<int>, Account>()) {
+            //    action.SetRequest(this.Request);
+            //    var exists = action.ExecuteAsync().GetAwaiter().GetResult();
+            //    return exists.jIsNotNull();
+            //}
         }
 
         public override bool Executed() {
@@ -29,6 +37,12 @@ namespace JWService.Accounts {
                 tran.Commit();
             }
             return result;
+        }
+
+        public class DeleteAccountServiceValidator : AbstractValidator<DeleteAccountSvc> {
+            public DeleteAccountServiceValidator() {
+                RuleFor(o => o.req)
+            }
         }
     }
 }

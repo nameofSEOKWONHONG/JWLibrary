@@ -5,8 +5,8 @@ using JWLibrary.ApiCore.Config;
 using JWLibrary.Core;
 using JWLibrary.Pattern.TaskService;
 using JWLibrary.Web;
-using JWService.Data;
-using JWService.WeatherForecast;
+using ServiceExample.Data;
+using ServiceExample.WeatherForecast;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
