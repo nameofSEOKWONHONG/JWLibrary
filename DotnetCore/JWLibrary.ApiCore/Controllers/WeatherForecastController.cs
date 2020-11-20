@@ -86,7 +86,7 @@ namespace JWLibrary.ApiCore.Controllers
                 SaveWeatherForecastSvc.Validator>())
             {
                 return await action.SetLogger(Logger)
-                    .SetRequest(request.RequestDto)
+                    .SetRequest(request.Dto)
                     .ExecuteAsync();
             }
         }
@@ -108,7 +108,7 @@ namespace JWLibrary.ApiCore.Controllers
                 bool>())
             {
                 return await action.SetLogger(Logger)
-                    .SetRequest(request.RequestDto)
+                    .SetRequest(request.Dto)
                     .ExecuteAsync();
             }
         }

@@ -1,25 +1,32 @@
-﻿using JWLibrary.Core;
-using JWLibrary.Database;
-using JWLibrary.Pattern.TaskService;
-using ServiceExample.Data;
-using ServiceExample.Data.Models;
+﻿using FluentValidation;
+using JWLibrary.Core;
+using JWLibrary.ServiceExecutor;
+using JWService.Data.Models;
 using LiteDB;
 using LiteDbFlex;
+using ServiceExample.Data;
 
 namespace ServiceExample.Accounts {
-    public class SaveAccountSvc : AccountServiceBase<Account, bool>, ISaveAccountSvc {
+    public class SaveAccountSvc : AccountServiceBase<SaveAccountSvc, SaveAccountSvc.Validator, Account, bool>, ISaveAccountSvc {
         Account _exists = null;
+        IGetAccountSvc _getAccountSvc;
+        public SaveAccountSvc(IGetAccountSvc getAccountSvc) {
+            this._getAccountSvc = getAccountSvc;
+        }
         public override bool PreExecute() {
-            using var action = ServiceFactory.CreateService<IGetAccountSvc, GetAccountSvc, Account, Account>();
-            action.SetRequest(this.Request);
-            _exists = action.ExecuteAsync().GetAwaiter().GetResult();
+            using var executor = new ServiceExecutorManager<IGetAccountSvc>(this._getAccountSvc);
+            executor.SetRequest(o => o.Request = this.Request)
+                .AddFilter(o => o.Request.jIsNotNull())
+                .OnExecuted(o => {
+                    this._exists = o.Result;
+                });
 
+            if (this._exists.jIsNull()) return false;
             return true;
         }
 
-        public override bool Executed() {
-            if (_exists.jIsNotNull())
-            {
+        public override void Execute() {
+            if (_exists.jIsNotNull()) {
                 _exists.UserId = this.Request.UserId;
                 _exists.Passwd = this.Request.Passwd;
 
@@ -29,16 +36,21 @@ namespace ServiceExample.Accounts {
                     .Commit()
                     .GetResult<BsonValue>();
 
-                return (int) result > 0;
+                this.Result = (int) result > 0;
             }
-            else
-            {
+            else {
                 var result = LiteDbFlexerManager.Instance.Value.Create<Account>()
                     .BeginTrans()
                     .Insert(this.Request)
                     .Commit()
                     .GetResult<BsonValue>();
-                return (int)result > 0;
+                this.Result = (int)result > 0;
+            }
+        }
+
+        public class Validator : AbstractValidator<SaveAccountSvc> {
+            public Validator() {
+
             }
         }
     }

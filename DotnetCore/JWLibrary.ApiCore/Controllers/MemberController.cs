@@ -61,7 +61,7 @@ namespace JWLibrary.ApiCore.Controllers
         public async Task<bool> DeleteMember(int id)
         {
             var svc = CreateAction<IDeleteAccountSvc, DeleteAccountSvc, RequestDto<int>, bool>();
-            return await svc.SetRequest(new RequestDto<int> {RequestDto = id})
+            return await svc.SetRequest(new RequestDto<int> {Dto = id})
                 .ExecuteAsync();
         }
     }

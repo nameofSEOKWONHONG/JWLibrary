@@ -67,7 +67,7 @@ namespace JWLibrary.ApiCore.Config
                         GetAccountByIdSvc,
                         RequestDto<int>,
                         Account>()
-                    .SetRequest(new RequestDto<int> {RequestDto = accountId})
+                    .SetRequest(new RequestDto<int> {Dto = accountId})
                     .ExecuteAsync();
                 context.Items["Account"] = resultAccount;
                 await Task.Delay(1000);

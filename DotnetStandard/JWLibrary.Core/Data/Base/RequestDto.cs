@@ -8,7 +8,8 @@ namespace JWLibrary.Core {
     /// </summary>
     /// <typeparam name="TRequestDto"></typeparam>
     public class RequestBase<TRequestDto> {
-        [JsonProperty("requestDto")] public TRequestDto RequestDto { get; set; }
+        [JsonProperty("requestDto")]
+        public TRequestDto Dto { get; set; }
     }
 
     /// <summary>

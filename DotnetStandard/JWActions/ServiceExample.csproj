@@ -16,7 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\LiteDbFlex\LiteDbFlex\LiteDbFlex.csproj" />
     <ProjectReference Include="..\..\DotnetStandard\JWLibrary.Core\JWLibrary.Core.csproj" />
-    <ProjectReference Include="..\JEntity\JWService.Data.csproj" />
+    <ProjectReference Include="..\JEntity\ServiceExample.Data.csproj" />
     <ProjectReference Include="..\JWLibrary\JWLibrary.csproj" />
   </ItemGroup>
 

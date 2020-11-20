@@ -1,21 +1,22 @@
-﻿using JWLibrary.Core;
-using JWLibrary.Core.Data;
-using JWLibrary.Database;
+﻿using FluentValidation;
+using JWLibrary.Core;
+using JWService.Data.Models;
 using ServiceExample.Data;
-using ServiceExample.Data.Models;
-using LiteDB;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ServiceExample.Accounts {
-    public class GetAccountByIdSvc : AccountServiceBase<RequestDto<int>, Account>, IGetAccountByIdSvc {
-        public override Account Executed() {
-            using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
-                var account = db.jGetCollection<Account>()
-                    .jGet(x => x.Id == this.Request.RequestDto);
+    public class GetAccountByIdSvc : AccountServiceBase<GetAccountByIdSvc, GetAccountByIdSvc.GetAccountByIdSvcValidator, RequestDto<int>, Account>,
+        IGetAccountByIdSvc {
 
-                return account;
+        public override void Execute() {
+            this.Result = LiteDbFlex.LiteDbSafeFlexer<Account>.Instance.Value.Execute<Account>(litedb => {
+                return litedb.Get(this.Request.Dto)
+                    .GetResult<Account>();
+            });
+        }
+
+        public class GetAccountByIdSvcValidator : AbstractValidator<GetAccountByIdSvc> {
+            public GetAccountByIdSvcValidator() {
+
             }
         }
     }

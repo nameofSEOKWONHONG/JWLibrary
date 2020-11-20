@@ -1,22 +1,20 @@
-﻿using JWLibrary.Core;
-using JWLibrary.Core.Data;
+﻿using FluentValidation;
+using JWLibrary.Core;
 using JWLibrary.Database;
-using JWLibrary.Pattern.TaskService;
-using ServiceExample.Data;
-using ServiceExample.Data.Models;
-using LiteDB;
+using JWService.Data.Models;
 using Mapster;
-using System;
+using ServiceExample.Data;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ServiceExample.Accounts {
-    public class GetAccountsSvc : AccountServiceBase<PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>>, IGetAccountsSvc {
-        public override PagingResultDto<IEnumerable<Account>> Executed() {
-            using (var db = JDataBase.Resolve<ILiteDatabase, Account>()) {
+    public class GetAccountsSvc : AccountServiceBase<GetAccountsSvc, GetAccountsSvc.GetAccountsSvcValidator, PagingRequestDto<Account>, PagingResultDto<IEnumerable<Account>>>,
+        IGetAccountsSvc {
+
+        public override void Execute() {
+            using (var db = LiteDbFlex.LiteDbResolver.Resolve<Account>()) {
                 var col = db.jGetCollection<Account>();
                 var query = col.Query();
-                var request = this.Request.RequestDto.jIfNull(x => x = new Account());
+                var request = this.Request.Dto.jIfNull(x => x = new Account());
                 if(request.Id > 0) {
                     query = query.Where(m => m.Id >= request.Id);
                 }
@@ -35,7 +33,13 @@ namespace ServiceExample.Accounts {
                 //    TotalPageNumber = col.Count(),
                 //    ResultDto = accounts
                 //};
-                return result;
+                this.Result = result;
+            }
+        }
+
+        public class GetAccountsSvcValidator : AbstractValidator<GetAccountsSvc> {
+            public GetAccountsSvcValidator() {
+
             }
         }
     }

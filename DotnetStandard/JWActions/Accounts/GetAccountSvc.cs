@@ -1,26 +1,23 @@
-﻿using JWLibrary.Core;
-using JWLibrary.Core.Data;
-using JWLibrary.Database;
-using JWLibrary.Pattern.TaskService;
-using ServiceExample.Data;
-using ServiceExample.Data.Models;
-using ServiceExample.WeatherForecast;
-using LiteDB;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+﻿using FluentValidation;
+using JWService.Data.Models;
 using LiteDbFlex;
+using ServiceExample.Data;
 
 namespace ServiceExample.Accounts {
-    public class GetAccountSvc : AccountServiceBase<Account, Account>, IGetAccountSvc {
-        public override Account Executed()
+    public class GetAccountSvc : AccountServiceBase<GetAccountSvc, GetAccountSvc.Validator, Account, Account>, IGetAccountSvc {
+        public override void Execute()
         {
             var account = LiteDbFlexerManager.Instance.Value.Create<Account>()
                 .Get(m => m.UserId == this.Request.UserId &&
                           m.Passwd == this.Request.Passwd)
                 .GetResult<Account>();
-            return account;
+            this.Result = account;
+        }
+
+        public class Validator : AbstractValidator<GetAccountSvc> {
+            public Validator() {
+
+            }
         }
     }
 }

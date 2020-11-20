@@ -1,13 +1,13 @@
-﻿//namespace JWService.WeatherForecast {
-//    using JWLibrary.Pattern.TaskService;
-//    using JWService.Data;
-//    using System.Collections.Generic;
+﻿namespace JWService.WeatherForecast {
+    using JWLibrary.ServiceExecutor;
+    using ServiceExample.Data;
+    using System.Collections.Generic;
 
-//    public interface IGetWeatherForecastSvc : JWLibrary.Pattern.Chainging.IService<WeatherForecastRequestDto, WEATHER_FORECAST> { }
+    public interface IGetWeatherForecastSvc : IServiceExecutor<WeatherForecastRequestDto, WEATHER_FORECAST> { }
 
-//    public interface IGetAllWeatherForecastSvc : JWLibrary.Pattern.Chainging.IService<WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>> { }
+    public interface IGetAllWeatherForecastSvc : IServiceExecutor<WeatherForecastRequestDto, IEnumerable<WEATHER_FORECAST>> { }
 
-//    public interface ISaveWeatherForecastSvc : JWLibrary.Pattern.Chainging.IService<WEATHER_FORECAST, int> { }
+    public interface ISaveWeatherForecastSvc : IServiceExecutor<WEATHER_FORECAST, int> { }
 
-//    public interface IDeleteWeatherForecastSvc : JWLibrary.Pattern.Chainging.IService<WeatherForecastRequestDto, bool> { }
-//}
+    public interface IDeleteWeatherForecastSvc : IServiceExecutor<WeatherForecastRequestDto, bool> { }
+}

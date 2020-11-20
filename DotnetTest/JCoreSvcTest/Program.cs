@@ -1,11 +1,5 @@
 ﻿using FluentValidation;
-using JWLibrary.Core;
-using JWLibrary.Pattern.ServiceExecutor;
 using JWLibrary.ServiceExecutor;
-using JWLibrary.Utils.Files;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace JCoreSvcTest {
     class Program {
